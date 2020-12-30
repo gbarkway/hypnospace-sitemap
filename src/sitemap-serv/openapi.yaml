@@ -1,12 +1,30 @@
 openapi: 3.0.0
 info:
-  title: Sitemap Service
+  title: Capture Service
   description: >
-    Get entire sitemap at a certain date snapshot.
+    Get state of hypnospace at a certain date.
   version: 0.0.1
 
 paths:
-  /snapshots/{date}:
+  /captures:
+    get:
+      summary: List available captures
+      responses:
+        '200':
+          description: Available capture dates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string    
+              example:
+                - "1999-11-05"
+                - "1999-11-26"
+                - "1999-12-31"
+                - "20xx-xx-xx"
+
+  /captures/{date}:
     get:
       summary: Get sitemap at date
       parameters:
@@ -15,25 +33,25 @@ paths:
           required: true
           schema:
             type: string
-            format: date
             enum:
               - "1999-11-05"
               - "1999-11-26"
               - "1999-12-31"
+              - "20xx-xx-xx"
       responses:
         '200':
-          description: Sitemap
+          description: Capture
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  sites:
+                  pages:
                     type: array
                     items:
                       type: object
                       properties:
-                        id:
+                        path:
                           type: string
                         name:
                           type: string
@@ -42,9 +60,9 @@ paths:
                     items:
                       type: object
                       properties:
-                        source:
+                        sourcePath:
                           type: string
-                        target:
+                        targetPath:
                           type: string
         '404':
           description: invalid date

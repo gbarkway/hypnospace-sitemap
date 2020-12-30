@@ -5,8 +5,8 @@ from collections import namedtuple
 from configparser import ConfigParser
 from pathlib import Path
 
-PageInfo = namedtuple('PageInfo', ['title', 'path', 'linksTo', 'description', 'tags'])
-ZoneInfo = namedtuple('ZoneInfo', ['title', 'pageInfos'])
+PageInfo = namedtuple('PageInfo', ['name', 'path', 'linksTo', 'description', 'tags'])
+ZoneInfo = namedtuple('ZoneInfo', ['name', 'pageInfos'])
 CaptureInfo = namedtuple('CaptureInfo', ['date', 'zoneInfos'])
 
 __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
@@ -26,10 +26,10 @@ def __getZoneInfo(zonePath):
 
     # "links" in zones.hsp not explicitly defined in hsp file
     zonePage = __getPageInfo(zonePath / 'zone.hsp')
-    zonePage = PageInfo(zonePage.title, zonePage.path, zonePage.linksTo + [p.path for p in pages if not '~' in p.path], zonePage.description, zonePage.tags)
+    zonePage = PageInfo(zonePage.name, zonePage.path, zonePage.linksTo + [p.path for p in pages if not '~' in p.path], zonePage.description, zonePage.tags)
     pages.append(zonePage)
 
-    return ZoneInfo(zonePage.title, pages)
+    return ZoneInfo(zonePage.name, pages)
 
 def __iniDate2iso(iniDate):
     if iniDate == 'XX XX, 20XX':

@@ -1,17 +1,21 @@
 const express = require('express');
+const { getCaptureByDate, hasDate, getDates } = require('./captureService')
+
 const app = express();
 const port = process.env.PORT || 3000; // look into dotenv
-const { getSitemapByDate, hasDate } = require('./service')
 
-app.get('/snapshots/:date', async (req, res) => {
+app.get('/captures', (req, res) => {
+    res.send(getDates());
+});
+
+app.get('/captures/:date', (req, res) => {
     const date = req.params['date'];
-    if (!(await hasDate(date))) {
-        res.sendStatus(404);
-        res.end();
+    if (!hasDate(date)) {
+        res.status(404).end()
+    } else {
+        res.type('json')
+        res.send(getCaptureByDate(date));
     }
-
-    res.type('json')
-    res.send(await getSitemapByDate('asdf'));
 });
 
 app.listen(port, () => {

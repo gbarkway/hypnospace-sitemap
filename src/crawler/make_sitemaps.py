@@ -13,24 +13,21 @@ if not dataPath.exists():
     print(f'Path not found: {dataPath}')
     exit()
 
-pretty = '--pretty' in sys.argv
-
-outFolder = Path('./captures')
-if not outFolder.exists():
-    outFolder.mkdir()
-
-captures = read_data(dataPath)
-for c in captures:
-    d = {
+def captureInfo2Dict(captureInfo):
+    c = captureInfo
+    return {
         'date': c.date,
-        'sites': [{'title': pi.title, 'path': pi.path} for zi in c.zoneInfos for pi in zi.pageInfos],
-        'links': [{'source': pi.path, 'target': l} for zi in c.zoneInfos for pi in zi.pageInfos for l in pi.linksTo]
+        'pages': [{'name': pi.name, 'path': pi.path} for zi in c.zoneInfos for pi in zi.pageInfos],
+        'links': [{'sourcePath': pi.path, 'targetPath': l} for zi in c.zoneInfos for pi in zi.pageInfos for l in pi.linksTo]
     }
-    outPath = outFolder / f'{c.date}.json'
-    with open(outPath, 'w') as file:
-        if pretty:
-            json.dump(d, file, indent=2)
-        else:
-            json.dump(d, file)
 
-print(f'Sitemaps saved to {outFolder.resolve()}')
+pretty = '--pretty' in sys.argv
+captures = read_data(dataPath)
+a = [captureInfo2Dict(c) for c in captures]
+outPath = Path('./captures.json')
+with open(outPath, 'w') as file:
+    if pretty:
+        json.dump(a, file, indent=2)
+    else:
+        json.dump(a, file)
+print(f'Sitemaps saved to {outPath.resolve()}')
