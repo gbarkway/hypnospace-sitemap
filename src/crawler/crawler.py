@@ -1,3 +1,4 @@
+import datetime
 import json
 import re
 from collections import namedtuple
@@ -30,10 +31,21 @@ def __getZoneInfo(zonePath):
 
     return ZoneInfo(zonePage.title, pages)
 
+def __iniDate2iso(iniDate):
+    if iniDate == 'XX XX, 20XX':
+        return '20XX-XX-XX'
+
+    for formatStr in ['%b %d,%Y', '%b %d, %Y']:
+        try:
+            timetuple = datetime.datetime.strptime(iniDate, formatStr).timetuple()
+            return datetime.date(timetuple.tm_year, timetuple.tm_mon, timetuple.tm_mday).isoformat()
+        except ValueError:
+            pass
+
 def __getCaptureInfo(capturePath):
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
-    return CaptureInfo(config['data']['date'], [__getZoneInfo(p) for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()])
+    return CaptureInfo(__iniDate2iso(config['data']['date']), [__getZoneInfo(p) for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()])
 
 def read_data(dataPath):
     dataPath = Path(dataPath)
