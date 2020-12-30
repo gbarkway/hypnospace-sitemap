@@ -33,8 +33,8 @@ paths:
                     items:
                       type: object
                       properties:
-                        hap_id:
-                          type: integer
+                        id:
+                          type: string
                         name:
                           type: string
                   links:
@@ -43,9 +43,9 @@ paths:
                       type: object
                       properties:
                         source:
-                          type: integer
+                          type: string
                         target:
-                          type: integer
+                          type: string
         '404':
           description: invalid date
           
