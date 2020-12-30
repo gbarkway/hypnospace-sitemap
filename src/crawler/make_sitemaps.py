@@ -13,7 +13,7 @@ if not dataPath.exists():
     print(f'Path not found: {dataPath}')
     exit()
 
-pretty = len(sys.argv) > 2 and sys.argv[2] == '--pretty'
+pretty = '--pretty' in sys.argv
 
 outFolder = Path('./sitemaps')
 if not outFolder.exists():
