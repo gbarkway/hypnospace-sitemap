@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Sitemap Service
+  description: >
+    Get entire sitemap at a certain date snapshot.
+  version: 0.0.1
+
+paths:
+  /snapshots/{date}:
+    get:
+      summary: Get sitemap at date
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+            enum:
+              - "1999-11-05"
+              - "1999-11-26"
+              - "1999-12-31"
+      responses:
+        '200':
+          description: Sitemap
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sites:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        hap_id:
+                          type: integer
+                        name:
+                          type: string
+                  links:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: integer
+                        target:
+                          type: integer
+        '404':
+          description: invalid date
+          
+
+
+
