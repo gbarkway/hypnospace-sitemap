@@ -15,7 +15,7 @@ if not dataPath.exists():
 
 pretty = '--pretty' in sys.argv
 
-outFolder = Path('./sitemaps')
+outFolder = Path('./captures')
 if not outFolder.exists():
     outFolder.mkdir()
 
