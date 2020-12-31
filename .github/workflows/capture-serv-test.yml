@@ -3,8 +3,12 @@ name: Capture Service
 on:
   push:
     branches: [ main ]
+    paths:
+    - 'src/capture-serv/**'
   pull_request:
     branches: [ main ]
+    paths:
+    - 'src/capture-serv/**'
 
 jobs:
 
