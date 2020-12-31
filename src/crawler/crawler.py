@@ -5,7 +5,7 @@ from collections import namedtuple
 from configparser import ConfigParser
 from pathlib import Path
 
-PageInfo = namedtuple('PageInfo', ['name', 'path', 'linksTo', 'description', 'tags'])
+PageInfo = namedtuple('PageInfo', ['name', 'path', 'linksTo', 'description', 'tags', 'user'])
 ZoneInfo = namedtuple('ZoneInfo', ['name', 'pageInfos'])
 CaptureInfo = namedtuple('CaptureInfo', ['date', 'zoneInfos'])
 
@@ -16,9 +16,19 @@ def __getPageInfo(hspPath):
 
     links = [match[1] for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match]
     descriptionAndTags = dom['data'][0][1][8]
-    description = descriptionAndTags[:descriptionAndTags.find('>')].strip()
-    tags = descriptionAndTags[descriptionAndTags.find('>')+1:].split(' >')
-    return PageInfo(dom['data'][0][1][1], '\\'.join(hspPath.parts[-2:]), links, description, tags)
+
+    if len(descriptionAndTags) > 0:
+        description = descriptionAndTags[:descriptionAndTags.find('>')].strip()
+        tags = descriptionAndTags[descriptionAndTags.find('>')+1:].split(' >')
+    else:
+        description = None
+        tags = []
+
+    if len(tags) > 0 and tags[0] == '':
+        print(descriptionAndTags)
+        pass
+
+    return PageInfo(dom['data'][0][1][1], '\\'.join(hspPath.parts[-2:]), links, description, tags, dom['data'][0][1][2])
 
 
 def __getZoneInfo(zonePath):
@@ -26,7 +36,7 @@ def __getZoneInfo(zonePath):
 
     # "links" in zones.hsp not explicitly defined in hsp file
     zonePage = __getPageInfo(zonePath / 'zone.hsp')
-    zonePage = PageInfo(zonePage.name, zonePage.path, zonePage.linksTo + [p.path for p in pages if not '~' in p.path], zonePage.description, zonePage.tags)
+    zonePage = PageInfo(zonePage.name, zonePage.path, zonePage.linksTo + [p.path for p in pages if not '~' in p.path], zonePage.description, zonePage.tags, zonePage.user)
     pages.append(zonePage)
 
     return ZoneInfo(zonePage.name, pages)

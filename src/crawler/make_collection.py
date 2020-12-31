@@ -14,19 +14,7 @@ if not dataPath.exists():
     exit()
 
 def captures2DictArray(captures):
-    for c in captures:
-        for zone in c.zoneInfos:
-            for page in zone.pageInfos:
-                pass
+    return [{'path': page.path, 'zone': zone.name, 'date': c.date, 'name': page.name, 'description': page.description, 'tags': page.tags, 'user': page.user } for c in captures for zone in c.zoneInfos for page in zone.pageInfos]
 
-
-pretty = '--pretty' in sys.argv
-captures = read_data(dataPath)
-a = [captureInfo2Dict(c) for c in captures]
-outPath = Path('./captures.json')
-with open(outPath, 'w') as file:
-    if pretty:
-        json.dump(a, file, indent=2)
-    else:
-        json.dump(a, file)
-print(f'Sitemaps saved to {outPath.resolve()}')
+captures = captures2DictArray(read_data(dataPath))
+pass
