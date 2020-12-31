@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get timestamp for tag name
-      run: export TAG=$(date +%s) && echo $TAG
+      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV && echo $TAG
     - name: Build the Docker image
       run: docker build ./src/capture-serv --file ./src/capture-serv/Dockerfile.test --tag captureserv_test:$TAG
     - name: Run tests
