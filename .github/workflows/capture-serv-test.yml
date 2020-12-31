@@ -17,6 +17,6 @@ jobs:
     - name: Build the Docker image
       run: docker build ./src/capture-serv --file ./src/capture-serv/Dockerfile.test --tag captureserv_test:$TAG
       env:
-        TAG: $(date +%s)
+        TAG: "$(date +%s)"
     - name: Run tests
       run: docker run captureserv_test:$TAG
