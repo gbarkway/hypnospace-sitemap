@@ -24,10 +24,6 @@ def __getPageInfo(hspPath):
         description = None
         tags = []
 
-    if len(tags) > 0 and tags[0] == '':
-        print(descriptionAndTags)
-        pass
-
     return PageInfo(dom['data'][0][1][1], '\\'.join(hspPath.parts[-2:]), links, description, tags, dom['data'][0][1][2])
 
 

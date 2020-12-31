@@ -14,7 +14,12 @@ if not dataPath.exists():
     exit()
 
 def captures2DictArray(captures):
-    return [{'path': page.path, 'zone': zone.name, 'date': c.date, 'name': page.name, 'description': page.description, 'tags': page.tags, 'user': page.user } for c in captures for zone in c.zoneInfos for page in zone.pageInfos]
+    return [{'path': page.path, 'zone': zone.name, 'date': c.date, 'name': page.name, 'description': page.description or '', 'tags': page.tags, 'user': page.user } for c in captures for zone in c.zoneInfos for page in zone.pageInfos]
 
 captures = captures2DictArray(read_data(dataPath))
-pass
+outPath = Path('./collection.json')
+with open(outPath, 'w') as file:
+    file.writelines((json.dumps(c) + '\n' for c in captures))
+
+print(f'Output written to ${outPath.resolve()}')
+
