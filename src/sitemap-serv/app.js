@@ -2,7 +2,6 @@ const express = require('express');
 const { getCaptureByDate, hasDate, getDates } = require('./captureService')
 
 const app = express();
-const port = process.env.PORT || 3000; // look into dotenv
 
 app.get('/captures', (req, res) => {
     res.send(getDates());
@@ -18,6 +17,9 @@ app.get('/captures/:date', (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    `Express started on port ${port}`;
+const port = process.env.PORT || 3000; // look into dotenv
+const server = app.listen(port, () => {
+    console.log(`Express started on port ${port}`);
 });
+
+module.exports = { app, server } 
