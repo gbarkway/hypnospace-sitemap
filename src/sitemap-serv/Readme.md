@@ -2,7 +2,7 @@
 
 Microservice for Hypnospace captures. Here "capture" means a date, a set of pages, and a map of connections between pages.
 
-## Running 
+## Getting Started
 
 ### Local
 
@@ -24,7 +24,7 @@ Service:
 
 ```
 docker build ./ -t "captureserv:latest"
-docker run captureserv:latest -p 3000:3000
+docker run -p 3000:3000 captureserv:latest 
 ```
 
 Tests:
