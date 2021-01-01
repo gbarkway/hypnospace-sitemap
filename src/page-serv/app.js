@@ -1,7 +1,11 @@
-const express = require('express');
-const { container } = require('./injection')
-const service = container.resolve('captureService');
+require('dotenv').config()
 
+const express = require('express');
+const { makeDal } = require('./mongoDal');
+const { makeCaptureService } = require('./captureService');
+
+const dal = makeDal();
+const service = makeCaptureService(dal);
 const app = express();
 
 app.get('/captures', async (req, res) => {
@@ -11,13 +15,7 @@ app.get('/captures', async (req, res) => {
 
 app.get('/captures/:date/pages', async (req, res) => {
     const date = req.params['date'];
-    const opts = req.query;
-    if (opts.limit) {
-        opts.limit = parseInt(opts.limit);
-    }
-    if (opts.offset) {
-        opts.offset = parseInt(opts.offset);
-    }
+    const opts = req.query || {};
     if (opts.tags) {
         opts.tags = opts.tags.split(',')
     }
@@ -46,4 +44,4 @@ const server = app.listen(port, () => {
     console.log(`Page service started on port ${port}`);
 });
 
-module.exports = { app, server, container } 
+module.exports = { app, server } 

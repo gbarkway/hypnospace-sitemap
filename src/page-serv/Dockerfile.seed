@@ -1,4 +1,5 @@
 FROM mongo:bionic
 
-COPY ["collection.json", "./"]
-CMD ["mongoimport", "--db",  "hypnospace", "--collection", "pages", "--drop", "-h", "mongodb", "--file", "./collection.json"]
+COPY ["pages.json", "captures.json", "seed.sh", "./"]
+RUN chmod u+x ./seed.sh
+CMD ["./seed.sh"]

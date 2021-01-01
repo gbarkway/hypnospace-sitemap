@@ -1,10 +1,9 @@
-const makeCaptureService = ({ dal }) => {
+const makeCaptureService = (dal) => {
     return {
-        getPages: async (date, {limit, zone, tags, offset}) => {
-            offset = offset || 0;
-            limit = limit || 50;
-            tags = tags || [];
-            return await dal.getPages(date, offset, limit, zone, tags);
+        getPages: async (date, opts) => {
+            opts = opts || {};
+            opts.tags = opts.tags || [];
+            return await dal.getPages(date, opts);
         },
 
         getDates: async () => {
@@ -12,11 +11,11 @@ const makeCaptureService = ({ dal }) => {
         },
 
         getPage: async (date, path_or_hap) => {
-            hap_id = parseInt(path_or_hap);
+            hap_id = Number(path_or_hap);
             if (hap_id) {
-                return await dal.getPageByHapId(hap_id, date);
+                return await dal.getPageByHapId(date, hap_id);
             } else {
-                return await dal.getPageByPath(path_or_hap_id, date);
+                return await dal.getPageByPath(date, path_or_hap);
             }
         }
     }

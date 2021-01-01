@@ -1,17 +1,19 @@
 version: '3.4'
 
 services:
-  mongodb:
+  db:
     image: mongo
     ports:
       - "27017:27017"
-  mongo-seed:
+  db-seed:
     image: mongo-seed
     build: 
       context: .
       dockerfile: ./Dockerfile.seed
     depends_on: 
-      - "mongodb"
+      - "db"
+    environment:
+      MONGO_HOST: db
   pageserv:
     image: pageserv
     build:
@@ -19,6 +21,7 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: development
+      MONGO_HOST: mongodb://db/hypnospace
     ports:
       - 3000:3000
       - 9229:9229
