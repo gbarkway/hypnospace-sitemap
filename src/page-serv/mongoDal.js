@@ -14,12 +14,8 @@ const Capture = mongoose.model('Capture', {
     date: String,
 });
 
-const makeDal = () => {
-    let host = process.env.MONGO_HOST;
-    if (!host) {
-        console.log('Please set env variable MONGO_HOST');
-    }
-    
+const startConnect = (host) => {
+    mongoose.connect(host)
     let connectFailures = 0;
     const connectAndRetry = () => {
         mongoose.connect(host)
@@ -27,18 +23,23 @@ const makeDal = () => {
             .catch((err) => {
                 connectFailures += 1;
                 if (connectFailures <= 5) {
-                    console.error('Mongo failed retry. Retrying in 10 seconds')
-                    new Promise((resolve) => setTimeout(resolve, 10000)).then(connectAndRetry);
+                    console.log('Mongo failed retry. Retrying in 1 second')
+                    new Promise((resolve) => setTimeout(resolve, 1000)).then(connectAndRetry);
                 } else {
                     console.error('Mongo failed');
                 }
             })
     }
     connectAndRetry();
+};
 
-    const degoosify = (pageModel) => {
-        return pageModel; //todo
-    };
+const makeDal = () => {
+    let host = process.env.MONGO_HOST;
+    if (!host) {
+        console.log('Set env variable MONGO_HOST');
+    }
+    
+    startConnect(host);
 
     return {
         getPages: async (date, opts) => {
@@ -73,6 +74,10 @@ const makeDal = () => {
 
         getPageByPath: async (date, path) => {
             return await Page.findOne({ date, path });
+        },
+
+        disconnect: async () => {
+            await mongoose.disconnect();
         }
     }
 }

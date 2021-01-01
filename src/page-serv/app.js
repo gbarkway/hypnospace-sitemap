@@ -44,4 +44,9 @@ const server = app.listen(port, () => {
     console.log(`Page service started on port ${port}`);
 });
 
-module.exports = { app, server } 
+const close = async () => {
+    await new Promise((resolve) => server.close(resolve));
+    await dal.disconnect();
+}
+
+module.exports = { app, close }

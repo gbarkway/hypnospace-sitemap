@@ -4,37 +4,26 @@ Microservice for Hypnospace page details like tags, description, username, and H
 
 ## Getting Started
 
-### Local
-
-Service:
-
+To run service and seeded database:
 ```
-npm install
-npm start
+docker-compose up
 ```
 
-Tests:
+Or:
 ```
-npm test
+docker-compose -f docker-compose.yml -f docker-compose.debug.yml up
 ```
+This will run with ports exposed to aid debugging:
+- 27017 (mongo)
+- 3000 (node)
+- 9229 (node debugger)
 
-### Docker images
-
-Service:
-
+## Running Tests
+To run tests in container:
 ```
-docker build ./ -t "captureserv:latest"
-docker run -p 3000:3000 captureserv:latest 
+docker-compose run -e NODE_ENV=test pageserv npm install&&npm test
+docker-compose down
 ```
-
-Tests:
-
-```
-docker build ./ -f Dockerfile.test -t "captureserv:test"
-docker run captureserv:test
-```
-
-The test container runs `npm test` then exits.
 
 
 

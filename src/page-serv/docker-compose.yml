@@ -9,6 +9,8 @@ services:
     image: pageserv
     build:
       context: .
+    depends_on: 
+     - db
     environment:
       NODE_ENV: production
       MONGO_HOST: mongodb://db/hypnospace
