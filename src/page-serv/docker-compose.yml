@@ -1,12 +1,17 @@
 version: '3.4'
 
 services:
+  db:
+    build:
+      context: ./db
+    
   pageserv:
     image: pageserv
     build:
       context: .
-      dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
+      MONGO_HOST: mongodb://db/hypnospace
     ports:
       - 3000:3000
+    command: ["node", "app.js"]

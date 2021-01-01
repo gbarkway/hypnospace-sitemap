@@ -1,5 +1,0 @@
-FROM mongo:bionic
-
-COPY ["pages.json", "captures.json", "seed.sh", "./"]
-RUN chmod u+x ./seed.sh
-CMD ["./seed.sh"]
