@@ -1,0 +1,4 @@
+FROM mongo:bionic
+
+COPY ["collection.json", "./"]
+CMD ["mongoimport", "--db",  "hypnospace", "--collection", "pages", "--drop", "-h", "mongodb", "--file", "./collection.json"]

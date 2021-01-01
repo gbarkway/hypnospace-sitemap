@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+  mongo-seed:
+    image: mongo-seed
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.seed
+    depends_on: 
+      - "mongodb"
+  pageserv:
+    image: pageserv
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "app.js"]
