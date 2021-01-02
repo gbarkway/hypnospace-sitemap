@@ -24,7 +24,7 @@ This runs with features to aid debugging:
 
 For convenience you can alias the above:
 ```
-alias docker-compose-dbg = "docker-compose -f docker-compose.yml -f docker-compose.debug.yml"
+alias docker-compose-dbg="docker-compose -f docker-compose.yml -f docker-compose.debug.yml"
 docker-compose-dbg up
 ```
 
