@@ -9,6 +9,7 @@ services:
     image: pageserv
     build:
       context: .
+      target: production
     depends_on: 
      - db
     environment:
