@@ -22,11 +22,19 @@ This runs with features to aid debugging:
     - 9229 (node debugger)
 - Runs service in nodemon and monitors project files for changes
 
+For convenience you can alias the above:
+```
+alias docker-compose-dbg = "docker-compose -f docker-compose.yml -f docker-compose.debug.yml"
+docker-compose-dbg up
+```
+
+Run `docker-compose down` after finishing.
+
 ## Running Tests
 To run tests in container:
 ```
-docker-compose run -e NODE_ENV=test pageserv npm test
-docker-compose down
+docker-compose-dbg run pageserv npm test
+docker-compose-dbg down
 ```
 
 
