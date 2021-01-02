@@ -33,6 +33,7 @@ const startConnect = (host) => {
 };
 
 const degoosify = (document) => {
+    if (!document) return document;
     return document.toObject({transform: function(doc, ret, options) {
         delete ret._id;
         return ret;
