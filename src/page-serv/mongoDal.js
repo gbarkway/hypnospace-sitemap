@@ -51,8 +51,8 @@ const makeDal = () => {
         getPages: async (date, opts) => {
             opts = opts || {};
             const filter = { date };
-            if (opts.username) {
-                filter.username = opts.username;
+            if (opts.user) {
+                filter.user = opts.user;
             }
             if (opts.zone) {
                 filter.zone = opts.zone;

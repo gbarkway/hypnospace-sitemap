@@ -13,9 +13,36 @@ app.get('/captures', async (req, res) => {
 
 app.get('/captures/:date/pages', async (req, res) => {
     const date = req.params['date'];
+    const expectedQuery = new Set(['tags', 'user', 'zone']);
+    if (Object.keys(req.query).some(q => !expectedQuery.has(q))) {
+        res.status(400).json('Unexpected query param');
+        return;
+    }
     const opts = req.query || {};
-    if (opts.tags) {
-        opts.tags = opts.tags.split(',')
+    if (opts.tags === '') {
+        res.status(400).json('Empty tags parameter');
+        return;
+    } else if (opts.tags) {
+        opts.tags = opts.tags.split(',');
+        if (!opts.tags.length || opts.tags.some(t => !t) || opts.tags.some(t => t.indexOf(' ') !== -1)) {
+            res.status(400).json('Invalid tags parameter');  
+            return;
+        }
+    }
+
+    if (opts.user === '') {
+        res.status(400).json('Empty username parameter');
+        return;
+    }
+
+    if (opts.zone === '') {
+        res.status(400).json('Empty zone parameter');
+        return;
+    }
+
+    if (!(await service.hasDate(date))) {
+        res.status(404).json('Invalid capture date');
+        return;
     }
 
     const pages = await service.getPages(date, opts);
