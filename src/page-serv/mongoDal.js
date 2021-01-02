@@ -15,7 +15,6 @@ const Capture = mongoose.model('Capture', {
 });
 
 const startConnect = (host) => {
-    mongoose.connect(host)
     let connectFailures = 0;
     const connectAndRetry = () => {
         mongoose.connect(host)
@@ -32,6 +31,13 @@ const startConnect = (host) => {
     }
     connectAndRetry();
 };
+
+const degoosify = (document) => {
+    return document.toObject({transform: function(doc, ret, options) {
+        delete ret._id;
+        return ret;
+    }});
+}
 
 const makeDal = () => {
     let host = process.env.MONGO_HOST;
@@ -59,7 +65,8 @@ const makeDal = () => {
                 } // else no tag filter
             }
 
-            return await Page.find(filter);
+            const docs = await Page.find(filter);
+            return docs.map(degoosify);
         },
 
         getDates: async () => {
@@ -73,7 +80,7 @@ const makeDal = () => {
         },
 
         getPageByPath: async (date, path) => {
-            return await Page.findOne({ date, path });
+            return degoosify(await Page.findOne({ date, path }));
         },
 
         disconnect: async () => {

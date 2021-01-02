@@ -24,6 +24,33 @@ describe('GET /captures', function() {
     });
 })
 
+describe('GET /captures/:date/pages', function() {
+    describe('zone filter', function() {
+        it('valid zone filter returns data', function(done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?zone=Hypnospace Central')
+                .end((err, res) => {
+                    res.status.should.equal(200);
+                    res.body.should.be.a('Array');
+                    res.body[0].should.have.all.keys('tags', 'path', 'zone', 'date', 'name', 'description', 'user')
+                    res.body.should.include.deep.members([{
+                        tags: [],
+                        path: "01_hypnospace central\\~easysurvey-fin.hsp",
+                        zone: "Hypnospace Central",
+                        date: "1999-11-05",
+                        name: "TV Spot Survey",
+                        description: "",
+                        user: "Merchantsoft"
+                    }]);
+                    res.body.filter(p => p.zone != 'Hypnospace Central').length.should.equal(0);
+                    done();
+                })
+        })
+    })
+    //filters: zone, tags, username. combined
+    //4 valid dates + invalid date
+})
+
 after(async function() {
     await close();
 });

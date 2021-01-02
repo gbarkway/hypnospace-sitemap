@@ -9,22 +9,25 @@ To run service and seeded database:
 docker-compose up
 ```
 
+Service will be available on host port 3000.
+
 Or:
 ```
 docker-compose -f docker-compose.yml -f docker-compose.debug.yml up
 ```
-This will run with ports exposed to aid debugging:
-- 27017 (mongo)
-- 3000 (node)
-- 9229 (node debugger)
+This runs with features to aid debugging:
+
+- Opens ports on host:
+    - 27017 (mongo)
+    - 9229 (node debugger)
+- Runs service in nodemon and monitors project files for changes
 
 ## Running Tests
 To run tests in container:
 ```
-docker-compose run -e NODE_ENV=test pageserv npm install&&npm test
+docker-compose run -e NODE_ENV=test pageserv npm test
 docker-compose down
 ```
-
 
 
 

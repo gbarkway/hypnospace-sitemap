@@ -5,9 +5,19 @@ services:
     ports:
       - 27017:27017
   pageserv:
+    build:
+      target: development
     environment:
       NODE_ENV: development
     ports:
       - 3000:3000
       - 9229:9229
-    command: ["node", "--inspect=0.0.0.0:9229", "app.js"]
+    volumes:
+      - .:/usr/src/app
+      # workaround for node_modules hiding problem, see https://jdlm.info/articles/2019/09/06/lessons-building-node-app-docker.html#the-node_modules-volume-trick
+      - pageserv_node_modules:/usr/src/app/node_modules     
+    command: ["npx", "nodemon", "--inspect=0.0.0.0:9229", "app.js"]
+
+volumes:
+  pageserv_node_modules:
+
