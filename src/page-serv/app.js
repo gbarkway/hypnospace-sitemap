@@ -50,13 +50,19 @@ app.get('/captures/:date/pages', async (req, res) => {
 });
 
 app.get('/captures/:date/pages/:path_or_hap', async (req, res) => {
-    const pathOrHap = req.params['path_or_hap'];
+    const date = req.params['date'];
+    const pathOrHap = req.params['path_or_hap'].replace('|', '\\');
     if (!parseInt(pathOrHap) && !pathOrHap.endsWith(".hsp")) {
         res.status(400).json('Invalid page identifier');
         return;
     }
 
-    const page = await service.getPage(req.params['date'], req.params['path_or_hap']);
+    if (!(await service.hasDate(date))) {
+        res.status(404).json('Invalid capture date');
+        return;
+    }
+
+    const page = await service.getPage(req.params['date'], pathOrHap);
     if (page) {
         res.status(200).json(page);
     } else {
@@ -64,7 +70,7 @@ app.get('/captures/:date/pages/:path_or_hap', async (req, res) => {
     }
 })
 
-const port = process.env.PORT || 3000; // look into dotenv
+const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
     console.log(`Page service started on port ${port}`);
 });
