@@ -22,10 +22,10 @@ const startConnect = (host) => {
             .catch((err) => {
                 connectFailures += 1;
                 if (connectFailures <= 5) {
-                    console.log('Mongo failed retry. Retrying in 1 second')
+                    console.log('Failed to connect to mongo. Retrying in 1 second')
                     new Promise((resolve) => setTimeout(resolve, 1000)).then(connectAndRetry);
                 } else {
-                    console.error('Mongo failed');
+                    throw err;
                 }
             })
     }
@@ -76,8 +76,7 @@ const makeDal = () => {
         },
 
         getPageByHapId: async () => {
-            console.log('HAP IDs not implemented');
-            return null;
+            throw 'HAP IDs not implemented';
         },
 
         getPageByPath: async (date, path) => {
