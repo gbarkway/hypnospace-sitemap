@@ -13,16 +13,20 @@ __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
 def __getPageInfo(hspPath):
     with open(hspPath) as file:
         dom = json.load(file)
-
+        
     links = [match[1] for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match]
     descriptionAndTags = dom['data'][0][1][8]
 
+    description = None
+    tags = []
     if len(descriptionAndTags) > 0:
-        description = descriptionAndTags[:descriptionAndTags.find('>')].strip()
-        tags = descriptionAndTags[descriptionAndTags.find('>')+1:].split(' >')
-    else:
-        description = None
-        tags = []
+        tagStartIndex = descriptionAndTags.find('>')
+        if tagStartIndex > -1:           
+            description = descriptionAndTags[:descriptionAndTags.find('>')].strip()
+            tags = descriptionAndTags[descriptionAndTags.find('>')+1:].split(' >')
+        else:
+            description = descriptionAndTags
+            tags = []
 
     return PageInfo(dom['data'][0][1][1], '\\'.join(hspPath.parts[-2:]), links, description, tags, dom['data'][0][1][2])
 
