@@ -24,10 +24,12 @@ def captureInfo2Dict(captureInfo):
 pretty = '--pretty' in sys.argv
 captures = read_data(dataPath)
 a = [captureInfo2Dict(c) for c in captures]
-outPath = Path('./captures.json')
+outPath = Path('./captureserv.captures.json')
 with open(outPath, 'w') as file:
     if pretty:
         json.dump(a, file, indent=2)
     else:
         json.dump(a, file)
-print(f'Sitemaps saved to {outPath.resolve()}')
+
+print(f'Output saved to {outPath.resolve()}')
+print('Copy this file to ../capture-serv/captures.json')
