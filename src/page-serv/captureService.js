@@ -14,13 +14,8 @@ const makeCaptureService = (dal) => {
             return dates.indexOf(date) !== -1;
         },
 
-        getPage: async (date, path_or_hap) => {
-            hap_id = Number(path_or_hap);
-            if (hap_id) {
-                return await dal.getPageByHapId(date, hap_id);
-            } else {
-                return await dal.getPageByPath(date, path_or_hap);
-            }
+        getPage: async (date, path) => {
+            return await dal.getPageByPath(date, path);
         }
     }
 }
