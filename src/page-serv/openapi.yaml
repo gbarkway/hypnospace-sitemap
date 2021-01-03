@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Page Service
+  description: >
+    Get details about Hypnospace pages
+  version: 0.0.1
+
+paths:
+  /captures:
+    get:
+      summary: List available captures
+      responses:
+        '200':
+          description: Capture dates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /captures/{date}/pages:
+    get:
+      summary: List page names
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: zone
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: tags
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: offset
+          in: query
+          required: false
+          schema:
+              type: integer
+        - name: count
+          in: query
+          required: false
+          schema:
+              type: integer
+      responses:
+        '200':
+          description: Pages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      offset:
+                        type: integer
+                      total:
+                        type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Page'
+  /captures/{date}/pages/{path_or_hap}:
+     get:
+      summary: Get single page by hsp path or by hap id
+      responses:
+        '200':
+          description: Page found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '404':
+          description: Page not found
+
+components:
+  schemas:
+    Page:
+      type: object
+      properties:
+        path:
+          type: string
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        user:
+          type: string
+        hap_id:
+          type: integer
