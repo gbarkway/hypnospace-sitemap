@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/page-serv/**'
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'src/page-serv/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run docker-compose
+      run: docker-compose -f ./src/page-serv/docker-compose.yml -f ./src/page-serv/docker-compose.debug.yml run pageserv npm test
