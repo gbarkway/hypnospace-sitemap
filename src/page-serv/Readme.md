@@ -1,5 +1,7 @@
 # Page Service
 
+![page-serv test](https://github.com/gbarkway/hypnospace-sitemap/workflows/page-serv%20test/badge.svg)
+
 Microservice for Hypnospace page details like tags, description, username, and HAP ID (maybe).
 
 ## Getting Started

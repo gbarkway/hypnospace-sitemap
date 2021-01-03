@@ -1,6 +1,6 @@
 # Capture Service
 
-![Capture Service](https://github.com/gbarkway/hypnospace-sitemap/workflows/Capture%20Service/badge.svg)
+![capture-serv test](https://github.com/gbarkway/hypnospace-sitemap/workflows/capture-serv%20test/badge.svg)
 
 Microservice for Hypnospace captures. Here "capture" means a date, a set of pages, and a map of connections between pages.
 
