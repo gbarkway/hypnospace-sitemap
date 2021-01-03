@@ -15,14 +15,14 @@ describe('GET /captures', function () {
         const res = await chai.request(app).get('/captures');
         res.statusCode.should.equal(200);
         res.body.should.be.a('Array');
-        res.body.should.include.all.members(['1999-11-05', '1999-11-26', '1999-12-31', '20XX-XX-XX'])
+        res.body.should.have.all.members(['1999-11-05', '1999-11-26', '1999-12-31', '20XX-XX-XX'])
     })
 })
 
 it('GET /captures returns 200 w 4 elements', async () => {
-    const res = await request(app).get('/captures');
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.length).toBe(4)
+    const res = await chai.request(app).get('/captures');
+    res.statusCode.should.equal(200);
+    res.body.should.have.lengthOf(4);
 })
 
 
