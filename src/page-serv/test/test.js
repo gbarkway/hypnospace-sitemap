@@ -211,8 +211,77 @@ describe('GET /captures/:date/pages', function() {
                 done();
             })
     })
-    //filters: zone, tags, username. combined
-    //4 valid dates + invalid date
+})
+
+describe('GET /captures/:date/pages/:path_or_hap', function () {
+    const expected = {
+        "tags": [
+          "cybercog",
+          "fiction",
+          "interactive",
+          "game",
+          "gary",
+          "teknoshamanatrix",
+          "cogs",
+          "sprockets",
+          "control",
+          "story",
+          "stories",
+          "HS_CyberCog",
+          "HS_InteractiveTheater"
+        ],
+        "path": "06_starport castle dreamstation\\~garyscontrolroom.hsp",
+        "zone": "Starport Castle Dreamstation",
+        "date": "1999-11-05",
+        "name": "Gary's CyberCog Control Room",
+        "description": "Gary's Control Room - 2.6.99 - Welcome aboard visitor, and do keep your hands off the computers unless you know what you're doing!",
+        "user": "FirstCaptainGary"
+    };
+    it('returns expected page for valid path', function (done) {
+        chai.request(app)
+            .get('/captures/1999-11-05/pages/06_starport castle dreamstation%5C~garyscontrolroom.hsp')
+            .end((err, res) => {
+                res.status.should.equal(200);
+                res.body.should.deep.equal(expected);
+                done();
+            })
+    })
+    it('returns expected page for valid path w/ | instead of \\', function (done) {
+        chai.request(app)
+            .get('/captures/1999-11-05/pages/06_starport castle dreamstation|~garyscontrolroom.hsp')
+            .end((err, res) => {
+                res.status.should.equal(200);
+                res.body.should.deep.equal(expected);
+                done();
+            })
+    })
+    it('returns 404 if page doesn\'t exist', function (done) {
+        chai.request(app)
+            .get('/captures/1999-11-05/pages/i_dont_exist.hsp')
+            .end((err, res) => {
+                res.status.should.equal(404);
+                res.body.should.equal('Page not found');
+                done();
+            })
+    })
+    it('returns 400 if page doesn\'t end with ".hsp"', function (done) {
+        chai.request(app)
+            .get('/captures/1999-11-05/pages/06_starport castle dreamstation|~garyscontrolroom')
+            .end((err, res) => {
+                res.status.should.equal(400);
+                res.body.should.be.a('string');
+                done();
+            })
+    })
+    it('returns 404 if date capture doesn\'t exist', function (done) {
+        chai.request(app)
+            .get('/captures/1999-11-06/pages/i_dont_exist.hsp')
+            .end((err, res) => {
+                res.status.should.equal(404);
+                res.body.should.equal('Invalid capture date')
+                done();
+            })
+    })
 })
 
 after(async function() {

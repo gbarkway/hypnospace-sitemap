@@ -52,7 +52,7 @@ app.get('/captures/:date/pages', async (req, res) => {
 app.get('/captures/:date/pages/:path_or_hap', async (req, res) => {
     const date = req.params['date'];
     const pathOrHap = req.params['path_or_hap'].replace('|', '\\');
-    if (!parseInt(pathOrHap) && !pathOrHap.endsWith(".hsp")) {
+    if (!Number(pathOrHap) && !pathOrHap.endsWith(".hsp")) {
         res.status(400).json('Invalid page identifier');
         return;
     }
@@ -66,7 +66,7 @@ app.get('/captures/:date/pages/:path_or_hap', async (req, res) => {
     if (page) {
         res.status(200).json(page);
     } else {
-        res.status(400).json('Page not found');
+        res.status(404).json('Page not found');
     }
 })
 

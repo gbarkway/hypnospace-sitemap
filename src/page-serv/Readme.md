@@ -33,7 +33,7 @@ Run `docker-compose down` after finishing.
 ## Running Tests
 To run tests in container:
 ```
-docker-compose-dbg run pageserv npm test
+docker-compose-dbg run --rm pageserv npm test
 docker-compose-dbg down
 ```
 
