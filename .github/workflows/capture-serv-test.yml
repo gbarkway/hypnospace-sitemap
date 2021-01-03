@@ -1,4 +1,4 @@
-name: Capture Service
+name: capture-serv test
 
 on:
   push:
