@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-    - 'src/capture-serv/**'
+      - 'src/capture-serv/**'
   pull_request:
     branches: [ main ]
-    paths:
-    - 'src/capture-serv/**'
+    paths: 
+      - 'src/capture-serv/**'
 
 jobs:
 
@@ -18,9 +18,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Get timestamp for tag name
-      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV && echo $TAG
-    - name: Build the Docker image
-      run: docker build ./src/capture-serv --file ./src/capture-serv/Dockerfile.test --tag captureserv_test:$TAG
-    - name: Run tests
-      run: docker run captureserv_test:$TAG
+    - name: Run docker-compose
+      run: docker-compose -f ./src/capture-serv/docker-compose.yml -f ./src/capture-serv/docker-compose.debug.yml run captureserv npm test
