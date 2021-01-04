@@ -14,22 +14,21 @@ const Capture = mongoose.model('Capture', {
     date: String,
 });
 
-const startConnect = (host) => {
-    let connectFailures = 0;
-    const connectAndRetry = () => {
-        mongoose.connect(host)
-            .then(() => console.log('Connected to Mongo'))
-            .catch((err) => {
-                connectFailures += 1;
-                if (connectFailures <= 5) {
-                    console.log('Failed to connect to mongo. Retrying in 1 second')
-                    new Promise((resolve) => setTimeout(resolve, 1000)).then(connectAndRetry);
-                } else {
-                    throw err;
-                }
-            })
+const connect = async (host) => {
+    const maxTries = 5;
+    for (let i = 0; i < maxTries; i++) {
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await mongoose.connect(host);
+            break;
+        } catch (e) {
+            if (i < maxTries - 1) {
+                console.log('Connecting to Mongo failed. Retrying in 1 second')
+            } else {
+                throw e;
+            }
+        }
     }
-    connectAndRetry();
 };
 
 const degoosify = (document) => {
@@ -43,10 +42,12 @@ const degoosify = (document) => {
 const makeDal = () => {
     let host = process.env.MONGO_HOST;
     if (!host) {
-        console.log('Set env variable MONGO_HOST');
+        throw 'Env variable MONGO_HOST must be set';
     }
     
-    startConnect(host);
+    connect(host)
+        .then(() => console.log('Connected to Mongo'))
+        .catch((err) => console.error('Failed to connect to Mongo', err));
 
     return {
         getPages: async (date, opts) => {
