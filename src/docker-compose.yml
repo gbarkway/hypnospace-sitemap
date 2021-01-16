@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  pageserv-db:
+    build:
+      context: page-serv/db
+    
+  pageserv:
+    image: pageserv
+    build:
+      context: page-serv
+      target: production
+    depends_on: 
+     - pageserv-db
+    environment:
+      NODE_ENV: production
+      MONGO_HOST: mongodb://pageserv-db/hypnospace
+    ports:
+      - 3000:3000
+
+  captureserv:
+    image: captureserv
+    build:
+      context: capture-serv
+      target: production
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3001:3000
+      
