@@ -1,10 +1,14 @@
 const express = require('express');
 const { makeDal } = require('./mongoDal');
 const { makeCaptureService } = require('./captureService');
+const cors = require('cors'); 
 
 const dal = makeDal();
 const service = makeCaptureService(dal);
 const app = express();
+
+// TODO: make api gateway and push cors to that? or serve api and web from same origin?
+app.use(cors());
 
 app.get('/captures', async (req, res) => {
     const dates = await service.getDates();
