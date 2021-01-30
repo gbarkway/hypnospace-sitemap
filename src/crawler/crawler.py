@@ -17,7 +17,8 @@ def __getPageInfo(hspPath):
         dom = json.load(file)
         
     # lower() because some links randomly use title casing
-    links = [match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match]
+    # set() to avoid duplicates
+    links = list(set([match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match]))
     descriptionAndTags = dom['data'][0][1][8]
 
     description = None
