@@ -13,7 +13,7 @@ function App() {
         <DatePicker value={date} onDatePicked={setDate}/>
       </div>
       <div>
-        <Sitemap />
+        <Sitemap date={date}/>
       </div>
       <div className="PageDetailsContainer">
         <PageDetails date={date} path={path}/>
