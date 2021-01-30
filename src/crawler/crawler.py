@@ -16,11 +16,17 @@ def __getPageInfo(hspPath):
     with open(hspPath) as file:
         dom = json.load(file)
         
+    myPath = '\\'.join(hspPath.parts[-2:])
+
     # lower() because some links randomly use title casing
     # set() to avoid duplicates
-    links = list(set([match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match]))
-    descriptionAndTags = dom['data'][0][1][8]
+    links = set([match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match])
 
+    # no links to self
+    if myPath in links:
+        links.remove(myPath)
+
+    descriptionAndTags = dom['data'][0][1][8]
     description = None
     tags = []
     if len(descriptionAndTags) > 0:
@@ -32,7 +38,7 @@ def __getPageInfo(hspPath):
             description = descriptionAndTags
             tags = []
 
-    return PageInfo(dom['data'][0][1][1], '\\'.join(hspPath.parts[-2:]), links, description, tags, dom['data'][0][1][2])
+    return PageInfo(dom['data'][0][1][1], myPath, list(links), description, tags, dom['data'][0][1][2])
 
 
 def __getZoneInfo(zonePath):
