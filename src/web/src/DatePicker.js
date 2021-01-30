@@ -11,12 +11,10 @@ export default function DatePicker({value, onDatePicked}) {
                 if (res.status === 200) {
                     return res.json();
                 } else {
-                    throw new Error(res);
+                    return [];
                 }
             })
-            .then((ds) => {
-                setDates(ds);
-            })
+            .then(setDates)
             .catch(console.err);
     }, []);
 
