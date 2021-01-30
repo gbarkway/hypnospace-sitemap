@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
 import spread from 'cytoscape-spread';
+import dagre from 'cytoscape-dagre';
+import fcose from 'cytoscape-fcose';
 
-import euler from 'cytoscape-euler';
-
-cytoscape.use(spread);
+cytoscape.use(fcose);
 
 export default function Sitemap({ date }) {
     const [elements, setElements] = useState([
@@ -39,12 +39,14 @@ export default function Sitemap({ date }) {
         var cy = cytoscape({
             container: container.current,
             elements: elements,
-            layout: { name: 'cose'},
+            layout: { 
+                name: 'fcose',
+            },
         })
     }, [elements]);
 
     return (
-        <div ref={container} style={{height: 1000, width:1000, display:"block"}}>
+        <div ref={container} style={{height: 2000, width:2000}}>
 
         </div>
     )
