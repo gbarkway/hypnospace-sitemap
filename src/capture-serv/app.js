@@ -1,7 +1,10 @@
 const express = require('express');
 const { getCaptureByDate, hasDate, getDates } = require('./captureService')
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors()); // TODO: application gateway?
 
 app.get('/captures', (req, res) => {
     res.send(getDates());
