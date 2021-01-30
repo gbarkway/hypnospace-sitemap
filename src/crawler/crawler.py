@@ -56,9 +56,19 @@ def __iniDate2iso(iniDate):
             pass
 
 def __getCaptureInfo(capturePath):
+    zoneInfos = [__getZoneInfo(p) for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()]
+
+    # remove dead links
+    validPaths = set([pageInfo.path for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos])
+    for zoneInfo in zoneInfos:
+        for pageInfo in zoneInfo.pageInfos:
+            toRemove = [link for link in pageInfo.linksTo if not link in validPaths]
+            for link in toRemove:
+                pageInfo.linksTo.remove(link)
+
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
-    return CaptureInfo(__iniDate2iso(config['data']['date']), [__getZoneInfo(p) for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()])
+    return CaptureInfo(__iniDate2iso(config['data']['date']), zoneInfos)
 
 def read_data(dataPath):
     dataPath = Path(dataPath)
