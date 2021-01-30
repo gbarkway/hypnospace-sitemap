@@ -40,7 +40,7 @@ def __getZoneInfo(zonePath):
 
     # "links" in zones.hsp not explicitly defined in hsp file
     zonePage = __getPageInfo(zonePath / 'zone.hsp')
-    zonePage = PageInfo(zonePage.name, zonePage.path, zonePage.linksTo + [p.path for p in pages if not '~' in p.path], zonePage.description, zonePage.tags, zonePage.user)
+    zonePage = PageInfo(zonePage.name, zonePage.path, list(set(zonePage.linksTo + [p.path for p in pages if not '~' in p.path])), zonePage.description, zonePage.tags, zonePage.user)
     pages.append(zonePage)
 
     return ZoneInfo(zonePage.name, pages)
