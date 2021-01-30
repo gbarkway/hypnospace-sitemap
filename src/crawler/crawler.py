@@ -1,7 +1,7 @@
 import datetime
 import json
 import re
-from collections import namedtuple
+from collections import namedtuple, Counter
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -66,6 +66,12 @@ def __getCaptureInfo(capturePath):
             toRemove = [link for link in pageInfo.linksTo if not link in validPaths]
             for link in toRemove:
                 pageInfo.linksTo.remove(link)
+
+    # attach orphaned sites to "unlisted" node
+    linked = set([link for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos for link in pageInfo.linksTo])
+    unlistedPages = [pageInfo.path for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos if pageInfo.path not in linked]
+    unlistedZone = ZoneInfo("1000 Unlisted", [PageInfo("Unlisted", "1000_unlisted\\zone.hsp", unlistedPages, "Orphans", [], "gbarkway")])
+    zoneInfos.append(unlistedZone)
 
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
