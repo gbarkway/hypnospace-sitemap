@@ -5,6 +5,8 @@ from collections import namedtuple
 from configparser import ConfigParser
 from pathlib import Path
 
+# TODO: README
+# TODO: Tests
 PageInfo = namedtuple('PageInfo', ['name', 'path', 'linksTo', 'description', 'tags', 'user'])
 ZoneInfo = namedtuple('ZoneInfo', ['name', 'pageInfos'])
 CaptureInfo = namedtuple('CaptureInfo', ['date', 'zoneInfos'])
@@ -14,7 +16,8 @@ def __getPageInfo(hspPath):
     with open(hspPath) as file:
         dom = json.load(file)
         
-    links = [match[1] for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match]
+    # lower() because some links randomly use title casing
+    links = [match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match]
     descriptionAndTags = dom['data'][0][1][8]
 
     description = None
