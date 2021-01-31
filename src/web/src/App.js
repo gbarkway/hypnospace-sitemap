@@ -22,7 +22,7 @@ function App() {
         <Row><Col><br></br></Col></Row>
         <Row>
           <Col xs={2}>
-            <SearchPane />
+            <SearchPane date={date}/>
             </Col>
           <Col xs={8}>
             <Sitemap date={date} onTap={setPath} />

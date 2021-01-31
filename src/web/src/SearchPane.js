@@ -3,13 +3,14 @@ import SearchFields from "./SearchFields";
 import SearchResults from "./SearchResults";
 import { useState, useEffect } from "react";
 
-export default function SearchPane() {
+export default function SearchPane({date}) {
     const [searchFields, setSearchFields] = useState(null);
 
     useEffect(() => {
         console.log(searchFields);
     }, [searchFields])
 
+    //TODO: "index" tab where all pages are listed (one zone at a time?)
     return (
         <div id="search">
             <Card className="square">
@@ -19,7 +20,7 @@ export default function SearchPane() {
                 <Card.Body>
                     <SearchFields onSearchClicked={setSearchFields}/>
                     <hr></hr>
-                    <SearchResults />
+                    <SearchResults date={date} searchFields={searchFields}/>
                 </Card.Body>
             </Card>
         </div>
