@@ -35,16 +35,16 @@ export default function PageDetails({ date, path }) {
 
     return (
         <div className="pageDetails">
-            <Card>
+            <Card className="square">
+                <Card.Header>
+                    <h4>{data.name}</h4>
+                </Card.Header>
                 <Card.Body>
-                    <Card.Title>
-                        {data.name}
-                    </Card.Title>
                     <Card.Subtitle className="text-muted">
                         {data.path}
                     </Card.Subtitle>
                     <Card.Text>
-                        <p><b>Zone:</b> {data.zone}</p>
+                        <p><b>Zone:</b> {data.zone || "<None>"}</p>
                         <p><b>User:</b> {data.user || "<None>"}</p>
                         <p><b>Description:</b> {data.description || "<None>"}</p>
                     </Card.Text>

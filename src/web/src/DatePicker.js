@@ -26,9 +26,9 @@ export default function DatePicker({value, onDatePicked}) {
     };
 
     return (
-        <Navbar className="bg-light justify-content-between">
-            <Navbar.Brand>Navbar Title</Navbar.Brand>
-                <Form.Control as="select" size="lg" value={currentDate} onChange={onChange} id="dat-select">
+        <Navbar className="justify-content-between navbar-95">
+            <Navbar.Brand><i>Hypnospace Sitemap</i></Navbar.Brand>
+                <Form.Control as="select" size="sm" value={currentDate} onChange={onChange} id="dat-select">
                 {dates.map((d, i) => (
                         <option value={d} key={`date-select${i}`}>{d}</option>
                     ))}

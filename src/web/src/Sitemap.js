@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
-
+import {Card} from "react-bootstrap";
 cytoscape.use(fcose);
 
 export default function Sitemap({ date, onTap }) {
@@ -32,10 +32,6 @@ export default function Sitemap({ date, onTap }) {
                     ...["01", "02", "03", "04", "05", "06", "07", "08", "99"].map(n => ({data: {id: n, label: n}})),
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath, label: "uwu"}}))
                 ];
-                // const thing = {
-                //     nodes: capture.pages.map((page) => ({id: page.path, label: page.path})),
-                //     links: capture.links.map((link) => ({source: link.sourcePath, target: link.targetPath, label: "uwu"}))
-                // }
                 console.log(thing);
                 return thing;
             })
@@ -68,6 +64,8 @@ export default function Sitemap({ date, onTap }) {
             .selector(":parent")
             .style({
                 'background-color': "lightgray",
+                'border-color': 'black',
+                'border': '2px',
                 'content': "data(label)",
             })
             .selector("edge")
@@ -86,8 +84,17 @@ export default function Sitemap({ date, onTap }) {
     }, [elements, onTap]);
 
     return (
-        <div id="cy" ref={container}>
+        <Card className="square">
+            <Card.Header>
+                <b>Site Graph - {date}</b>
+            </Card.Header>
+            <Card.Body style={{padding: 0}}>
+                <div id="cy" ref={container}>
 
-        </div>
+                </div>
+            </Card.Body>
+            <Card.Footer><i>Instructions will go here. Or maybe control buttons like zoom, back, reset, etc. Or info about the hovered node?</i></Card.Footer>
+        </Card>
+
     )
 }
