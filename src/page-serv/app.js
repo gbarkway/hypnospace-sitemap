@@ -15,6 +15,7 @@ app.get('/captures', async (req, res) => {
     res.json(dates);
 });
 
+// TODO: search by name or description
 app.get('/captures/:date/pages', async (req, res) => {
     const date = req.params['date'];
     const expectedQuery = new Set(['tags', 'user', 'zone']);
