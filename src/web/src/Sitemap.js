@@ -1,12 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
-import spread from 'cytoscape-spread';
-import dagre from 'cytoscape-dagre';
 import fcose from 'cytoscape-fcose';
 
 cytoscape.use(fcose);
 
-export default function Sitemap({ date }) {
+export default function Sitemap({ date, onTap }) {
     const [elements, setElements] = useState([
         { data: { id: 'one', label: 'Node 1' }},
         { data: { id: 'two', label: 'Node 2' }},
@@ -21,7 +19,19 @@ export default function Sitemap({ date }) {
                 return res.json();
             })
             .then((capture) => {
-                const thing = [...capture.pages.map((page) => ({data: {id: page.path, label: page.path}})), ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath, label: "uwu"}}))]
+                const thing = [
+                    ...capture.pages.map((page) => { 
+                        return {
+                            data: {
+                                id: page.path, 
+                                label: page.path,
+                                parent: page.path.substring(0, 2),
+                            }
+                        }
+                    }), 
+                    ...["01", "02", "03", "04", "05", "06", "07", "08", "99"].map(n => ({data: {id: n, label: n}})),
+                    ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath, label: "uwu"}}))
+                ];
                 // const thing = {
                 //     nodes: capture.pages.map((page) => ({id: page.path, label: page.path})),
                 //     links: capture.links.map((link) => ({source: link.sourcePath, target: link.targetPath, label: "uwu"}))
@@ -41,62 +51,38 @@ export default function Sitemap({ date }) {
             elements: elements,
             layout: { 
                 name: 'fcose',
+                animate: false,
+                randomize: false,
             },
-        })
-    }, [elements]);
+            style: cytoscape.stylesheet()
+            .selector("node")
+            .style({
+                'background-color': function (e) {
+                    if (e.id().includes('zone.hsp')) {
+                        return 'blue';
+                    } else {
+                        return 'gray';
+                    }
+                },
+            })
+            .selector(":parent")
+            .style({
+                'background-color': "lightgray",
+                'label': "data(label)",
+            }),
+        });
+        cy.on('tap', 'node', function(evt){
+            var node = evt.target;
+            console.log( 'tapped ' + node.id() );
+            if (onTap) {
+                onTap(node.id());
+            }
+          });
+    }, [elements, onTap]);
 
     return (
-        <div ref={container} style={{height: 2000, width:2000}}>
+        <div ref={container} style={{width: 1000, height: 800}}>
 
         </div>
     )
-    // const [data, setData] = useState({
-    //     nodes: [],
-    //     links: [
-    //     ]
-    // })
-    
-    // const a = useRef();
-
-    // useEffect(() => {
-    //     fetch(`http://localhost:3001/captures/${date}`)
-    //         .then((res) => {
-    //             return res.json();
-    //         })
-    //         .then((capture) => {
-    //             const thing = {
-    //                 nodes: capture.pages.map((page) => ({id: page.path})),
-    //                 links: capture.links.map((link) => ({source: link.sourcePath, target: link.targetPath}))
-    //             }
-    //             console.log(thing);
-    //             return thing;
-    //         })
-    //         .then((asdf) => {
-    //             setData(asdf);
-    //         })
-    //         .catch(console.err);
-    // }, [date]);
-
-    // // the graph configuration, just override the ones you need
-    // const myConfig = {
-    //     height: 800,
-    //     d3: {
-    //         //disableLinkForce: true,
-    //     }
-    // };
-    
-    // const onClickNode = function(nodeId) {
-    //     window.alert(`Clicked node ${nodeId}`);
-    // };
-    
-    // const onClickLink = function(source, target) {
-    //     window.alert(`Clicked link between ${source} and ${target}`);
-    // };
-
-    // return (<Graph
-    //         id="graph-id" // id is mandatory
-    //         data={data}
-    //         config={myConfig}
-    //         ref={a}
-    //         />);
 }

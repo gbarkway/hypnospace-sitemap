@@ -6,6 +6,8 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
+    "cytoscape-cise": "^1.0.0",
+    "cytoscape-cola": "^2.4.0",
     "cytoscape-dagre": "^2.3.2",
     "cytoscape-euler": "^1.2.2",
     "cytoscape-fcose": "^2.0.0",
