@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
 
 const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
     const url = new URL(`http://localhost:3000/captures/${date}/pages/`);
@@ -28,7 +29,19 @@ export default function SearchResults({date, searchFields}){
 
     return (
         <div>
-            {searchResults.map((r, i) => <p key={`searchresult-${i}`}>{r.name}</p>)}
+            <h5>Search Results</h5>
+            <div class="search-results">
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {searchResults.map((r, i) => <tr key={`searchresult-${i}`}><td>{r.name}</td></tr>)}
+                    </tbody>
+                </Table>
+            </div>
         </div>
     );
 }
