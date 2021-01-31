@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react";
+import {Navbar, Form} from "react-bootstrap";
 
 export default function DatePicker({value, onDatePicked}) {
     const [dates, setDates] = useState([]);
@@ -25,10 +26,14 @@ export default function DatePicker({value, onDatePicked}) {
     };
 
     return (
-        <select name="date" id="date-select" value={currentDate} onChange={onChange}>
-            {dates.map((d, i) => (
-                <option value={d} key={`date-select${i}`}>{d}</option>
-            ))}
-        </select>
+        <Navbar className="bg-light justify-content-between">
+            <Navbar.Brand>Navbar Title</Navbar.Brand>
+                <Form.Control as="select" size="lg" value={currentDate} onChange={onChange} id="dat-select">
+                {dates.map((d, i) => (
+                        <option value={d} key={`date-select${i}`}>{d}</option>
+                    ))}
+                </Form.Control>
+        </Navbar>
+
     );
 }

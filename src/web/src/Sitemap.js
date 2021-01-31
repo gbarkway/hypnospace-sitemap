@@ -86,7 +86,7 @@ export default function Sitemap({ date, onTap }) {
     }, [elements, onTap]);
 
     return (
-        <div ref={container} style={{width: 1000, height: 800}}>
+        <div id="cy" ref={container}>
 
         </div>
     )
