@@ -43,12 +43,10 @@ export default function PageDetails({ date, path }) {
                     <Card.Subtitle className="text-muted">
                         {data.path}
                     </Card.Subtitle>
-                    <Card.Text>
-                        <p><b>Zone:</b> {data.zone || "<None>"}</p>
-                        <p><b>User:</b> {data.user || "<None>"}</p>
-                        <p><b>Description:</b> {data.description || "<None>"}</p>
-                    </Card.Text>
-                    {data.tags.map((t,i) => <Card.Link key={`tag-${i}`} className="text-nowrap" href="#">&gt;{t}</Card.Link>)}
+                    <p><b>Zone:</b> {data.zone || "<None>"}</p>
+                    <p><b>User:</b> {data.user || "<None>"}</p>
+                    <p><b>Description:</b> {data.description || "<None>"}</p>
+                    {data.tags.map((t, i) => <Card.Link key={`tag-${i}`} className="text-nowrap" href="#">&gt;{t}</Card.Link>)}
                 </Card.Body>
             </Card>
         </div>
