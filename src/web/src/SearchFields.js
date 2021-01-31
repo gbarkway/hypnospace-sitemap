@@ -1,7 +1,7 @@
 import {Form, Button} from "react-bootstrap";
 import {useEffect, useState} from "react";
 
-export default function SearchFields() 
+export default function SearchFields({onSearchClicked}) 
 {
     const [pageNameQuery, setPageNameQuery] = useState("");
     const [userNameQuery, setUserNameQuery] = useState("");
@@ -21,7 +21,7 @@ export default function SearchFields()
                 <Form.Label>Tags:</Form.Label>
                 <Form.Control value={tagsQuery} onChange = {(e) => setTagsQuery(e.target.value)} type="text" placeholder="tag1,tag2,tag3" />
             </Form.Group>
-            <Button variant="primary">Search Now</Button>
+            <Button variant="primary" onClick={() => onSearchClicked({pageNameQuery, userNameQuery, tagsQuery})}>Search Now</Button>
         </Form>
     )
 }

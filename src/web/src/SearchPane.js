@@ -10,7 +10,7 @@ export default function SearchPane() {
                     <b>Search</b>
                 </Card.Header>
                 <Card.Body>
-                    <SearchFields />
+                    <SearchFields onSearchClicked={(fields) => console.log(fields)}/>
                     <hr></hr>
                     <SearchResults />
                 </Card.Body>
