@@ -3,7 +3,7 @@ import SearchFields from "./SearchFields";
 import SearchResults from "./SearchResults";
 import { useState, useEffect } from "react";
 
-export default function SearchPane({date}) {
+export default function SearchPane({date, onResultClick}) {
     const [searchFields, setSearchFields] = useState(null);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function SearchPane({date}) {
                 <Card.Body>
                     <SearchFields onSearchClicked={setSearchFields}/>
                     <hr></hr>
-                    <SearchResults date={date} searchFields={searchFields}/>
+                    <SearchResults date={date} searchFields={searchFields} onResultClick={onResultClick}/>
                 </Card.Body>
             </Card>
         </div>

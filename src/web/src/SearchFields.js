@@ -1,6 +1,7 @@
 import {Form, Button} from "react-bootstrap";
 import {useState} from "react";
 
+//TODO: input validation
 export default function SearchFields({onSearchClicked}) 
 {
     const [pageNameQuery, setPageNameQuery] = useState("");

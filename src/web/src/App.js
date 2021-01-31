@@ -11,6 +11,7 @@ import SearchPane from "./SearchPane";
 function App() {
   const [date, setDate] = useState("1999-11-05"); // TODO: use context
   const [path, setPath] = useState("99_flist\\~f00021d_01.hsp");
+  //TODO: move page details pane to underneath so that search pane has more space?
   return (
     <div className="App">
       <Container fluid>
@@ -22,7 +23,7 @@ function App() {
         <Row><Col><br></br></Col></Row>
         <Row>
           <Col xs={2}>
-            <SearchPane date={date}/>
+            <SearchPane date={date} onResultClick={setPath}/>
             </Col>
           <Col xs={8}>
             <Sitemap date={date} onTap={setPath} />
