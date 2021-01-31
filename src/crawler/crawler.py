@@ -74,10 +74,10 @@ def __getCaptureInfo(capturePath):
                 pageInfo.linksTo.remove(link)
 
     # attach orphaned sites to "unlisted" node
-    linked = set([link for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos for link in pageInfo.linksTo])
-    unlistedPages = [pageInfo.path for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos if pageInfo.path not in linked]
-    unlistedZone = ZoneInfo("1000 Unlisted", [PageInfo("Unlisted", "1000_unlisted\\zone.hsp", unlistedPages, "Orphans", [], "gbarkway")])
-    zoneInfos.append(unlistedZone)
+    # linked = set([link for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos for link in pageInfo.linksTo])
+    # unlistedPages = [pageInfo.path for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos if pageInfo.path not in linked]
+    # unlistedZone = ZoneInfo("1000 Unlisted", [PageInfo("Unlisted", "1000_unlisted\\zone.hsp", unlistedPages, "Orphans", [], "gbarkway")])
+    # zoneInfos.append(unlistedZone)
 
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
