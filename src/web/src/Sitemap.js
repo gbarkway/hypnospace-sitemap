@@ -68,8 +68,13 @@ export default function Sitemap({ date, onTap }) {
             .selector(":parent")
             .style({
                 'background-color': "lightgray",
-                'label': "data(label)",
-            }),
+                'content': "data(label)",
+            })
+            .selector("edge")
+            .style({
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier',
+            })
         });
         cy.on('tap', 'node', function(evt){
             var node = evt.target;
