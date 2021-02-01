@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
-import {Card} from "react-bootstrap";
+import {Card, Button, Row, Col} from "react-bootstrap";
 cytoscape.use(fcose);
 
-export default function Sitemap({ date, onTap }) {
+export default function Sitemap({ date, onTap, selected }) {
     const [elements, setElements] = useState([
         { data: { id: 'one', label: 'Node 1' }},
         { data: { id: 'two', label: 'Node 2' }},
@@ -12,6 +12,22 @@ export default function Sitemap({ date, onTap }) {
         ]);
     
     const container = useRef();
+    const cyRef = useRef(); //TODO: is this right?
+    const [hover, setHover] = useState("Hover over something");
+
+    const selectNode = (node) => {
+        if (!cyRef.current) return;
+        cyRef.current.elements().removeClass("highlighted transparent selected");
+        node.neighborhood().addClass("highlighted");
+        node.addClass("selected");
+        cyRef.current.elements().difference('.highlighted,.selected').addClass('transparent');
+    };
+
+    useEffect(() => {
+        if (!cyRef.current) return;
+        const node = cyRef.current.getElementById(selected);
+        selectNode(node);
+    }, [selected, elements]);
 
     useEffect(() => {
         fetch(`http://localhost:3001/captures/${date}`)
@@ -41,10 +57,12 @@ export default function Sitemap({ date, onTap }) {
             .catch(console.err);
     }, [date]);
 
+    //TODO: disable interacting with parent nodes
     useEffect(() => {
-        var cy = cytoscape({
+        cyRef.current = cytoscape({
             container: container.current,
             elements: elements,
+            autounselectify: true,
             layout: { 
                 name: 'fcose',
                 animate: false,
@@ -56,25 +74,32 @@ export default function Sitemap({ date, onTap }) {
                     style: {
                         'background-color': function (e) {
                             if (e.id().includes('zone.hsp')) {
-                                return 'blue';
+                                return 'red';
                             } else {
                                 return 'gray';
                             }
-                        }
+                        },
+                        'border-color': 'black',
+                        'border-width': 1,
                     }
                 },
-                // {
-                //     selector: "node:selected",
-                //     style: {
-                //         'background-color': 'pink',
-                //     }
-                // },
+                {
+                    selector: "node.highlighted",
+                    style: {
+                        'background-color': 'blue',
+                    }
+                },
+                {
+                    selector: ".selected",
+                    style: {
+                        'background-color': 'darkblue',
+                    }
+                },
                 {
                     selector: ":parent",
                     style: {
                         'background-color': "lightgray",
                         'border-color': 'black',
-                        'border': '1px',
                         'content': "data(label)",
                     }
                 },
@@ -84,18 +109,63 @@ export default function Sitemap({ date, onTap }) {
                         'target-arrow-shape': 'triangle',
                         'curve-style': 'bezier',
                     }
+                },
+                {
+                    selector: "edge.highlighted",
+                    style: {
+                        "line-color": "blue",
+                        "target-arrow-color": "blue",
+                    }
+                },
+                {
+                    selector: "edge.transparent",
+                    style: {
+                        "line-opacity": 0.5,
+                        'target-arrow-shape': 'none',
+                    }
+                },
+                {
+                    selector: "node:child.transparent",
+                    style: {
+                        "background-opacity": 0.5,
+                        'border-width': 0,
+                    }
                 }
             ],
         });
-        cy.on('tap', 'node', function(evt){
+       
+        cyRef.current.on('tap', 'node', function(evt){
+            //TODO: cache collection the first time instead of recalculating all the time
             var node = evt.target;
-            console.log( 'tapped ' + node.id() );
+            if (node.hasClass("selected")) {
+                cyRef.current.animate({
+                    fit: {
+                        eles: node.closedNeighborhood(),
+                        padding: 100
+                    }
+                }, {
+                    duration: 1000,
+                    easing: "ease-out-quad"
+                });
+            }
             if (onTap) {
                 onTap(node.id());
             }
-          });
+        });
+
+        cyRef.current.on('mouseover', 'node', function (e) {
+            var node = e.target;
+            setHover(node.id());
+        })
     }, [elements, onTap]);
 
+
+    const resetStyle = () => {
+        if (!cyRef.current) return;
+        
+        cyRef.current.elements().removeClass("transparent highlighted");
+        cyRef.current.elements().deselect();
+    }
     return (
         <Card className="square">
             <Card.Header>
@@ -106,7 +176,19 @@ export default function Sitemap({ date, onTap }) {
 
                 </div>
             </Card.Body>
-            <Card.Footer><i>Instructions will go here. Or maybe control buttons like zoom, back, reset, etc. Or info about the hovered node?</i></Card.Footer>
+            <Card.Footer>
+                <Row> 
+                    <Col>
+                        <i>{hover}</i>
+                    </Col>
+                    <Col>
+                        <div className="float-right">
+                            <Button onClick={() => cyRef.current.fit()}>Zoom to Fit</Button>
+                            <Button onClick={resetStyle}>Clear Highlighting</Button>
+                        </div>
+                    </Col>
+                </Row>
+            </Card.Footer>
         </Card>
 
     )

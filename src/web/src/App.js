@@ -26,7 +26,7 @@ function App() {
             <SearchPane date={date} onResultClick={setPath}/>
             </Col>
           <Col xs={8}>
-            <Sitemap date={date} onTap={setPath} />
+            <Sitemap date={date} onTap={setPath} selected={path} />
           </Col>
           <Col xs={2}>
             <PageDetails date={date} path={path} />
