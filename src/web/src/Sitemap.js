@@ -50,29 +50,42 @@ export default function Sitemap({ date, onTap }) {
                 animate: false,
                 randomize: false,
             },
-            style: cytoscape.stylesheet()
-            .selector("node")
-            .style({
-                'background-color': function (e) {
-                    if (e.id().includes('zone.hsp')) {
-                        return 'blue';
-                    } else {
-                        return 'gray';
+            style: [
+                {
+                    selector: "node",
+                    style: {
+                        'background-color': function (e) {
+                            if (e.id().includes('zone.hsp')) {
+                                return 'blue';
+                            } else {
+                                return 'gray';
+                            }
+                        }
                     }
                 },
-            })
-            .selector(":parent")
-            .style({
-                'background-color': "lightgray",
-                'border-color': 'black',
-                'border': '2px',
-                'content': "data(label)",
-            })
-            .selector("edge")
-            .style({
-                'target-arrow-shape': 'triangle',
-                'curve-style': 'bezier',
-            })
+                // {
+                //     selector: "node:selected",
+                //     style: {
+                //         'background-color': 'pink',
+                //     }
+                // },
+                {
+                    selector: ":parent",
+                    style: {
+                        'background-color': "lightgray",
+                        'border-color': 'black',
+                        'border': '1px',
+                        'content': "data(label)",
+                    }
+                },
+                {
+                    selector: "edge",
+                    style: {
+                        'target-arrow-shape': 'triangle',
+                        'curve-style': 'bezier',
+                    }
+                }
+            ],
         });
         cy.on('tap', 'node', function(evt){
             var node = evt.target;
