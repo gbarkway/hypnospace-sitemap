@@ -55,6 +55,8 @@ paths:
                           type: string
                         name:
                           type: string
+                        zone:
+                          type: string
                   links:
                     type: array
                     items:

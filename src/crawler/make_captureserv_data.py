@@ -17,7 +17,7 @@ def captureInfo2Dict(captureInfo):
     c = captureInfo
     return {
         'date': c.date,
-        'pages': [{'name': pi.name, 'path': pi.path} for zi in c.zoneInfos for pi in zi.pageInfos],
+        'pages': [{'name': pi.name, 'path': pi.path, 'zone': zi.name} for zi in c.zoneInfos for pi in zi.pageInfos],
         'links': [{'sourcePath': pi.path, 'targetPath': l} for zi in c.zoneInfos for pi in zi.pageInfos for l in pi.linksTo]
     }
 
