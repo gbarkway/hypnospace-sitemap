@@ -45,7 +45,7 @@ export default function Sitemap({ date, onTap, selected }) {
                             }
                         }
                     }), 
-                    ...["01", "02", "03", "04", "05", "06", "07", "08", "99"].map(n => ({data: {id: n, label: n}})),
+                    ...["01", "02", "03", "04", "05", "06", "07", "08", "99"].map(n => ({data: {id: n, label: n}, pannable: true})),
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath, label: "uwu"}}))
                 ];
                 console.log(thing);
@@ -63,6 +63,7 @@ export default function Sitemap({ date, onTap, selected }) {
             container: container.current,
             elements: elements,
             autounselectify: true,
+            autoungrabify: true,
             layout: { 
                 name: 'fcose',
                 animate: false,
