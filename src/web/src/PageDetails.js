@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
 //TODO: when you click on a tag, the search box reacts
+//TODO: when you click a username the search box reacts
 const placeholder = {
     "tags": [
     ],

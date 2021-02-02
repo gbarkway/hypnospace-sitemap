@@ -167,6 +167,10 @@ export default function Sitemap({ date, onTap, selected }) {
         cyRef.current.elements().removeClass("transparent highlighted");
         cyRef.current.elements().deselect();
     }
+
+    //TODO: "jump to zone" option
+    //TODO: start more zoomed-in
+    //TODO: images, colors, pizazz
     return (
         <Card className="square">
             <Card.Header>

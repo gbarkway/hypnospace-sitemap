@@ -37,6 +37,8 @@ export default function SearchResults({date, searchFields, onResultClick}){
             .catch(() => setErrorVisible(true));
     }, [searchFields, date]);
 
+    //TODO: when you (double?) click a search link, the sitemap should zoom in like it does when you double click a node
+    //TODO: search results are highlighted in the sitemap
     return (
         <div>
             <h5>Search Results</h5>
