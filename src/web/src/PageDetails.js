@@ -14,8 +14,9 @@ const placeholder = {
   };
 
 //note, nest this in a container which keeps date and path as state?
-export default function PageDetails({ date, path, onTagClick }) {
+export default function PageDetails({ date, path, onTagClick, onUserNameClick }) {
     onTagClick = onTagClick || (() => {});
+    onUserNameClick = onUserNameClick || (() => {});
 
     const [data, setData] = useState(placeholder);
     useEffect(() => {
@@ -47,7 +48,7 @@ export default function PageDetails({ date, path, onTagClick }) {
                         {data.path}
                     </Card.Subtitle>
                     <Card.Text><b>Zone:</b> {data.zone || "<None>"}</Card.Text>
-                    <Card.Text><b>User:</b> {data.user || "<None>"}</Card.Text>
+                    <Card.Text><b>User:</b> <Button onClick = {() => onUserNameClick(data.user)} variant="link">{data.user || "<None>"}</Button></Card.Text>
                     <Card.Text><b>Description:</b> {data.description || "<None>"}</Card.Text>
                     <Card.Text>
                         {/*TODO: link variant buttons still look like buttons*/
