@@ -48,7 +48,11 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                         {data.path}
                     </Card.Subtitle>
                     <Card.Text><b>Zone:</b> {data.zone || "<None>"}</Card.Text>
-                    <Card.Text><b>User:</b> <Button onClick = {() => onUserNameClick(data.user)} variant="link">{data.user || "<None>"}</Button></Card.Text>
+                    <Card.Text><b>User:</b> 
+                        <Button onClick = {() => onUserNameClick(data.user)} variant="link" disabled={!Boolean(data.user)}>
+                            {data.user || "<None>"}
+                        </Button>
+                    </Card.Text>
                     <Card.Text><b>Description:</b> {data.description || "<None>"}</Card.Text>
                     <Card.Text>
                         {/*TODO: link variant buttons still look like buttons*/
