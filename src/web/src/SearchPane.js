@@ -6,6 +6,7 @@ import SearchResults from "./SearchResults";
 //searchRequest: query sent to web service
 export default function SearchPane({date, onResultClick, searchFields, onSearchFieldsChange, searchRequest, onSearchClick}) {
 
+    //TODO: select zone to filter by
     //TODO: "index" tab where all pages are listed (one zone at a time?)
     return (
         <div id="search">
