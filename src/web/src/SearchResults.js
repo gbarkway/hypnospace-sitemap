@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 
 const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
-    const url = new URL(`http://localhost:3000/captures/${date}/pages/`);
+    const url = new URL(`http://localhost:3000/captures/${date}/pages`);
     if (pageNameQuery && pageNameQuery.length) {
         //TODO: page name/description
 
@@ -17,14 +17,14 @@ const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
     
 }
 
-export default function SearchResults({date, searchFields, onResultClick}){
+export default function SearchResults({date, searchRequest, onResultClick}){
     const [searchResults, setSearchResults] = useState([]);
     const [errorVisible, setErrorVisible] = useState(false);
 
     onResultClick = onResultClick || (() => {});
     useEffect(() => {
-        if (!searchFields) return;
-        fetch(buildUrl(date, searchFields))
+        if (!searchRequest) return;
+        fetch(buildUrl(date, searchRequest))
             .then((res) => {
                 if (res.status === 200) {
                     return res.json();
@@ -35,7 +35,7 @@ export default function SearchResults({date, searchFields, onResultClick}){
             .then(setSearchResults)
             .then(setErrorVisible(false))
             .catch(() => setErrorVisible(true));
-    }, [searchFields, date]);
+    }, [searchRequest, date]);
 
     //TODO: when you (double?) click a search link, the sitemap should zoom in like it does when you double click a node
     //TODO: search results are highlighted in the sitemap

@@ -57,7 +57,6 @@ export default function Sitemap({ date, onTap, selected }) {
             .catch(console.err);
     }, [date]);
 
-    //TODO: disable interacting with parent nodes
     useEffect(() => {
         cyRef.current = cytoscape({
             container: container.current,

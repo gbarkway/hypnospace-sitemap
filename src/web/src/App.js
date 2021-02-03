@@ -9,8 +9,15 @@ import {Container, Row, Col} from "react-bootstrap";
 import SearchPane from "./SearchPane";
 
 function App() {
-  const [date, setDate] = useState("1999-11-05"); // TODO: use context
+  const [date, setDate] = useState("1999-11-05"); // TODO: use context instead of storing all state in root app
   const [path, setPath] = useState("99_flist\\~f00021d_01.hsp");
+  const [searchFields, setSearchFields] = useState({
+    pageNameQuery: "",
+    userNameQuery: "",
+    tagsQuery: "",
+  });
+  const [searchRequest, setSearchRequest] = useState(null);
+
   //TODO: move page details pane to underneath so that search pane has more space?
   return (
     <div className="App">
@@ -23,13 +30,18 @@ function App() {
         <Row><Col><br></br></Col></Row>
         <Row>
           <Col xs={2}>
-            <SearchPane date={date} onResultClick={setPath}/>
+            <SearchPane date={date} onResultClick={setPath} searchFields={searchFields} onSearchFieldsChange={setSearchFields} searchRequest={searchRequest} onSearchClick={setSearchRequest}/>
             </Col>
           <Col xs={8}>
             <Sitemap date={date} onTap={setPath} selected={path} />
           </Col>
           <Col xs={2}>
-            <PageDetails date={date} path={path} />
+            <PageDetails date={date} path={path} onTagClick={(t) => {
+              const newFields = { ...searchFields, tagsQuery: t };
+              setSearchFields(newFields);
+              setSearchRequest(newFields);
+            }
+            } />
           </Col>
         </Row>
       </Container>

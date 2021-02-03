@@ -1,28 +1,23 @@
 import {Form, Button} from "react-bootstrap";
-import {useState} from "react";
 
 //TODO: input validation
-export default function SearchFields({onSearchClicked}) 
-{
-    const [pageNameQuery, setPageNameQuery] = useState("");
-    const [userNameQuery, setUserNameQuery] = useState("");
-    const [tagsQuery, setTagsQuery] = useState("");
-
+export default function SearchFields({onSearchClicked, searchFields, onSearchFieldsChange}) 
+{ 
     return (
         <Form>
             <Form.Group>
                 <Form.Label>Page name:</Form.Label>
-                <Form.Control value={pageNameQuery} onChange={(e) => setPageNameQuery(e.target.value)} type="text" placeholder="Page name"/>
+                <Form.Control value={searchFields.pageNameQuery} onChange={(e) => onSearchFieldsChange({...searchFields, pageNameQuery: e.target.value})} type="text" placeholder="Page name"/>
             </Form.Group>
             <Form.Group>
                 <Form.Label>User name:</Form.Label>
-                <Form.Control value={userNameQuery} onChange = {(e) => setUserNameQuery(e.target.value)} type="text" placeholder="User name" />
+                <Form.Control value={searchFields.userNameQuery} onChange = {(e) => onSearchFieldsChange({...searchFields, userNameQuery: e.target.value})} type="text" placeholder="User name" />
             </Form.Group>
             <Form.Group>
                 <Form.Label>Tags:</Form.Label>
-                <Form.Control value={tagsQuery} onChange = {(e) => setTagsQuery(e.target.value)} type="text" placeholder="tag1,tag2,tag3" />
+                <Form.Control value={searchFields.tagsQuery} onChange = {(e) => onSearchFieldsChange({...searchFields, tagsQuery: e.target.value})} type="text" placeholder="tag1,tag2,tag3" />
             </Form.Group>
-            <Button variant="primary" onClick={() => onSearchClicked({pageNameQuery, userNameQuery, tagsQuery})}>Search Now</Button>
+            <Button variant="primary" onClick={() => onSearchClicked(searchFields)}>Search Now</Button>
         </Form>
     )
 }
