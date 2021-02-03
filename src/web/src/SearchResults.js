@@ -45,17 +45,24 @@ export default function SearchResults({date, searchRequest, onResultClick}){
             <p className="text-error">{errorVisible ? "Error!" : ""}</p>
             <p>{searchResults.length} results</p>
             <div className="search-results">
-                <Table>
+                <Table size="sm">
                     <thead>
                         <tr>
                             <th>Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* TODO: "link" variant buttons in win95 theme look like buttons, not links
-                        TODO: text should be left-justified 
-                        TODO: each row takes up too much space (font too big, too much padding)*/}
-                        {searchResults.map((r, i) => <tr key={`searchresult-${i}`}><td><Button variant="link" onClick={() => onResultClick(r.path)}>{r.name}</Button></td></tr>)}
+                        {searchResults.map((r, i) => (
+                            <tr key={`searchresult-${i}`}>
+                                <td>
+                                    <Button 
+                                        variant="link" 
+                                        onClick={() => onResultClick(r.path)} 
+                                        className="text-left">
+                                            {r.name}
+                                    </Button>
+                                </td>
+                            </tr>))}
                     </tbody>
                 </Table>
             </div>
