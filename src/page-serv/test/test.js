@@ -159,6 +159,16 @@ describe('GET /captures/:date/pages', function() {
                 })
         });
 
+        it('returns valid data for tag with whitespace', function(done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?tags=adrian merchant')
+                .end((err, res) => {
+                    res.status.should.equal(200);
+                    res.body.should.be.a('Array');
+                    done();
+                })
+        });
+
         it('returns 400 for empty tags', function(done) {
             chai.request(app)
                 .get('/captures/1999-11-05/pages?tags=')
@@ -184,14 +194,6 @@ describe('GET /captures/:date/pages', function() {
                     res.status.should.equal(400);
                     done();
                 })
-        })
-        it('returns 400 for whitespace in tags', function(done) {
-            chai.request(app)
-                .get('/captures/1999-11-05/pages?tags=bullring, roddy')
-                .end((err, res) => {
-                    res.status.should.equal(400);
-                    done();
-                });
         })
         it('returns 400 for single tag with whitespace', function(done) {
             chai.request(app)

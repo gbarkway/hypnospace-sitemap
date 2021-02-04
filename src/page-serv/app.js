@@ -30,7 +30,7 @@ app.get('/captures/:date/pages', async (req, res) => {
         return;
     } else if (opts.tags) {
         opts.tags = opts.tags.split(',');
-        if (!opts.tags.length || opts.tags.some(t => !t) || opts.tags.some(t => t.indexOf(' ') !== -1)) {
+        if (!opts.tags.length || opts.tags.some(t => !t)) {
             res.status(400).json('Invalid tags parameter');  
             return;
         }
