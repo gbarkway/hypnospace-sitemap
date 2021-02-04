@@ -41,14 +41,14 @@ export default function SearchResults({date, searchRequest, onResultClick}){
     //TODO: show more information in search results (e.g. zone)
     return (
         <div>
-            <h5>Search Results</h5>
+            <h5>Search Results ({searchResults.length})</h5>
             <p className="text-error">{errorVisible ? "Error!" : ""}</p>
-            <p>{searchResults.length} results</p>
             <div className="search-results">
                 <Table size="sm">
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Zone</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,6 +61,9 @@ export default function SearchResults({date, searchRequest, onResultClick}){
                                         className="text-left">
                                             {r.name}
                                     </Button>
+                                </td>
+                                <td>
+                                    {r.zone}
                                 </td>
                             </tr>))}
                     </tbody>

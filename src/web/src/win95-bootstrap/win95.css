@@ -163,7 +163,7 @@ Scrollbar (only chrome & safari)
 .btn-link{
     text-decoration: underline;
     color:#0A246A;
-    padding: 0 0 4px;
+    padding: 0 2px 4px;
 }
 button.btn:focus,button.btn-link:focus {
     outline-style: dotted;
@@ -630,7 +630,7 @@ TABLES
     border: 1px solid #c0c0c0;
 }
 .table td, .table th {
-    padding: .75rem;
+    /* padding: .75rem; */
     vertical-align: top;
     border-top: 1px solid #c0c0c0;
 }

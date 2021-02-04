@@ -12,6 +12,6 @@
 }
 
 .search-results {
-  max-height: 200px;
+  max-height: 500px;
   overflow: scroll;
 }

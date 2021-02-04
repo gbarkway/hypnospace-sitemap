@@ -37,10 +37,10 @@ function App() {
         </Row>
         <Row><Col><br></br></Col></Row>
         <Row>
-          <Col xs={2}>
+          <Col xs={3}>
             <SearchPane date={date} onResultClick={setPath} searchFields={searchFields} onSearchFieldsChange={setSearchFields} searchRequest={searchRequest} onSearchClick={setSearchRequest}/>
             </Col>
-          <Col xs={8}>
+          <Col xs={7}>
             <Sitemap date={date} onTap={setPath} selected={path} />
           </Col>
           <Col xs={2}>
