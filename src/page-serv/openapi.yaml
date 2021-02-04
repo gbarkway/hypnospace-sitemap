@@ -39,6 +39,12 @@ paths:
             type: array
             items:
               type: string
+        - name: nameOrDescription
+          description: Return pages where name and/or description contains this argument
+          in: query
+          required: false
+          schema:
+            type: string
         - name: offset
           in: query
           required: false

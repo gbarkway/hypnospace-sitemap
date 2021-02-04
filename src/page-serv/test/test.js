@@ -16,6 +16,10 @@ describe('GET /captures', function() {
         chai.request(app)
             .get('/captures')
             .end((err, res) => {
+                if (err) {
+                    
+                }
+                res.status.should.equal(200);
                 res.body.should.be.a('Array');
                 res.body.length.should.equal(4);
                 done();
@@ -198,6 +202,18 @@ describe('GET /captures/:date/pages', function() {
                 })
         })
     })
+
+    describe('nameOrDescription Filter', function (done) {
+        chai.request(app)
+            .get('/captures/1999-11-05/pages?nameOrDescription=HS News - Y2k Glitch')
+            .end((err, res) => {
+                res.status.should.equal(200);
+                res.body.should.be.a('Array');
+                res.body.should.have.lengthOf(1);
+                res.body.name.should.equal('HS News - Y2k Glitch');
+                done();
+            })
+    });
 
     it('filters right with stacked', function (done) {
         chai.request(app)

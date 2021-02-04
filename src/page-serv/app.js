@@ -16,15 +16,15 @@ app.get('/captures', async (req, res) => {
 });
 
 //TODO: tags with spaces?
-// TODO: search by name or description
+//TODO: Sanitize args
 app.get('/captures/:date/pages', async (req, res) => {
     const date = req.params['date'];
-    const expectedQuery = new Set(['tags', 'user', 'zone']);
+    const expectedQuery = new Set(['tags', 'user', 'zone', 'nameOrDescription']);
     if (Object.keys(req.query).some(q => !expectedQuery.has(q))) {
         res.status(400).json('Unexpected query param');
         return;
     }
-    const opts = req.query || {};
+    const opts = req.query || {}; 
     if (opts.tags === '') {
         res.status(400).json('Empty tags parameter');
         return;
@@ -43,6 +43,11 @@ app.get('/captures/:date/pages', async (req, res) => {
 
     if (opts.zone === '') {
         res.status(400).json('Empty zone parameter');
+        return;
+    }
+
+    if (opts.nameOrDescription === '') {
+        res.status(400).json('Empty nameOrDescription parameter');
         return;
     }
 

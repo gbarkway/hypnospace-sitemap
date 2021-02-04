@@ -46,7 +46,7 @@ export default function Sitemap({ date, onTap, selected }) {
                         }
                     }), 
                     ...["01", "02", "03", "04", "05", "06", "07", "08", "99"].map(n => ({data: {id: n, label: n}, pannable: true})),
-                    ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath, label: "uwu"}}))
+                    ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}}))
                 ];
                 console.log(thing);
                 return thing;
@@ -72,7 +72,7 @@ export default function Sitemap({ date, onTap, selected }) {
                 {
                     selector: "node",
                     style: {
-                        'background-color': function (e) {
+                        'background-color': function (e) { //TODO: this is inefficient
                             if (e.id().includes('zone.hsp')) {
                                 return 'red';
                             } else {
@@ -92,7 +92,7 @@ export default function Sitemap({ date, onTap, selected }) {
                 {
                     selector: ".selected",
                     style: {
-                        'background-color': 'darkblue',
+                        'background-color': 'darkblue', //TODO: change colors to fit win9x color scheme
                     }
                 },
                 {

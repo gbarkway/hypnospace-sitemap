@@ -66,6 +66,13 @@ const makeDal = () => {
                     filter.tags = { $all: opts.tags }
                 } // else no tag filter
             }
+            if (opts.nameOrDescription) {
+                const re = new RegExp(`.*${opts.nameOrDescription}.*`);
+                filter.$or = [
+                    { "name": re },
+                    { "description": re },
+                ]
+            }
 
             const docs = await Page.find(filter);
             return docs.map(degoosify);
