@@ -203,28 +203,41 @@ describe('GET /captures/:date/pages', function() {
         })
     })
 
-    describe('nameOrDescription Filter', function (done) {
-        chai.request(app)
-            .get('/captures/1999-11-05/pages?nameOrDescription=HS News - Y2k Glitch')
-            .end((err, res) => {
-                res.status.should.equal(200);
-                res.body.should.be.a('Array');
-                res.body.should.have.lengthOf(1);
-                res.body.name.should.equal('HS News - Y2k Glitch');
-                done();
-            })
-    });
+    describe('nameOrDescription filter', function(){
+        it('HS News - Y2k Glitch returns 1 page with expected name', function (done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?nameOrDescription=HS News - Y2k Glitch')
+                .end((err, res) => {
+                    res.status.should.equal(200);
+                    res.body.should.be.a('Array');
+                    res.body.should.have.lengthOf(1);
+                    res.body[0].name.should.equal('HS News - Y2k Glitch');
+                    done();
+                })
+        });
 
-    it('filters right with stacked', function (done) {
-        chai.request(app)
-            .get('/captures/1999-11-05/pages?tags=guide&user=ProfessorHelper')
-            .end((err, res) => {
-                res.status.should.equal(200);
-                res.body.should.be.a('Array');
-                res.body.should.have.lengthOf(1);
-                res.body[0].path.should.equal('07_open eyed\\professorhelper.hsp');
-                done();
-            })
+        it('Returns 400 for empty query', function (done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?nameOrDescription=')
+                .end((err, res) => {
+                    res.status.should.equal(400);
+                    done();
+                });
+        })
+    })
+
+    describe('combined filters', function(){
+        it('filters right with stacked', function (done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?tags=guide&user=ProfessorHelper')
+                .end((err, res) => {
+                    res.status.should.equal(200);
+                    res.body.should.be.a('Array');
+                    res.body.should.have.lengthOf(1);
+                    res.body[0].path.should.equal('07_open eyed\\professorhelper.hsp');
+                    done();
+                })
+        })
     })
 })
 
