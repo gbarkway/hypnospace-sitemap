@@ -4,8 +4,7 @@ import { Table, Button } from "react-bootstrap";
 const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
     const url = new URL(`http://localhost:3000/captures/${date}/pages`);
     if (pageNameQuery && pageNameQuery.length) {
-        //TODO: page name/description
-
+        url.searchParams.append("nameOrDescription", pageNameQuery);
     }
     if (userNameQuery && userNameQuery.length) {
         url.searchParams.append("user", userNameQuery);

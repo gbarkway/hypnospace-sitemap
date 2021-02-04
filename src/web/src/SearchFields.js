@@ -6,7 +6,7 @@ export default function SearchFields({onSearchClicked, searchFields, onSearchFie
     return (
         <Form>
             <Form.Group>
-                <Form.Label>Page name:</Form.Label>
+                <Form.Label>Page name or description:</Form.Label>
                 <Form.Control value={searchFields.pageNameQuery} onChange={(e) => onSearchFieldsChange({...searchFields, pageNameQuery: e.target.value})} type="text" placeholder="Page name"/>
             </Form.Group>
             <Form.Group>
