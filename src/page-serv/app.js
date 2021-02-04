@@ -15,7 +15,6 @@ app.get('/captures', async (req, res) => {
     res.json(dates);
 });
 
-//TODO: tags with spaces?
 //TODO: Sanitize args
 app.get('/captures/:date/pages', async (req, res) => {
     const date = req.params['date'];

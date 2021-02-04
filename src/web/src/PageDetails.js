@@ -54,8 +54,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                     </Card.Text>
                     <Card.Text><b>Description:</b> {data.description || "<None>"}</Card.Text>
                     <Card.Text>
-                        {/*TODO: link variant buttons still look like buttons*/
-                        data.tags.map((t, i) => <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>&gt;{t}</Button>)} 
+                        {data.tags.map((t, i) => <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>&gt;{t}</Button>)} 
                     </Card.Text>                 
                 </Card.Body>
             </Card>

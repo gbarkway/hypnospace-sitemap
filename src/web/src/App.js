@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from "react";
+import {useState, useCallback} from "react";
 import PageDetails from "./PageDetails";
 import DatePicker from "./DatePicker";
 import Sitemap from "./Sitemap";
@@ -17,6 +17,7 @@ const defaultSearchFields = {
 function App() {
   const [date, setDate] = useState("1999-11-05"); // TODO: use context instead of storing all state in root app
   const [path, setPath] = useState("99_flist\\~f00021d_01.hsp");
+  const [focused, setFocused] = useState(null);
   const [searchFields, setSearchFields] = useState({...defaultSearchFields});
   const [searchRequest, setSearchRequest] = useState(null);
   
@@ -25,6 +26,13 @@ function App() {
     setSearchFields(newFields);
     setSearchRequest(newFields);
   }
+
+  const onNodeTap = useCallback((path, alreadySelected) => {
+    setPath(path);
+    if (alreadySelected) {
+      setFocused(path);
+    }
+  }, []);
 
   //TODO: move page details pane to underneath so that search pane has more space?
   return (
@@ -38,18 +46,26 @@ function App() {
         <Row><Col><br></br></Col></Row>
         <Row>
           <Col xs={3}>
-            <SearchPane date={date} onResultClick={setPath} searchFields={searchFields} onSearchFieldsChange={setSearchFields} searchRequest={searchRequest} onSearchClick={setSearchRequest}/>
+            <SearchPane 
+              date={date} 
+              onResultClick={(path) => {
+                setPath(path);
+                setFocused(path);
+              }} 
+              searchFields={searchFields} 
+              onSearchFieldsChange={setSearchFields} 
+              searchRequest={searchRequest} 
+              onSearchClick={setSearchRequest} />
             </Col>
           <Col xs={7}>
-            <Sitemap date={date} onTap={setPath} selected={path} />
+            <Sitemap date={date} onTap={onNodeTap} selected={path} focused={focused}/>
           </Col>
           <Col xs={2}>
             <PageDetails 
               date={date} 
               path={path} 
               onTagClick={(t) => updateFieldsAndSearch({tagsQuery: t})} 
-              onUserNameClick={(userName) => updateFieldsAndSearch({userNameQuery: userName})}
-            />
+              onUserNameClick={(userName) => updateFieldsAndSearch({userNameQuery: userName})} />
           </Col>
         </Row>
       </Container>

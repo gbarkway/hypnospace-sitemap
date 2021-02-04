@@ -4,7 +4,7 @@ import fcose from 'cytoscape-fcose';
 import {Card, Button, Row, Col} from "react-bootstrap";
 cytoscape.use(fcose);
 
-export default function Sitemap({ date, onTap, selected }) {
+export default function Sitemap({ date, onTap, selected, focused }) {
     const [elements, setElements] = useState([
         { data: { id: 'one', label: 'Node 1' }},
         { data: { id: 'two', label: 'Node 2' }},
@@ -30,6 +30,23 @@ export default function Sitemap({ date, onTap, selected }) {
     }, [selected, elements]);
 
     useEffect(() => {
+        if (!cyRef.current) return;
+        if (!focused) return;
+
+        const node = cyRef.current.getElementById(focused);
+        cyRef.current.animate({
+            fit: {
+                eles: node.closedNeighborhood(),
+                padding: 100
+            }
+        }, {
+            duration: 1000,
+            easing: "ease-out-quad"
+        });
+    }, [focused])
+
+    useEffect(() => {
+        console.log("getting capture from webservice");
         fetch(`http://localhost:3001/captures/${date}`)
             .then((res) => {
                 return res.json();
@@ -48,7 +65,6 @@ export default function Sitemap({ date, onTap, selected }) {
                     ...["01", "02", "03", "04", "05", "06", "07", "08", "99"].map(n => ({data: {id: n, label: n}, pannable: true})),
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}}))
                 ];
-                console.log(thing);
                 return thing;
             })
             .then((asdf) => {
@@ -58,6 +74,7 @@ export default function Sitemap({ date, onTap, selected }) {
     }, [date]);
 
     useEffect(() => {
+        console.log("rebuilding sitemap");
         cyRef.current = cytoscape({
             container: container.current,
             elements: elements,
@@ -137,19 +154,8 @@ export default function Sitemap({ date, onTap, selected }) {
         cyRef.current.on('tap', 'node', function(evt){
             //TODO: cache collection the first time instead of recalculating all the time
             var node = evt.target;
-            if (node.hasClass("selected")) {
-                cyRef.current.animate({
-                    fit: {
-                        eles: node.closedNeighborhood(),
-                        padding: 100
-                    }
-                }, {
-                    duration: 1000,
-                    easing: "ease-out-quad"
-                });
-            }
             if (onTap) {
-                onTap(node.id());
+                onTap(node.id(), node.hasClass("selected"));
             }
         });
 
@@ -157,8 +163,7 @@ export default function Sitemap({ date, onTap, selected }) {
             var node = e.target;
             setHover(node.id());
         })
-    }, [elements, onTap]);
-
+    }, [elements, onTap]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
     const resetStyle = () => {
         if (!cyRef.current) return;
