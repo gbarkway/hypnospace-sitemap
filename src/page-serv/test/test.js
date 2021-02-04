@@ -216,6 +216,18 @@ describe('GET /captures/:date/pages', function() {
                 })
         });
 
+        it('is case insensitive', function (done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?nameOrDescription=hS nEwS - y2K gLiTcH')
+                .end((err, res) => {
+                    res.status.should.equal(200);
+                    res.body.should.be.a('Array');
+                    res.body.should.have.lengthOf(1);
+                    res.body[0].name.should.equal('HS News - Y2k Glitch');
+                    done();
+                })
+        })
+
         it('Returns 400 for empty query', function (done) {
             chai.request(app)
                 .get('/captures/1999-11-05/pages?nameOrDescription=')

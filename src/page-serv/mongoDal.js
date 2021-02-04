@@ -67,7 +67,7 @@ const makeDal = () => {
                 } // else no tag filter
             }
             if (opts.nameOrDescription) {
-                const re = new RegExp(`.*${opts.nameOrDescription}.*`);
+                const re = new RegExp(`.*${opts.nameOrDescription}.*`, 'i');
                 filter.$or = [
                     { "name": re },
                     { "description": re },
