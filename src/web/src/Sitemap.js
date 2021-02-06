@@ -1,10 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
-import {Card, Button, Row, Col} from "react-bootstrap";
+import {Card, Button, Nav, Navbar, Dropdown, DropdownButton} from "react-bootstrap";
 cytoscape.use(fcose);
 
-export default function Sitemap({ date, onTap, selected, focused }) {
+//TODO: loading indicator
+//TODO: make zones visually distinct
+export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick }) {
+    onZoneMenuClick = onZoneMenuClick || (() => {});
     const [elements, setElements] = useState([
         { data: { id: 'one', label: 'Node 1' }},
         { data: { id: 'two', label: 'Node 2' }},
@@ -34,10 +37,12 @@ export default function Sitemap({ date, onTap, selected, focused }) {
         if (!focused) return;
 
         const node = cyRef.current.getElementById(focused);
+        if (!node.length) return;
+
+        //TODO: this animation is queued, in-progress ones can't be preempted
         cyRef.current.animate({
             fit: {
                 eles: node.closedNeighborhood(),
-                padding: 100
             }
         }, {
             duration: 1000,
@@ -163,6 +168,8 @@ export default function Sitemap({ date, onTap, selected, focused }) {
             var node = e.target;
             setHover(node.id());
         })
+
+
     }, [elements, onTap]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
     const resetStyle = () => {
@@ -172,7 +179,8 @@ export default function Sitemap({ date, onTap, selected, focused }) {
         cyRef.current.elements().deselect();
     }
 
-    //TODO: "jump to zone" option
+    //TODO: label zones by name
+    //TODO: make toolbar nicer
     //TODO: start more zoomed-in
     //TODO: images, colors, pizazz
     return (
@@ -180,23 +188,31 @@ export default function Sitemap({ date, onTap, selected, focused }) {
             <Card.Header>
                 <b>Site Graph - {date}</b>
             </Card.Header>
-            <Card.Body style={{padding: 0}}>
+            <Navbar>
+                <Nav>
+                    <Nav.Item>
+                        <Button onClick={() => cyRef.current.fit()}>Zoom to Fit</Button>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Button onClick={resetStyle}>Clear Highlighting</Button>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <DropdownButton id="dropdown-basic-button" title="Go to zone">
+                            {["01", "02", "03", "04", "05", "06", "07", "08", "99"].map((z, i) => (
+                                <Dropdown.Item key={`zoneDropDown${i}`} as="button" onClick={() => onZoneMenuClick(z)}>{z}</Dropdown.Item>
+                            ))}
+                        </DropdownButton>
+                    </Nav.Item>
+                </Nav>
+            </Navbar>
+
+            <Card.Body style={{ padding: 0 }}>
                 <div id="cy" ref={container}>
 
                 </div>
             </Card.Body>
             <Card.Footer>
-                <Row> 
-                    <Col>
-                        <i>{hover}</i>
-                    </Col>
-                    <Col>
-                        <div className="float-right">
-                            <Button onClick={() => cyRef.current.fit()}>Zoom to Fit</Button>
-                            <Button onClick={resetStyle}>Clear Highlighting</Button>
-                        </div>
-                    </Col>
-                </Row>
+                <i>{hover}</i>
             </Card.Footer>
         </Card>
 

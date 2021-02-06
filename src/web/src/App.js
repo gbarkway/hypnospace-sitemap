@@ -58,7 +58,12 @@ function App() {
               onSearchClick={setSearchRequest} />
             </Col>
           <Col xs={7}>
-            <Sitemap date={date} onTap={onNodeTap} selected={path} focused={focused}/>
+            <Sitemap 
+              date={date} 
+              onTap={onNodeTap} 
+              selected={path} 
+              focused={focused}
+              onZoneMenuClick={setFocused} />
           </Col>
           <Col xs={2}>
             <PageDetails 
