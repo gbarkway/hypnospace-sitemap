@@ -22,21 +22,9 @@ def __getPageInfo(hspPath):
         
     myPath = '\\'.join(hspPath.parts[-2:])
 
-    if myPath == '04_teentopia\\darktwilighttiff.hsp':
-        breakpoint()
-
     # lower() because some links randomly use title casing
     # set() to avoid duplicates
-    # links = set([match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match])
-    # links = set([match[1].lower() for dataSection in dom['data'] for element in dataSection for match in [__linkRe.search(element[10])] if match])
-    links = []
-    for dataSection in dom['data']:
-        for element in dataSection:
-            if "boulder" in str(element[10]) and myPath == '04_teentopia\\darktwilighttiff.hsp':
-                breakpoint()
-            for match in [__linkRe.search(str(element[10]))]:
-                if match:
-                    links.append(match[1].lower())
+    links = set([match[1].lower() for dataSection in dom['data'] for element in dataSection for match in [__linkRe.search(str(element[10]))] if match])
 
     # no links to self
     if myPath in links:
@@ -89,11 +77,15 @@ def __getCaptureInfo(capturePath):
             for link in toRemove:
                 pageInfo.linksTo.remove(link)
 
-    # attach orphaned sites to "unlisted" node
-    # linked = set([link for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos for link in pageInfo.linksTo])
-    # unlistedPages = [pageInfo.path for zoneInfo in zoneInfos for pageInfo in zoneInfo.pageInfos if pageInfo.path not in linked]
-    # unlistedZone = ZoneInfo("1000 Unlisted", [PageInfo("Unlisted", "1000_unlisted\\zone.hsp", unlistedPages, "Orphans", [], "gbarkway")])
-    # zoneInfos.append(unlistedZone)
+    # remove unreachable pages
+    # a page is reachable if
+    # a) has a tag
+    # b) is a zone.hsp
+    # c) is linked to by other reachable page
+
+    # for each page with no incoming links and no tags
+    #   delete page
+    # repeat until there are no pages with (no incoming links and not tags)
 
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
