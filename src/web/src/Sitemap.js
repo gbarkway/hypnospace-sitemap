@@ -67,7 +67,8 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                                 id: page.path, 
                                 label: page.path,
                                 parent: page.zone,
-                            }
+                            },
+                            pannable: true,
                         }
                     }), 
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}}))
