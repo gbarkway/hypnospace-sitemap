@@ -8,7 +8,6 @@ export default function SearchPane({date, onResultClick, searchFields, onSearchF
 
     //TODO: select zone to filter by
     //TODO: "index" tab where all pages are listed (one zone at a time?)
-    //TODO: search results should not display until first search has happened
     return (
         <div id="search">
             <Card className="square">

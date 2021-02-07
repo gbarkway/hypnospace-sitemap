@@ -39,6 +39,8 @@ export default function SearchResults({date, searchRequest, onResultClick}){
     //TODO: when you (double?) click a search link, the sitemap should zoom in like it does when you double click a node
     //TODO: search results are highlighted in the sitemap
     //TODO: show more information in search results (e.g. zone)
+    if (!searchRequest) return null;
+
     return (
         <div>
             <h5>Search Results ({searchResults.length})</h5>
@@ -66,6 +68,7 @@ export default function SearchResults({date, searchRequest, onResultClick}){
                                     {r.zone}
                                 </td>
                             </tr>))}
+                        {!searchResults.length ? <tr><td className="text-muted">No results to display</td></tr> : null}
                     </tbody>
                 </Table>
             </div>
