@@ -17,6 +17,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     const container = useRef();
     const cyRef = useRef(); //TODO: is this right?
     const [hover, setHover] = useState("Hover over something");
+    const [zones, setZones] = useState([]);
 
     const selectNode = (node) => {
         if (!cyRef.current) return;
@@ -57,19 +58,21 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 return res.json();
             })
             .then((capture) => {
+                const zs = [...(new Set(capture.pages.map(p => p.zone)))];
                 const thing = [
                     ...capture.pages.map((page) => { 
                         return {
                             data: {
                                 id: page.path, 
                                 label: page.path,
-                                parent: page.path.substring(0, 2),
+                                parent: page.zone,
                             }
                         }
                     }), 
-                    ...["01", "02", "03", "04", "05", "06", "07", "08", "99"].map(n => ({data: {id: n, label: n}, pannable: true})),
+                    ...zs.map(n => ({data: {id: n, label: n}, pannable: true})),
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}}))
                 ];
+                setZones(zs);
                 return thing;
             })
             .then((asdf) => {
@@ -168,8 +171,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             var node = e.target;
             setHover(node.id());
         })
-
-
     }, [elements, onTap]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
     const resetStyle = () => {
@@ -198,7 +199,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     </Nav.Item>
                     <Nav.Item>
                         <DropdownButton id="dropdown-basic-button" title="Go to zone">
-                            {["01", "02", "03", "04", "05", "06", "07", "08", "99"].map((z, i) => (
+                            {zones.map((z, i) => (
                                 <Dropdown.Item key={`zoneDropDown${i}`} as="button" onClick={() => onZoneMenuClick(z)}>{z}</Dropdown.Item>
                             ))}
                         </DropdownButton>
