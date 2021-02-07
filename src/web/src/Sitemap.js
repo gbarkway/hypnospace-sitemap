@@ -60,6 +60,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             .then((capture) => {
                 const zs = [...(new Set(capture.pages.map(p => p.zone)))];
                 const thing = [
+                    ...zs.map(n => ({data: {id: n, label: n}, pannable: true})),
                     ...capture.pages.map((page) => { 
                         return {
                             data: {
@@ -69,7 +70,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                             }
                         }
                     }), 
-                    ...zs.map(n => ({data: {id: n, label: n}, pannable: true})),
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}}))
                 ];
                 setZones(zs);
@@ -91,7 +91,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             layout: { 
                 name: 'fcose',
                 animate: false,
-                randomize: false,
+                nodeRepulsion: () => 50000, //prevent nodes from being too clustered
             },
             style: [
                 {
@@ -180,10 +180,10 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         cyRef.current.elements().deselect();
     }
 
-    //TODO: label zones by name
     //TODO: make toolbar nicer
     //TODO: start more zoomed-in
     //TODO: images, colors, pizazz
+    //TODO: "places of note" list
     return (
         <Card className="square">
             <Card.Header>
