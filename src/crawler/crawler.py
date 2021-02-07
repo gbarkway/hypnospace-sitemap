@@ -13,14 +13,30 @@ CaptureInfo = namedtuple('CaptureInfo', ['date', 'zoneInfos'])
 
 __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
 def __getPageInfo(hspPath):
+    # TODO: 04_teentopia\~sboulder-doorm2.hsp appears orphaned even though it is linked to by:
+    # ./04_teentopia/~sboulder-doornm2.hsp
+    # ./04_teentopia/~sboulder-doorm1.hsp
+    # this may be because it's a "redirect" event, not a direct link
     with open(hspPath) as file:
         dom = json.load(file)
         
     myPath = '\\'.join(hspPath.parts[-2:])
 
+    if myPath == '04_teentopia\\darktwilighttiff.hsp':
+        breakpoint()
+
     # lower() because some links randomly use title casing
     # set() to avoid duplicates
-    links = set([match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match])
+    # links = set([match[1].lower() for match in [__linkRe.search(el[1][10]) for el in dom['data']] if match])
+    # links = set([match[1].lower() for dataSection in dom['data'] for element in dataSection for match in [__linkRe.search(element[10])] if match])
+    links = []
+    for dataSection in dom['data']:
+        for element in dataSection:
+            if "boulder" in str(element[10]) and myPath == '04_teentopia\\darktwilighttiff.hsp':
+                breakpoint()
+            for match in [__linkRe.search(str(element[10]))]:
+                if match:
+                    links.append(match[1].lower())
 
     # no links to self
     if myPath in links:
