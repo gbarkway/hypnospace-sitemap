@@ -63,7 +63,10 @@ function App() {
               onTap={onNodeTap} 
               selected={path} 
               focused={focused}
-              onZoneMenuClick={setFocused} />
+              onZoneMenuClick={(z) => {
+                setPath(z);
+                setFocused(z);
+              }} />
           </Col>
           <Col xs={2}>
             <PageDetails 

@@ -8,11 +8,7 @@ cytoscape.use(fcose);
 //TODO: make zones visually distinct
 export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick }) {
     onZoneMenuClick = onZoneMenuClick || (() => {});
-    const [elements, setElements] = useState([
-        { data: { id: 'one', label: 'Node 1' }},
-        { data: { id: 'two', label: 'Node 2' }},
-        { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2'}}
-        ]);
+    const [elements, setElements] = useState([]);
     
     const container = useRef();
     const cyRef = useRef(); //TODO: is this right?
@@ -21,11 +17,44 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
 
     const selectNode = (node) => {
         if (!cyRef.current) return;
-        cyRef.current.elements().removeClass("highlighted transparent selected");
+        if (!node.data('zone')) return;
+        
+        const zone = node.data('zone');
+        const allNodes = cyRef.current.elements();
+        const zoneNodes = cyRef.current.elements(`node[zone="${zone}"]`)
+        const zoneNeighborhoodNodes = zoneNodes.closedNeighborhood();
+        const zoneNeighborhoodParentNodes = zoneNeighborhoodNodes.parent();
+
+        allNodes.not(".zoneListing").not("node:parent").addClass('hidden');
+        zoneNeighborhoodNodes.removeClass('hidden');
+        zoneNeighborhoodParentNodes.removeClass('hidden');
+
+        allNodes.removeClass("highlighted transparent selected");
+        allNodes.difference(node.closedNeighborhood()).addClass('transparent');
         node.neighborhood().addClass("highlighted");
         node.addClass("selected");
-        cyRef.current.elements().difference('.highlighted,.selected').addClass('transparent');
+
+
+        // cyRef.current.animate({
+        //     fit: {
+        //         //eles: zoneNodes,
+        //     }
+        // }, {
+        //     duration: 1000,
+        //     easing: "ease-out-quad"
+        // });
+        // cyRef.current.layout({name: 'fcose',  nodeRepulsion: () => 50000}).run();
     };
+
+    // useEffect(() => {
+    //     console.log("zone changed")
+    //     if (!zone) return;
+    //     if (!cyRef.current) return;
+
+    //     cyRef.current.elements("node:child").addClass("hidden");
+    //     cyRef.current.getElementById(zone).children().removeClass("hidden")
+    //     cyRef.current.getElementById(zone).children().closedNeighborhood().removeClass("hidden")
+    // }, [zone])
 
     useEffect(() => {
         if (!cyRef.current) return;
@@ -43,7 +72,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         //TODO: this animation is queued, in-progress ones can't be preempted
         cyRef.current.animate({
             fit: {
-                eles: node.closedNeighborhood(),
+                eles: node.closedNeighborhood().not("#hub").filter("node"),
             }
         }, {
             duration: 1000,
@@ -67,13 +96,27 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                                 id: page.path, 
                                 label: page.path,
                                 parent: page.zone,
+                                zone: page.zone,
                             },
                             pannable: true,
+                            classes: page.path.includes("zone.hsp") ? ["zoneListing"] : ["hidden"]
                         }
                     }), 
-                    ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}}))
+                    ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}, classes: ['hidden']})),
+                    ...[
+                        {data: {id: "hub", label: "hub"}},
+                        {data: {source: "hub", target: "01_hypnospace central\\zone.hsp"}},
+                        {data: {source: "hub", target: "02_the cafe\\zone.hsp"}},
+                        {data: {source: "hub", target: "03_goodtime valley\\zone.hsp"}},
+                        {data: {source: "hub", target: "04_teentopia\\zone.hsp"}},
+                        {data: {source: "hub", target: "05_coolpunk paradise\\zone.hsp"}},
+                        {data: {source: "hub", target: "06_starport castle dreamstation\\zone.hsp"}},
+                        {data: {source: "hub", target: "07_open eyed\\zone.hsp"}},
+                        {data: {source: "hub", target: "08_hspd headquarters\\zone.hsp"}},
+                        {data: {source: "hub", target: "99_flist\\zone.hsp"}}
+                    ]
                 ];
-                setZones(zs);
+                setZones(capture.pages.filter((page) => page.path.includes("zone.hsp")).map((page) => page.path));
                 return thing;
             })
             .then((asdf) => {
@@ -98,27 +141,81 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 {
                     selector: "node",
                     style: {
-                        'background-color': function (e) { //TODO: this is inefficient
-                            if (e.id().includes('zone.hsp')) {
-                                return 'red';
-                            } else {
-                                return 'gray';
-                            }
-                        },
                         'border-color': 'black',
                         'border-width': 1,
                     }
                 },
                 {
+                    selector: 'node[parent="Hypnospace Central"]',
+                    style: {
+                        'background-color': 'yellow',
+                    }
+                },
+                {
+                    selector: 'node[parent="The Cafe"]',
+                    style: {
+                        'background-color': 'red',
+                    }
+                },
+                {
+                    selector: 'node[parent="Goodtime Valley"]',
+                    style: {
+                        'background-color': 'green'
+                    }
+                },
+                {
+                    selector: 'node[parent="Teentopia"]',
+                    style: {
+                        'background-color': 'blue'
+                    }
+                },
+                {
+                    selector: 'node[parent="Coolpunk Paradise"]',
+                    style: {
+                        'background-color': 'cyan'
+                    }
+                },
+                {
+                    selector: 'node[parent="Starport Castle Dreamstation"]',
+                    style: {
+                        'background-color': 'beige',
+                    }
+                },
+                {
+                    selector: 'node[parent="Open Eyed"]',
+                    style: {
+                        'background-color': 'purple'
+                    }
+                },
+                {
+                    selector: 'node[parent="HSPD Enforcer Handbook"]',
+                    style: {
+                        'background-color': 'gray'
+                    }
+                },
+                {
+                    selector: 'node[parent="FLIST DIRECTORY MASTER"]',
+                    style: {
+                        'background-color': 'black'
+                    }
+                },
+                {
                     selector: "node.highlighted",
                     style: {
-                        'background-color': 'blue',
+                        //'background-blacken': '0.5'
+                        "z-index": "20",
+                        "border-color": "black",
+                        "border-width": 2,
                     }
                 },
                 {
                     selector: ".selected",
                     style: {
-                        'background-color': 'darkblue', //TODO: change colors to fit win9x color scheme
+                        'width': '50',
+                        'height': '50',
+                        "border-color": "black",
+                        "border-width": 5,
+                        //'background-blacken': '0.5',
                     }
                 },
                 {
@@ -127,6 +224,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                         'background-color': "lightgray",
                         'border-color': 'black',
                         'content': "data(label)",
+                        'font-size': 45,
                     }
                 },
                 {
@@ -139,24 +237,51 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 {
                     selector: "edge.highlighted",
                     style: {
-                        "line-color": "blue",
-                        "target-arrow-color": "blue",
+                        "width": "5",
+                        "line-color": "black",
+                        "target-arrow-color": "black",
+                        "z-index": "10",
                     }
                 },
                 {
                     selector: "edge.transparent",
                     style: {
-                        "line-opacity": 0.5,
+                        "line-opacity": 0.2,
                         'target-arrow-shape': 'none',
                     }
                 },
                 {
                     selector: "node:child.transparent",
                     style: {
-                        "background-opacity": 0.5,
+                        "background-opacity": 0.4,
                         'border-width': 0,
                     }
-                }
+                },
+                {
+                    selector: ".hidden",
+                    style: {
+                        "visibility": "hidden",
+                    }
+                },
+                {
+                    selector: 'node.zoneListing',
+                    style: {
+                        "shape": "star",    
+                        "border-color": "black",
+                        "border-width": 5                   
+                    }
+                },
+                {
+                    selector: '#hub',
+                    style: {
+                        "shape": "star",
+                        "width": "100",
+                        "height": "100",
+                        'background-color': 'pink',
+                        'border-color': 'black',
+                        'border-width': 5,
+                    }
+                },
             ],
         });
        
