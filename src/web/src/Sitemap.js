@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
-import {Card, Button, Nav, Navbar, Dropdown, DropdownButton} from "react-bootstrap";
+import {Card, Button, Nav, Navbar, Dropdown, DropdownButton, Spinner} from "react-bootstrap";
 cytoscape.use(fcose);
 
 //TODO: loading indicator
@@ -14,6 +14,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     const cyRef = useRef(); //TODO: is this right?
     const [hover, setHover] = useState("Hover over something");
     const [zones, setZones] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const selectNode = (node) => {
         if (!cyRef.current) return;
@@ -62,7 +63,10 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     }, [focused])
 
     useEffect(() => {
-        console.log("getting capture from webservice");
+        if (cyRef.current) {
+            cyRef.current.destroy();
+        }
+        setLoading(true);
         fetch(`http://localhost:3001/captures/${date}`)
             .then((res) => {
                 return res.json();
@@ -90,6 +94,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             })
             .then((asdf) => {
                 setElements(asdf);
+                setLoading(false);
             })
             .catch(console.err);
     }, [date]);
@@ -106,6 +111,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 animate: false,
                 nodeRepulsion: () => 50000, //prevent nodes from being too clustered
             },
+            minZoom: 0.1,
             style: [
                 {
                     selector: "node",
@@ -288,6 +294,10 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             var node = e.target;
             setHover(node.id());
         })
+
+        cyRef.current.on('zoom', function() {
+            console.log(cyRef.current.zoom());
+        });
     }, [elements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
     const resetStyle = () => {
@@ -309,13 +319,13 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             <Navbar>
                 <Nav>
                     <Nav.Item>
-                        <Button onClick={() => cyRef.current.fit()}>Zoom to Fit</Button>
+                        <Button onClick={() => cyRef.current.fit()} disabled={loading}>Zoom to Fit</Button>
                     </Nav.Item>
                     <Nav.Item>
-                        <Button onClick={resetStyle}>Clear Highlighting</Button>
+                        <Button onClick={resetStyle} disabled={loading}>Clear Highlighting</Button>
                     </Nav.Item>
                     <Nav.Item>
-                        <DropdownButton id="dropdown-basic-button" title="Go to zone">
+                        <DropdownButton id="dropdown-basic-button" title="Go to zone" disabled={loading}>
                             {zones.map((z, i) => (
                                 <Dropdown.Item key={`zoneDropDown${i}`} as="button" onClick={() => onZoneMenuClick(z)}>{z.zone}</Dropdown.Item>
                             ))}
@@ -323,10 +333,18 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     </Nav.Item>
                 </Nav>
             </Navbar>
-
             <Card.Body style={{ padding: 0 }}>
-                <div id="cy" ref={container}>
+                <div id="asdf" >
+                    <div style={loading ? { "display": "block" } : { "display": "none" }}>
+                        <div className="d-flex align-items-center justify-content-center" style={{"height": "700px"}}>
+                            <Spinner  animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        </div>
+                    </div>
+                    <div id="cy" ref={container} style={loading ? {"visibility": "none"} : {"visibility": "visible"}}>
 
+                    </div>
                 </div>
             </Card.Body>
             <Card.Footer>

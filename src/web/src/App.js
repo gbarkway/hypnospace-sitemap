@@ -29,12 +29,10 @@ function App() {
 
   const onNodeTap = useCallback((path, alreadySelected, zone, isParent) => {
     setPath(path);
-    if (alreadySelected) {
-      setFocused(path);
-    }
-
     if (isParent) {
       setFocused(zone);
+    }else if (alreadySelected) {
+      setFocused(path);
     }
   }, []);
 

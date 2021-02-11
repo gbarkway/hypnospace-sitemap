@@ -11,6 +11,10 @@
   height: 700px;
 }
 
+#asdf { /* TODO: clean up styling */
+  min-height: 700px;
+  max-height: 700px;
+}
 .search-results {
   max-height: 500px;
   overflow: scroll;
