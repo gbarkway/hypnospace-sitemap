@@ -27,12 +27,20 @@ function App() {
     setSearchRequest(newFields);
   }
 
-  const onNodeTap = useCallback((path, alreadySelected) => {
+  const onNodeTap = useCallback((path, alreadySelected, zone, isParent) => {
     setPath(path);
     if (alreadySelected) {
       setFocused(path);
     }
+
+    if (isParent) {
+      setFocused(zone);
+    }
   }, []);
+
+  const onPanZoom = useCallback(() => {
+    setFocused(null);
+  }, [])
 
   //TODO: move page details pane to underneath so that search pane has more space?
   return (
@@ -63,10 +71,11 @@ function App() {
               onTap={onNodeTap} 
               selected={path} 
               focused={focused}
-              onZoneMenuClick={(z) => {
-                setPath(z);
-                setFocused(z);
-              }} />
+              onZoneMenuClick={({zone, path}) => {
+                setPath(path);
+                setFocused(zone);
+              }}
+              onPanZoom={onPanZoom} />
           </Col>
           <Col xs={2}>
             <PageDetails 

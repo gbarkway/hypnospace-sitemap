@@ -6,7 +6,7 @@ cytoscape.use(fcose);
 
 //TODO: loading indicator
 //TODO: make zones visually distinct
-export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick }) {
+export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick, onPanZoom }) {
     onZoneMenuClick = onZoneMenuClick || (() => {});
     const [elements, setElements] = useState([]);
     
@@ -24,8 +24,9 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         const zoneNodes = cyRef.current.elements(`node[zone="${zone}"]`)
         const zoneNeighborhoodNodes = zoneNodes.closedNeighborhood();
         const zoneNeighborhoodParentNodes = zoneNeighborhoodNodes.parent();
+        const myZone = node.parent();
 
-        allNodes.not(".zoneListing").not("node:parent").addClass('hidden');
+        allNodes.not("node:parent").addClass('hidden');
         zoneNeighborhoodNodes.removeClass('hidden');
         zoneNeighborhoodParentNodes.removeClass('hidden');
 
@@ -33,33 +34,16 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         allNodes.difference(node.closedNeighborhood()).addClass('transparent');
         node.neighborhood().addClass("highlighted");
         node.addClass("selected");
-
-
-        // cyRef.current.animate({
-        //     fit: {
-        //         //eles: zoneNodes,
-        //     }
-        // }, {
-        //     duration: 1000,
-        //     easing: "ease-out-quad"
-        // });
-        // cyRef.current.layout({name: 'fcose',  nodeRepulsion: () => 50000}).run();
+        myZone.addClass("highlighted")
     };
-
-    // useEffect(() => {
-    //     console.log("zone changed")
-    //     if (!zone) return;
-    //     if (!cyRef.current) return;
-
-    //     cyRef.current.elements("node:child").addClass("hidden");
-    //     cyRef.current.getElementById(zone).children().removeClass("hidden")
-    //     cyRef.current.getElementById(zone).children().closedNeighborhood().removeClass("hidden")
-    // }, [zone])
 
     useEffect(() => {
         if (!cyRef.current) return;
         const node = cyRef.current.getElementById(selected);
         selectNode(node);
+        // if (node.parent()) {
+        //     selectNode(node.children('.zoneList'))
+        // }
     }, [selected, elements]);
 
     useEffect(() => {
@@ -87,9 +71,9 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 return res.json();
             })
             .then((capture) => {
-                const zs = [...(new Set(capture.pages.map(p => p.zone)))];
+                const zs = capture.pages.filter((page) => page.path.includes("zone.hsp")).map((page) => ({zone: page.zone, path: page.path}))
                 const thing = [
-                    ...zs.map(n => ({data: {id: n, label: n}, pannable: true})),
+                    ...zs.map(n => ({data: {id: n.zone, label: n.zone, zone: n.zone}, pannable: true})),
                     ...capture.pages.map((page) => { 
                         return {
                             data: {
@@ -99,24 +83,12 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                                 zone: page.zone,
                             },
                             pannable: true,
-                            classes: page.path.includes("zone.hsp") ? ["zoneListing"] : ["hidden"]
+                            classes: ["hidden", ...(page.path.includes("zone.hsp") ? ["zoneList"] : [])]
                         }
                     }), 
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}, classes: ['hidden']})),
-                    ...[
-                        {data: {id: "hub", label: "hub"}},
-                        {data: {source: "hub", target: "01_hypnospace central\\zone.hsp"}},
-                        {data: {source: "hub", target: "02_the cafe\\zone.hsp"}},
-                        {data: {source: "hub", target: "03_goodtime valley\\zone.hsp"}},
-                        {data: {source: "hub", target: "04_teentopia\\zone.hsp"}},
-                        {data: {source: "hub", target: "05_coolpunk paradise\\zone.hsp"}},
-                        {data: {source: "hub", target: "06_starport castle dreamstation\\zone.hsp"}},
-                        {data: {source: "hub", target: "07_open eyed\\zone.hsp"}},
-                        {data: {source: "hub", target: "08_hspd headquarters\\zone.hsp"}},
-                        {data: {source: "hub", target: "99_flist\\zone.hsp"}}
-                    ]
                 ];
-                setZones(capture.pages.filter((page) => page.path.includes("zone.hsp")).map((page) => page.path));
+                setZones(zs);
                 return thing;
             })
             .then((asdf) => {
@@ -205,26 +177,33 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                         //'background-blacken': '0.5'
                         "z-index": "20",
                         "border-color": "black",
-                        "border-width": 2,
                     }
                 },
                 {
-                    selector: ".selected",
+                    selector: "node.selected",
                     style: {
                         'width': '50',
                         'height': '50',
-                        "border-color": "black",
+                        "border-color": "white",
                         "border-width": 5,
-                        //'background-blacken': '0.5',
                     }
                 },
                 {
-                    selector: ":parent",
+                    selector: "node:parent",
                     style: {
                         'background-color': "lightgray",
+                        "background-opacity": 0.5,
                         'border-color': 'black',
                         'content': "data(label)",
                         'font-size': 45,
+                    }
+                },
+                {
+                    selector: "node:parent.highlighted",
+                    style: {
+                        'border-color': 'white',
+                        'border-width': 10,
+                        
                     }
                 },
                 {
@@ -272,6 +251,12 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     }
                 },
                 {
+                    selector: 'node.zoneListing.selected',
+                    style: {
+                        'border-color': 'white',
+                    }
+                },
+                {
                     selector: '#hub',
                     style: {
                         "shape": "star",
@@ -287,17 +272,26 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
        
         cyRef.current.on('tap', 'node', function(evt){
             //TODO: cache collection the first time instead of recalculating all the time
-            var node = evt.target;
+            let node = evt.target;
             if (onTap) {
-                onTap(node.id(), node.hasClass("selected"));
+                const isParent = node.isParent();
+                if (isParent) {
+                    node = node.children('.zoneList');
+                }
+
+                onTap(node.id(), node.hasClass("selected"), node.data('zone'), isParent);
             }
+        });
+
+        cyRef.current.on('viewport', function() {
+            onPanZoom();
         });
 
         cyRef.current.on('mouseover', 'node', function (e) {
             var node = e.target;
             setHover(node.id());
         })
-    }, [elements, onTap]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
+    }, [elements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
     const resetStyle = () => {
         if (!cyRef.current) return;
@@ -326,7 +320,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     <Nav.Item>
                         <DropdownButton id="dropdown-basic-button" title="Go to zone">
                             {zones.map((z, i) => (
-                                <Dropdown.Item key={`zoneDropDown${i}`} as="button" onClick={() => onZoneMenuClick(z)}>{z}</Dropdown.Item>
+                                <Dropdown.Item key={`zoneDropDown${i}`} as="button" onClick={() => onZoneMenuClick(z)}>{z.zone}</Dropdown.Item>
                             ))}
                         </DropdownButton>
                     </Nav.Item>
