@@ -7,7 +7,7 @@ const placeholder = {
     "path": "",
     "zone": "",
     "date": "",
-    "name": "Please Wait",
+    "name": "Welcome!",
     "description": "",
     "user": ""
   };
@@ -17,8 +17,10 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
     onTagClick = onTagClick || (() => {});
     onUserNameClick = onUserNameClick || (() => {});
 
-    const [data, setData] = useState(placeholder);
+    const [data, setData] = useState(null);
     useEffect(() => {
+        if (!path) return;
+
         fetch(`http://localhost:3000/captures/${date}/pages/${encodeURIComponent(path)}`)
             .then((res) => {
                 if (res.status === 200) {
@@ -36,28 +38,45 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
             });
     }, [date, path]);
 
-    return (
-        <div className="pageDetails">
-            <Card className="square">
-                <Card.Header>
-                    <h4>{data.name}</h4>
-                </Card.Header>
-                <Card.Body>
-                    <Card.Subtitle className="text-muted">
-                        {data.path}
-                    </Card.Subtitle>
-                    <Card.Text><b>Zone:</b> {data.zone || "<None>"}</Card.Text>
-                    <Card.Text><b>User:</b> 
-                        <Button onClick = {() => onUserNameClick(data.user)} variant="link" disabled={!Boolean(data.user)}>
-                            {data.user || "<None>"}
-                        </Button>
-                    </Card.Text>
-                    <Card.Text><b>Description:</b> {data.description || "<None>"}</Card.Text>
-                    <Card.Text>
-                        {data.tags.map((t, i) => <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>&gt;{t}</Button>)} 
-                    </Card.Text>                 
-                </Card.Body>
-            </Card>
-        </div>
-    );
+    if (data) {
+        return (
+            <div className="pageDetails">
+                <Card className="square">
+                    <Card.Header>
+                        <h4>{data.name}</h4>
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Subtitle className="text-muted">
+                            {data.path}
+                        </Card.Subtitle>
+                        <Card.Text><b>Zone:</b> {data.zone || "<None>"}</Card.Text>
+                        <Card.Text><b>User:</b> 
+                            <Button onClick = {() => onUserNameClick(data.user)} variant="link" disabled={!Boolean(data.user)}>
+                                {data.user || "<None>"}
+                            </Button>
+                        </Card.Text>
+                        <Card.Text><b>Description:</b> {data.description || "<None>"}</Card.Text>
+                        <Card.Text>
+                            {data.tags.map((t, i) => <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>&gt;{t}</Button>)} 
+                        </Card.Text>                 
+                    </Card.Body>
+                </Card>
+            </div>
+        );
+    } else {
+        return (
+            <div className="pageDetails">
+                <Card className = "square">
+                    <Card.Header>
+                        <h4>Welcome!</h4>
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Text>
+                            No page selected
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            </div>
+        )
+    }
 }

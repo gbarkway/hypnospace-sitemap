@@ -16,7 +16,7 @@ const defaultSearchFields = {
 
 function App() {
   const [date, setDate] = useState("1999-11-05"); // TODO: use context instead of storing all state in root app
-  const [path, setPath] = useState("99_flist\\~f00021d_01.hsp");
+  const [path, setPath] = useState(null);
   const [focused, setFocused] = useState(null);
   const [searchFields, setSearchFields] = useState({...defaultSearchFields});
   const [searchRequest, setSearchRequest] = useState(null);
@@ -48,7 +48,10 @@ function App() {
       <Container fluid>
         <Row>
           <Col>
-            <DatePicker value={date} onDatePicked={setDate} />
+            <DatePicker value={date} onDatePicked={(date) => {
+              setPath(null);
+              setDate(date);
+            }} />
           </Col>
         </Row>
         <Row><Col><br></br></Col></Row>

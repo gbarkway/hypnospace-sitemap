@@ -41,9 +41,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         if (!cyRef.current) return;
         const node = cyRef.current.getElementById(selected);
         selectNode(node);
-        // if (node.parent()) {
-        //     selectNode(node.children('.zoneList'))
-        // }
     }, [selected, elements]);
 
     useEffect(() => {
