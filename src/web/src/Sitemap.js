@@ -55,6 +55,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         cyRef.current.animate({
             fit: {
                 eles: node.closedNeighborhood().not("#hub").filter("node"),
+                padding: 100,
             }
         }, {
             duration: 1000,
@@ -314,6 +315,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     return (
         <Card className="square">
             <Card.Header>
+                <img src="world-1.png"></img>
                 <b>Site Graph - {date}</b>
             </Card.Header>
             <Navbar>
