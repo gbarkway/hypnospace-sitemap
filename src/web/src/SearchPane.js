@@ -12,6 +12,7 @@ export default function SearchPane({date, onResultClick, searchFields, onSearchF
         <div id="search">
             <Card className="square">
                 <Card.Header>
+                    <img src="search_file-2.png"></img>
                     <b>Search</b>
                 </Card.Header>
                 <Card.Body>

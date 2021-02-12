@@ -41,6 +41,8 @@ function App() {
   }, [])
 
   //TODO: move page details pane to underneath so that search pane has more space?
+  //TODO: welcome screen/modal
+//TODO: make responsive (as in better on smaller screens)
   return (
     <div className="App">
       <Container fluid>
