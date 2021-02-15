@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {Navbar, Form} from "react-bootstrap";
+import {Form} from "react-bootstrap";
 
 export default function DatePicker({value, onDatePicked}) {
     const [dates, setDates] = useState([]);
@@ -26,14 +26,10 @@ export default function DatePicker({value, onDatePicked}) {
     };
 
     return (
-        <Navbar className="justify-content-between navbar-95">
-            <Navbar.Brand><i>Hypnospace Sitemap</i></Navbar.Brand>
-                <Form.Control as="select" size="sm" value={currentDate} onChange={onChange} id="dat-select">
-                {dates.map((d, i) => (
-                        <option value={d} key={`date-select${i}`}>{d}</option>
-                    ))}
-                </Form.Control>
-        </Navbar>
-
+        <Form.Control as="select" size="sm" value={currentDate} onChange={onChange} id="dat-select">
+            {dates.map((d, i) => (
+                <option value={d} key={`date-select${i}`}>{d}</option>
+            ))}
+        </Form.Control>
     );
 }

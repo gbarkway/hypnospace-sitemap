@@ -24,7 +24,7 @@ Body styles
 body {
     font-family: "MS Sans Serif",Tahoma,Verdana,Segoe,sans-serif; 
     background: #3a6ea5;
-    color: white;
+    /* color: white; */
     padding-bottom: 28px;
 }
 .bg-cloud{
@@ -179,7 +179,9 @@ button.btn:focus,button.btn-link:focus {
     border-bottom-color: #424242;
     background: silver;
     color: black;
-    padding: 0 12px 4px;
+    padding-top: 0px;
+    padding-bottom: 4px;
+   
     border-radius: 1px;
 }
 .btn:hover:not(.btn-link) {

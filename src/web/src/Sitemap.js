@@ -102,6 +102,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
 
     useEffect(() => {
         console.log("rebuilding sitemap");
+        //TODO: edges shouldn't be clickable
         cyRef.current = cytoscape({
             container: container.current,
             elements: elements,
