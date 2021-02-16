@@ -42,9 +42,10 @@ function App() {
     setFocused(null);
   }, [])
 
-  //TODO: move page details pane to underneath so that search pane has more space?
-  //TODO: welcome screen/modal
+  //TODO: link to cytoscape, win95 css, etc.
   //TODO: make responsive (as in better on smaller screens)
+  //TODO: tooltips for links
+  //TODO: accessibility properties
   return (
     <div className="App">
       <TutorialModal show={showModal} onCloseButtonClick = {() => setShowModal(false)}></TutorialModal>
@@ -60,6 +61,7 @@ function App() {
                   setDate(date);
                 }} />
               <Button onClick={() => setShowModal(true)}><img src="help_book_small-1.png"></img></Button>
+              <Button target="_blank" href="https://github.com/gbarkway/hypnospace-sitemap"><img src="GitHub-Mark-32px.png" width="16px" height="16px"></img></Button>
             </Navbar>
           </Col>
         </Row>

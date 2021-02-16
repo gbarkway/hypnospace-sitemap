@@ -310,7 +310,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     }
 
     //TODO: make toolbar nicer
-    //TODO: start more zoomed-in
     //TODO: images, colors, pizazz
     //TODO: "places of note" list
     return (
