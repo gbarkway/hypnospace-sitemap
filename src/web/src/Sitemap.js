@@ -321,13 +321,13 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             <Navbar>
                 <Nav>
                     <Nav.Item>
-                        <Button onClick={() => cyRef.current.fit()} disabled={loading}>Zoom to Fit</Button>
+                        <Button className="mx-1" variant="secondary" onClick={() => cyRef.current.fit()} disabled={loading}>Zoom to Fit</Button>
                     </Nav.Item>
                     <Nav.Item>
-                        <Button onClick={resetStyle} disabled={loading}>Clear Highlighting</Button>
+                        <Button className="mx-1" variant="secondary" onClick={resetStyle} disabled={loading}>Clear Highlighting</Button>
                     </Nav.Item>
                     <Nav.Item>
-                        <DropdownButton id="dropdown-basic-button" title="Go to zone" disabled={loading}>
+                        <DropdownButton className="mx-1" variant="secondary" id="dropdown-basic-button" title="Go to zone" disabled={loading}>
                             {zones.map((z, i) => (
                                 <Dropdown.Item key={`zoneDropDown${i}`} as="button" onClick={() => onZoneMenuClick(z)}>{z.zone}</Dropdown.Item>
                             ))}

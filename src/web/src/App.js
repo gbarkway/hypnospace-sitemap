@@ -52,7 +52,7 @@ function App() {
       <Container fluid>
         <Row>
           <Col>
-            <Navbar className="justify-content-between navbar-95">
+            <Navbar className="navbar-95">
               <Navbar.Brand><i>Hypnospace Sitemap</i></Navbar.Brand>
               <DatePicker
                 value={date}
@@ -60,8 +60,8 @@ function App() {
                   setPath(null);
                   setDate(date);
                 }} />
-              <Button onClick={() => setShowModal(true)}><img src="help_book_small-1.png"></img></Button>
-              <Button target="_blank" href="https://github.com/gbarkway/hypnospace-sitemap"><img src="GitHub-Mark-32px.png" width="16px" height="16px"></img></Button>
+              <Button className="mx-1" variant="light" onClick={() => setShowModal(true)}><img src="help_book_small-1.png"></img></Button>
+              <Button className="mx-1" variant="light" target="_blank" href="https://github.com/gbarkway/hypnospace-sitemap"><img src="GitHub-Mark-32px.png" width="16px" height="16px"></img></Button>
             </Navbar>
           </Col>
         </Row>
