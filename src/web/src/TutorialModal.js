@@ -8,7 +8,7 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
         <Modal show={show} onHide={onCloseButtonClick} animation={false} centered>
             <Modal.Header>
                 <Modal.Title>Welcome!</Modal.Title>
-                <Button onClick={onCloseButtonClick}>
+                <Button variant="secondary" onClick={onCloseButtonClick}>
                     <span>×</span>
                 </Button>
             </Modal.Header>
@@ -24,6 +24,9 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
                 </p>
                 <p>
                     Use the top dropdown to switch to a different date
+                </p>
+                <p>
+                    Note: works best on a bigger screen
                 </p>
                 <p>
                     Have fun!
