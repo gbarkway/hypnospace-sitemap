@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './win95-bootstrap/win95.css';
 import { Container, Row, Col, Button, Navbar } from "react-bootstrap";
 import SearchPane from "./SearchPane";
+import githubLogo from "./GitHub-Mark-32px.png";
+import helpIcon from "./win95-bootstrap/icons/help_book_small-1.png"
 
 const defaultSearchFields = {
   pageNameQuery: "",
@@ -60,8 +62,8 @@ function App() {
                   setPath(null);
                   setDate(date);
                 }} />
-              <Button className="mx-1" variant="light" title="Help" onClick={() => setShowModal(true)}><img src="help_book_small-1.png" alt=""></img></Button>
-              <Button className="mx-1" variant="light" target="_blank" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src="GitHub-Mark-32px.png" width="16px" height="16px" alt=""></img></Button>
+              <Button className="mx-1" variant="light" title="Help" onClick={() => setShowModal(true)}><img src={helpIcon} alt=""></img></Button>
+              <Button className="mx-1" variant="light" target="_blank" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src={githubLogo} width="16px" height="16px" alt=""></img></Button>
             </Navbar>
           </Col>
         </Row>

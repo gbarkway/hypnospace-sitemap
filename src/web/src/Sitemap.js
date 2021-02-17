@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
 import {Card, Button, Nav, Navbar, Dropdown, DropdownButton, Spinner} from "react-bootstrap";
+import worldIcon from "./win95-bootstrap/icons/world-1.png"
 cytoscape.use(fcose);
 
 //TODO: loading indicator
@@ -313,7 +314,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     return (
         <Card className="square">
             <Card.Header>
-                <img src="world-1.png" alt=""></img>
+                <img src={worldIcon} alt=""></img>
                 <b>Site Graph - {date}</b>
             </Card.Header>
             <Navbar className="navbar-95">
