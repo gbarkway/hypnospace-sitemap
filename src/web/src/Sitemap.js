@@ -60,7 +60,8 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             }
         }, {
             duration: 1000,
-            easing: "ease-out-quad"
+            easing: "ease-out-quad",
+            queue: false,
         });
     }, [focused])
 
@@ -102,7 +103,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     }, [date]);
 
     useEffect(() => {
-        console.log("rebuilding sitemap");
         //TODO: edges shouldn't be clickable
         cyRef.current = cytoscape({
             container: container.current,
@@ -298,10 +298,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             var node = e.target;
             setHover(node.id());
         })
-
-        cyRef.current.on('zoom', function() {
-            console.log(cyRef.current.zoom());
-        });
     }, [elements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
     const resetStyle = () => {
@@ -317,7 +313,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     return (
         <Card className="square">
             <Card.Header>
-                <img src="world-1.png"></img>
+                <img src="world-1.png" alt=""></img>
                 <b>Site Graph - {date}</b>
             </Card.Header>
             <Navbar className="navbar-95">

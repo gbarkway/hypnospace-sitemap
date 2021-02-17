@@ -60,8 +60,8 @@ function App() {
                   setPath(null);
                   setDate(date);
                 }} />
-              <Button className="mx-1" variant="light" onClick={() => setShowModal(true)}><img src="help_book_small-1.png"></img></Button>
-              <Button className="mx-1" variant="light" target="_blank" href="https://github.com/gbarkway/hypnospace-sitemap"><img src="GitHub-Mark-32px.png" width="16px" height="16px"></img></Button>
+              <Button className="mx-1" variant="light" title="Help" onClick={() => setShowModal(true)}><img src="help_book_small-1.png" alt=""></img></Button>
+              <Button className="mx-1" variant="light" target="_blank" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src="GitHub-Mark-32px.png" width="16px" height="16px" alt=""></img></Button>
             </Navbar>
           </Col>
         </Row>

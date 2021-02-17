@@ -1,5 +1,4 @@
-import { Modal, Button, Tabs, Tab } from "react-bootstrap";
-import { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 
 export default function TutorialModal({ show, onCloseButtonClick }) {
     onCloseButtonClick = onCloseButtonClick || (() => { })

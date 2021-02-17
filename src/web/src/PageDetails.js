@@ -28,7 +28,6 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                 } else if (res.status === 404) {
                     return {...placeholder, ...{date, path, name: "Not Found"}}
                 } else {
-                    console.log(res);
                     throw new Error(res);
                 }
             })
@@ -45,7 +44,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                     <Card.Header>
                         <h4>{data.name}</h4>
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body   style={{"max-height": '200px', "min-height": '200px', "overflow-y": "scroll"}}>
                         <Card.Subtitle className="text-muted">
                             {data.path}
                         </Card.Subtitle>

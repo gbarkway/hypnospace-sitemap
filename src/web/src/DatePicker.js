@@ -6,7 +6,6 @@ export default function DatePicker({value, onDatePicked}) {
     const [currentDate, setCurrentDate] = useState(value);
 
     useEffect(() => {
-        console.log('calling service')
         fetch(`http://localhost:3000/captures`)
             .then((res) => {
                 if (res.status === 200) {
@@ -20,7 +19,6 @@ export default function DatePicker({value, onDatePicked}) {
     }, []);
 
     const onChange = (e) => {
-        //console.log(e.target.value);
         setCurrentDate(e.target.value);
         onDatePicked(e.target.value);
     };
