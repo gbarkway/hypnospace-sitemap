@@ -6,6 +6,7 @@ cytoscape.use(fcose);
 
 //TODO: loading indicator
 //TODO: make zones visually distinct
+//TODO: tooltip on node hover or other indication of which nodes are which
 export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick, onPanZoom }) {
     onZoneMenuClick = onZoneMenuClick || (() => {});
     const [elements, setElements] = useState([]);
@@ -125,7 +126,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 {
                     selector: 'node[parent="Hypnospace Central"]',
                     style: {
-                        'background-color': 'yellow',
+                        'background-color': 'orange',
                     }
                 },
                 {
@@ -147,7 +148,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     }
                 },
                 {
-                    selector: 'node[parent="Coolpunk Paradise"]',
+                    selector: 'node[parent="Coolpunk Paradise"],node[parent="The Venue"]',
                     style: {
                         'background-color': 'cyan'
                     }
@@ -155,7 +156,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 {
                     selector: 'node[parent="Starport Castle Dreamstation"]',
                     style: {
-                        'background-color': 'beige',
+                        'background-color': 'rgb(255,0,255)',
                     }
                 },
                 {
@@ -200,7 +201,8 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                         "background-opacity": 0.5,
                         'border-color': 'black',
                         'content': "data(label)",
-                        'font-size': 45,
+                        'font-size': 55,
+                        'font-weight': 'bold',
                     }
                 },
                 {
@@ -318,7 +320,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 <img src="world-1.png"></img>
                 <b>Site Graph - {date}</b>
             </Card.Header>
-            <Navbar>
+            <Navbar className="navbar-95">
                 <Nav>
                     <Nav.Item>
                         <Button className="mx-1" variant="secondary" onClick={() => cyRef.current.fit()} disabled={loading}>Zoom to Fit</Button>

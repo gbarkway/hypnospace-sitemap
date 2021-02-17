@@ -5,7 +5,7 @@ import DatePicker from "./DatePicker";
 import Sitemap from "./Sitemap";
 import TutorialModal from "./TutorialModal";
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import './win95-bootstrap/win95.css';
+import './win95-bootstrap/win95.css';
 import { Container, Row, Col, Button, Navbar } from "react-bootstrap";
 import SearchPane from "./SearchPane";
 
