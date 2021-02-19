@@ -27,4 +27,16 @@ services:
       NODE_ENV: production
     ports:
       - 3001:3000
-      
+
+  web:
+    image: web
+    build:
+      context: web 
+      args:
+        - REACT_APP_PAGE_SERV_URL=http://localhost:3000
+        - REACT_APP_CAPTURE_SERV_URL=http://localhost:3001
+    depends_on:
+      - pageserv
+      - captureserv 
+    ports:
+      - 5000:5000
