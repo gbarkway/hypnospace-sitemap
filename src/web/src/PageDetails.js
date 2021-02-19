@@ -21,7 +21,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
     useEffect(() => {
         if (!path) return;
 
-        fetch(`http://localhost:3000/captures/${date}/pages/${encodeURIComponent(path)}`)
+        fetch(`${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages/${encodeURIComponent(path)}`)
             .then((res) => {
                 if (res.status === 200) {
                     return res.json();

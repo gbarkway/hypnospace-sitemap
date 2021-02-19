@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 
 const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
-    const url = new URL(`http://localhost:3000/captures/${date}/pages`);
+    const url = new URL(`${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages`);
     if (pageNameQuery && pageNameQuery.length) {
         url.searchParams.append("nameOrDescription", pageNameQuery);
     }

@@ -71,8 +71,9 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             cyRef.current.destroy();
         }
         setLoading(true);
-        fetch(`http://localhost:3001/captures/${date}`)
+        fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`)
             .then((res) => {
+                console.log(res);
                 return res.json();
             })
             .then((capture) => {
