@@ -2,11 +2,12 @@ version: '3.4'
 
 services:
   pageserv-db:
+    image: hs-pageserv-db
     build:
       context: page-serv/db
     
   pageserv:
-    image: pageserv
+    image: hs-pageserv
     build:
       context: page-serv
       target: production
@@ -19,7 +20,7 @@ services:
       - 3000:3000
 
   captureserv:
-    image: captureserv
+    image: hs-captureserv
     build:
       context: capture-serv
       target: production
@@ -29,7 +30,7 @@ services:
       - 3001:3000
 
   web:
-    image: web
+    image: hs-web
     build:
       context: web 
       args:
