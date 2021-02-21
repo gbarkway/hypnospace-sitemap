@@ -6,7 +6,7 @@ export default function DatePicker({value, onDatePicked}) {
     const [currentDate, setCurrentDate] = useState(value);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/captures`)
+        fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures`)
             .then((res) => {
                 if (res.status === 200) {
                     return res.json();
