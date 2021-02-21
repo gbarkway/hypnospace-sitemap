@@ -1,9 +1,9 @@
 FROM node:12.18-alpine AS build
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json", "./"]
+RUN npm install --silent
 COPY ["src", "src/"]
 COPY ["public", "public/"]
-RUN npm install --silent
 ARG REACT_APP_PAGE_SERV_URL
 ARG REACT_APP_CAPTURE_SERV_URL
 ENV REACT_APP_CAPTURE_SERV_URL $REACT_APP_CAPTURE_SERV_URL
