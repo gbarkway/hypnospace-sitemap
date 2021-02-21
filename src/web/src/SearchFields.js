@@ -20,7 +20,7 @@ export default function SearchFields({onSearchClicked, searchFields, onSearchFie
                 <Form.Label>Tags:</Form.Label>
                 <Form.Control value={searchFields.tagsQuery} onChange={(e) => onSearchFieldsChange({ ...searchFields, tagsQuery: e.target.value })} type="text" placeholder="tag1,tag2,tag3" />
             </Form.Group>
-            <Button variant="primary" type="submit">Search Now</Button>
+            <Button variant="primary" type="submit">Search</Button>
         </Form>
     )
 }

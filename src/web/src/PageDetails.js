@@ -42,22 +42,23 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
             <div className="pageDetails">
                 <Card className="square">
                     <Card.Header>
-                        <h4>{data.name}</h4>
+                        <b>Page Details - {data.name}</b>
                     </Card.Header>
-                    <Card.Body   style={{"max-height": '200px', "min-height": '200px', "overflow-y": "scroll"}}>
+                    <Card.Body style={{ "max-height": '250px', "min-height": '250px', "overflow-y": "scroll" }}>
+                        <Card.Text><b>{data.name}</b></Card.Text>
                         <Card.Subtitle className="text-muted">
                             {data.path}
                         </Card.Subtitle>
                         <Card.Text><b>Zone:</b> {data.zone || "<None>"}</Card.Text>
-                        <Card.Text><b>User:</b> 
-                            <Button onClick = {() => onUserNameClick(data.user)} variant="link" disabled={!Boolean(data.user)}>
+                        <Card.Text><b>User:</b>
+                            <Button onClick={() => onUserNameClick(data.user)} variant="link" disabled={!Boolean(data.user)}>
                                 {data.user || "<None>"}
                             </Button>
                         </Card.Text>
                         <Card.Text><b>Description:</b> {data.description || "<None>"}</Card.Text>
                         <Card.Text>
-                            {data.tags.map((t, i) => <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>&gt;{t}</Button>)} 
-                        </Card.Text>                 
+                            {data.tags.map((t, i) => <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>&gt;{t}</Button>)}
+                        </Card.Text>
                     </Card.Body>
                 </Card>
             </div>
@@ -65,11 +66,11 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
     } else {
         return (
             <div className="pageDetails">
-                <Card className = "square">
+                <Card className="square">
                     <Card.Header>
-                        <h4>Welcome!</h4>
+                        <b>Page Details</b>
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body style={{ "max-height": '250px', "min-height": '250px'}}>
                         <Card.Text>
                             No page selected
                         </Card.Text>

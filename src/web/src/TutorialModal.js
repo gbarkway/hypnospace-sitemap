@@ -1,5 +1,5 @@
 import { Modal, Button } from "react-bootstrap";
-
+import searchIcon from "./win95-bootstrap/icons/search_file-2.png";
 export default function TutorialModal({ show, onCloseButtonClick }) {
     onCloseButtonClick = onCloseButtonClick || (() => { })
 
@@ -7,7 +7,7 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
         <Modal show={show} onHide={onCloseButtonClick} animation={false} centered>
             <Modal.Header>
                 <Modal.Title>Welcome!</Modal.Title>
-                <Button variant="secondary" onClick={onCloseButtonClick}>
+                <Button variant="secondary" className="win95-close" onClick={onCloseButtonClick}>
                     <span>×</span>
                 </Button>
             </Modal.Header>
@@ -22,10 +22,7 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
                     Scroll to zoom
                 </p>
                 <p>
-                    Use the top dropdown to switch to a different date
-                </p>
-                <p>
-                    Note: works best on a bigger screen
+                    Use the top dropdown to switch to a different date, and use the <img src={searchIcon} alt="search"></img> button to search.
                 </p>
                 <p>
                     Have fun!

@@ -592,7 +592,7 @@ MODAL
     padding: 2px;
 }
 .modal-header{
-    height: 32px;
+    /* height: 32px; */
     background: -webkit-linear-gradient(left,#08216b,#a5cef7)!important;
     color:white;
     padding-top: 0px;
