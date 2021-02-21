@@ -31,6 +31,8 @@ services:
 
   web:
     image: hs-web
+    profiles:
+    - frontend
     build:
       context: web 
       args:
