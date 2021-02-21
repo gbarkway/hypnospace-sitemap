@@ -51,7 +51,9 @@ function App() {
   //TODO: tooltips for links
   //TODO: accessibility properties
   //TODO: make easier to use on smaller screens
-  //TODO: search is a modal, not visible all the time
+  //TODO: when navbar is too narrow, there's ugly overflow and date picker is nearly hidden
+  //TODO: full height of sitemap and page description should always be visible in entirety on narrow screens
+  //TODO: make navbar sticky
   return (
     <div className="App">
       <TutorialModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)}></TutorialModal>
