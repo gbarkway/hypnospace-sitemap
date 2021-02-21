@@ -48,6 +48,7 @@ function App() {
   //TODO: tooltips for links
   //TODO: accessibility properties
   //TODO: make easier to use on smaller screens
+  //TODO: search is a modal, not visible all the time
   return (
     <div className="App">
       <TutorialModal show={showModal} onCloseButtonClick={() => setShowModal(false)}></TutorialModal>
