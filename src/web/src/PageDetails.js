@@ -12,7 +12,7 @@ const placeholder = {
     "user": ""
   };
 
-//note, nest this in a container which keeps date and path as state?
+//TODO: loading spinner
 export default function PageDetails({ date, path, onTagClick, onUserNameClick }) {
     onTagClick = onTagClick || (() => {});
     onUserNameClick = onUserNameClick || (() => {});

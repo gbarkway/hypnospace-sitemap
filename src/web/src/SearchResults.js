@@ -38,6 +38,7 @@ export default function SearchResults({date, searchRequest, onResultClick}){
 
     //TODO: search results are highlighted in the sitemap
     //TODO: show more information in search results (e.g. zone)
+    //TODO: loading spinner
     if (!searchRequest) return null;
 
     return (

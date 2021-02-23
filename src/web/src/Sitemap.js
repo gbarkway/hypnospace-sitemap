@@ -8,6 +8,7 @@ cytoscape.use(fcose);
 //TODO: loading indicator
 //TODO: make zones visually distinct
 //TODO: tooltip on node hover or other indication of which nodes are which
+//TODO: non-selected zones say "Tap me to see more" or something
 export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick, onPanZoom }) {
     onZoneMenuClick = onZoneMenuClick || (() => {});
     const [elements, setElements] = useState([]);
