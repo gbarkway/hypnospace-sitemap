@@ -12,7 +12,7 @@ RUN npm run build
 
 FROM node:12.18-alpine AS production
 WORKDIR /usr/src/app
-COPY --from=build "/usr/src/app/build/" "./build/"
 RUN npm install -g serve
 EXPOSE 5000
+COPY --from=build "/usr/src/app/build/" "./build/"
 CMD ["serve", "-s", "build"]
