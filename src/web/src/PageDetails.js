@@ -44,7 +44,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                     <Card.Header>
                         <b>Page Details - {data.name}</b>
                     </Card.Header>
-                    <Card.Body style={{ "max-height": '250px', "min-height": '250px', "overflow-y": "scroll" }}>
+                    <Card.Body style={{ "maxHeight": '250px', "minHeight": '250px', "overflowY": "scroll" }}>
                         <Card.Text><b>{data.name}</b></Card.Text>
                         <Card.Subtitle className="text-muted">
                             {data.path}
@@ -70,7 +70,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                     <Card.Header>
                         <b>Page Details</b>
                     </Card.Header>
-                    <Card.Body style={{ "max-height": '250px', "min-height": '250px'}}>
+                    <Card.Body style={{ "maxHeight": '250px', "minHeight": '250px'}}>
                         <Card.Text>
                             No page selected
                         </Card.Text>
