@@ -54,7 +54,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         const node = cyRef.current.getElementById(focused);
         if (!node.length) return;
 
-        //TODO: this animation is queued, in-progress ones can't be preempted
         cyRef.current.animate({
             fit: {
                 eles: node.closedNeighborhood().not("#hub").filter("node"),
@@ -106,7 +105,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     }, [date]);
 
     useEffect(() => {
-        //TODO: edges shouldn't be clickable
         cyRef.current = cytoscape({
             container: container.current,
             elements: elements,
@@ -293,6 +291,13 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             }
         });
 
+        cyRef.current.on('tap', 'edge', function(evt) {
+            if (onTap) {
+                const node = evt.target.target();
+                onTap(node.id(), node.hasClass('selected'), node.data('zone'));
+            }
+        })
+
         cyRef.current.on('viewport', function() {
             onPanZoom();
         });
@@ -303,7 +308,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         })
     }, [elements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
-    //TODO: make toolbar nicer
     //TODO: images, colors, pizazz
     //TODO: "places of note" list
     return (
