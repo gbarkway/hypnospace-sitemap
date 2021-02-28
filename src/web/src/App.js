@@ -51,7 +51,6 @@ function App() {
   //TODO: tooltips for links
   //TODO: accessibility properties
   //TODO: on iphone, full app does not fit entirely to viewport
-  //TODO: on navbar collapsed, big areas around edges of date dropdown don't do anything when you tap them
   return (
     <div className="App">
       <TutorialModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)}></TutorialModal>
@@ -84,9 +83,9 @@ function App() {
                         setDate(date);
                       }}
                     />
-                  <Nav.Link as="button" className="mx-1 btn btn-secondary" eventKey="1" title="Search" onClick={() => setShowSearchModal(true)}><img src={searchIcon} alt="" height="16" width="16"></img></Nav.Link>
-                  <Nav.Link className="mx-1 btn btn-secondary" as="button" eventKey="2" title="Help" onClick={() => setShowHelpModal(true)}><img src={helpIcon} alt=""></img></Nav.Link>
-                  <Nav.Link className="mx-1 btn btn-secondary" target="_blank" eventKey="3" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src={githubLogo} width="16px" height="16px" alt=""></img></Nav.Link>
+                  <Nav.Link as="button" className="mx-1 btn btn-light" eventKey="1" title="Search" onClick={() => setShowSearchModal(true)}><img src={searchIcon} alt="" height="16" width="16"></img></Nav.Link>
+                  <Nav.Link className="mx-1 btn btn-light" as="button" eventKey="2" title="Help" onClick={() => setShowHelpModal(true)}><img src={helpIcon} alt=""></img></Nav.Link>
+                  <Nav.Link className="mx-1 btn btn-light" target="_blank" eventKey="3" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src={githubLogo} width="16px" height="16px" alt=""></img></Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>

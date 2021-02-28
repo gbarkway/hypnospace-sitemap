@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
-import {NavDropdown} from "react-bootstrap";
+import { Dropdown, NavItem, NavLink} from "react-bootstrap";
+import calIcon from "./win95-bootstrap/icons/time_and_date-1.png"
 
 export default function DatePickerDropdown({value, onDatePicked}) {
     const [dates, setDates] = useState([]);
@@ -22,13 +23,19 @@ export default function DatePickerDropdown({value, onDatePicked}) {
     };
 
     return (
-        <NavDropdown className="btn btn-secondary mx-1" title={value}>
-            {dates.map((d, i) => (
-                <NavDropdown.Item 
-                    eventKey={`${i+10}`}
-                    key={`date-select${i}`}
-                    onClick={() => onChange(d)}>{d}</NavDropdown.Item>
-            ))}
-        </NavDropdown>
+        <Dropdown as={NavItem} className="d-flex flex-column justify-content-center mx-1">
+            <Dropdown.Toggle as={NavLink}>
+                <img src={calIcon} alt=""></img>{value}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+                {dates.map((d, i) => (
+                    <Dropdown.Item
+                        eventKey={`${i + 10}`}
+                        key={`date-select${i}`}
+                        onClick={() => onChange(d)}>{d}</Dropdown.Item>
+                ))}
+            </Dropdown.Menu>
+
+        </Dropdown>
     );
 }
