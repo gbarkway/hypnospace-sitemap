@@ -20,7 +20,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build ./src/web -t registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) .
+      run: docker build -t registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) ./src/web
 
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
