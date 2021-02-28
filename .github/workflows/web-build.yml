@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'src/web/**'
+      - '.github/workflows/web-build.yml'
 
 jobs:
 
@@ -17,9 +18,6 @@ jobs:
 
     - name: Checkout master
       uses: actions/checkout@master
-
-    - name: Update SHA
-      run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
 
     - name: Build container image
       run: docker build -t registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) .
