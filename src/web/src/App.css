@@ -4,6 +4,23 @@
 
 .App {
   height: 90vh;
+  min-height: 500px;
+}
+
+.details-col {
+  height: 25%;
+}
+.sitemap-col {
+  height: 75%;
+}
+
+@media (min-width: 992px){
+  .details-col {
+    height: 100%;
+  }
+  .sitemap-col {
+    height: 100%;
+  }
 }
 
 .search-results {
@@ -12,4 +29,7 @@
 }
 button.win95-close {
   padding: 0px;
+}
+.card-header{
+  min-height: 24px;
 }

@@ -6,7 +6,7 @@ import Sitemap from "./Sitemap";
 import TutorialModal from "./TutorialModal";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './win95-bootstrap/win95.css';
-import { Container, Row, Col, Button, Navbar } from "react-bootstrap";
+import { Container, Row, Col, Button, Navbar, Nav } from "react-bootstrap";
 import SearchModal from "./SearchModal";
 import githubLogo from "./GitHub-Mark-32px.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_small-1.png"
@@ -74,23 +74,28 @@ function App() {
       <Container fluid className="h-100">
         <Row>
           <Col>
-            <Navbar className="navbar-95">
-              <Navbar.Brand><i>Hypnospace Sitemap</i></Navbar.Brand>
-              <DatePicker
-                value={date}
-                onDatePicked={(date) => {
-                  setPath(null);
-                  setDate(date);
-                }} />
-                <Button className="mx-1" variant="light" title="Search" onClick = {() => setShowSearchModal(true)}><img src={searchIcon} alt="" height="16" width="16"></img></Button>
-              <Button className="mx-1" variant="light" title="Help" onClick={() => setShowHelpModal(true)}><img src={helpIcon} alt=""></img></Button>
-              <Button className="mx-1" variant="light" target="_blank" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src={githubLogo} width="16px" height="16px" alt=""></img></Button>
+            <Navbar className="navbar-95" expand="sm" collapseOnSelect={true}>
+              <Navbar.Brand>Hypnospace Map</Navbar.Brand>
+              <Navbar.Toggle />
+              <Navbar.Collapse className="justify-content-end">
+                <Nav>
+                  <DatePicker
+                    value={date}
+                    onDatePicked={(date) => {
+                      setPath(null);
+                      setDate(date);
+                    }} />
+                  <Nav.Link as="button" className="mx-1 btn btn-secondary" eventKey="1" title="Search" onClick={() => setShowSearchModal(true)}><img src={searchIcon} alt="" height="16" width="16"></img></Nav.Link>
+                  <Nav.Link className="mx-1 btn btn-secondary" as="button" eventKey="2" title="Help" onClick={() => setShowHelpModal(true)}><img src={helpIcon} alt=""></img></Nav.Link>
+                  <Nav.Link className="mx-1 btn btn-secondary" target="_blank" eventKey="3" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src={githubLogo} width="16px" height="16px" alt=""></img></Nav.Link>
+                </Nav>
+              </Navbar.Collapse>
             </Navbar>
           </Col>
         </Row>
         <Row className="h-100">
-          <Col lg={3} xs={12}>
-            <div className="my-1">
+          <Col lg={3} xs={12} className="details-col">
+            <div className="my-1 h-100">
               <PageDetails
                 date={date}
                 path={path}
@@ -98,7 +103,7 @@ function App() {
                 onUserNameClick={(userName) => updateFieldsAndSearch({ userNameQuery: userName })} />
             </div>
           </Col>
-          <Col lg={9} xs={12} className="h-100">
+          <Col lg={9} xs={12} className="sitemap-col">
             <div className="my-1 h-100">
               <Sitemap
                 date={date}

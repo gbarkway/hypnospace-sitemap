@@ -39,12 +39,12 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
 
     if (data) {
         return (
-            <div className="pageDetails">
-                <Card className="square">
+            <div className="pageDetails h-100">
+                <Card className="square h-100">
                     <Card.Header>
                         <b>Page Details - {data.name}</b>
                     </Card.Header>
-                    <Card.Body style={{ "maxHeight": '250px', "minHeight": '250px', "overflowY": "scroll" }}>
+                    <Card.Body style={{ "overflowY": "scroll" }}>
                         <Card.Text><b>{data.name}</b></Card.Text>
                         <Card.Subtitle className="text-muted">
                             {data.path}
@@ -65,12 +65,12 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
         );
     } else {
         return (
-            <div className="pageDetails">
-                <Card className="square">
+            <div className="pageDetails h-100">
+                <Card className="square h-100">
                     <Card.Header>
                         <b>Page Details</b>
                     </Card.Header>
-                    <Card.Body style={{ "maxHeight": '250px', "minHeight": '250px'}}>
+                    <Card.Body>
                         <Card.Text>
                             No page selected
                         </Card.Text>
