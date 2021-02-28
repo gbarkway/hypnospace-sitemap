@@ -324,16 +324,16 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                             ))}
                         </DropdownButton>
                     </Nav.Item>
+                    <Nav.Item style={loading ? { "display": "block" } : { "display": "none" }} >
+                        <div className="d-flex h-100 align-items-center">
+                            <Spinner size="sm" animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        </div>
+                    </Nav.Item>
                 </Nav>
             </Navbar>
             <Card.Body style={{ padding: 0 }} className="h-100">
-                <div style={loading ? { "display": "block" } : { "display": "none" }} className="h-100">
-                    <div className="d-flex align-items-center justify-content-center h-100">
-                        <Spinner animation="border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
-                    </div>
-                </div>
                 <div
                     ref={container}
                     style={{
