@@ -50,10 +50,8 @@ function App() {
   //TODO: link to cytoscape, win95 css, etc.
   //TODO: tooltips for links
   //TODO: accessibility properties
-  //TODO: make easier to use on smaller screens
-  //TODO: when navbar is too narrow, there's ugly overflow and date picker is nearly hidden
-  //TODO: full height of sitemap and page description should always be visible in entirety on narrow screens
-  //TODO: make navbar sticky
+  //TODO: on iphone, full app does not fit entirely to viewport
+  //TODO: on navbar collapsed, big areas around edges of date dropdown don't do anything when you tap them
   return (
     <div className="App">
       <TutorialModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)}></TutorialModal>

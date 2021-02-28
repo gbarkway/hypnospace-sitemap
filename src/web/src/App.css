@@ -2,9 +2,16 @@
   color: #61dafb;
 }
 
+/* make smaller to avoid getting cut off by mobile safari toolbar on my phone*/
 .App {
-  height: 90vh;
+  height: 85vh;
   min-height: 500px;
+}
+
+@media (min-width: 500px) {
+  .App {
+    height: 90vh;
+  }
 }
 
 .details-col {
