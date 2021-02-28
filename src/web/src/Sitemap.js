@@ -341,7 +341,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 <div
                     ref={container}
                     style={{
-                        "visibility": (loading ? "none" : "visible"),
+                        "visibility": (loading ? "hidden" : "visible"),
                         "height": "100%"
                     }}>
                 </div>

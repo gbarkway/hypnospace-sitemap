@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Spinner } from "react-bootstrap";
 
 const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
     const url = new URL(`${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages`, window.location.origin);
@@ -19,10 +19,12 @@ const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
 export default function SearchResults({date, searchRequest, onResultClick}){
     const [searchResults, setSearchResults] = useState([]);
     const [errorVisible, setErrorVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     onResultClick = onResultClick || (() => {});
     useEffect(() => {
         if (!searchRequest) return;
+        setLoading(true);
         fetch(buildUrl(date, searchRequest))
             .then((res) => {
                 if (res.status === 200) {
@@ -32,18 +34,28 @@ export default function SearchResults({date, searchRequest, onResultClick}){
                 }
             })
             .then(setSearchResults)
-            .then(setErrorVisible(false))
-            .catch(() => setErrorVisible(true));
+            .then(() => setErrorVisible(false))
+            .catch(() => setErrorVisible(true))
+            .finally(() => setLoading(false));
     }, [searchRequest, date]);
 
-    //TODO: search results are highlighted in the sitemap
-    //TODO: show more information in search results (e.g. zone)
-    //TODO: loading spinner
     if (!searchRequest) return null;
-
     return (
         <div>
-            <h5>Search Results ({searchResults.length})</h5>
+            <h5>
+                Search Results ({searchResults.length})
+                    <Spinner
+                        size="sm"
+                        animation="border"
+                        role="status"
+                        style={
+                            {
+                                "visibility": (loading ? "visible" : "hidden"),
+                            }
+                        }>
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            </h5>
             <p className="text-error">{errorVisible ? "Error!" : ""}</p>
             <div className="search-results">
                 <Table size="sm">
@@ -68,7 +80,7 @@ export default function SearchResults({date, searchRequest, onResultClick}){
                                     {r.zone}
                                 </td>
                             </tr>))}
-                        {!searchResults.length ? <tr><td className="text-muted">No results to display</td></tr> : null}
+                        {!searchResults.length ? <tr><td className="text-muted">No results found</td></tr> : null}
                     </tbody>
                 </Table>
             </div>
