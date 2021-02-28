@@ -23,6 +23,10 @@
   }
 }
 
+.main-row {
+  height: calc(100% - 42px); /* 42px=height of navbar. Guessing this is hacky */
+}
+
 .search-results {
   max-height: 300px;
   overflow: scroll;

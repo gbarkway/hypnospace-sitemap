@@ -94,7 +94,7 @@ function App() {
             </Navbar>
           </Col>
         </Row>
-        <Row className="h-100">
+        <Row className="main-row">
           <Col lg={3} xs={12} className="details-col">
             <div className="my-1 h-100">
               <PageDetails
