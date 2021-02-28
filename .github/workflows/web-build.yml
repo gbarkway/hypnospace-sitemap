@@ -1,4 +1,4 @@
-# based on https://github.com/do-community/example-doctl-action/blob/master/config/deployment.yml
+# based on https://github.com/do-community/example-doctl-action/blob/master/.github/workflows/workflow.yaml
 name: web-build
 
 on:
@@ -31,7 +31,7 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker push registry.digitalocean.com/gbarkway/hs-web
+      run: docker push registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7)
 
     - name: Display new tag
       run: echo "Pushed new image under tag registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7)"
