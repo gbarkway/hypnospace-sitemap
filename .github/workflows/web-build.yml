@@ -20,8 +20,8 @@ jobs:
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build -t registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) ./src/web
-
+      run: docker build -t registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/gbarkway/hs-web:latest ./src/web
+    
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
       with:
@@ -31,7 +31,7 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker push registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7)
+      run: docker push -a registry.digitalocean.com/gbarkway/hs-web
 
     - name: Display new tag
-      run: echo "Pushed new image under tag registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7)"
+      run: echo "Pushed registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) and registry.digitalocean.com/gbarkway/hs-web:latest"
