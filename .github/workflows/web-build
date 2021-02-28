@@ -1,0 +1,39 @@
+# based on https://github.com/do-community/example-doctl-action/blob/master/config/deployment.yml
+name: web-build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/capture-serv/**'
+
+jobs:
+
+  build:
+    name: Build and push
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout master
+      uses: actions/checkout@master
+
+    - name: Update SHA
+      run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
+
+    - name: Build container image
+      run: docker build -t registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) .
+
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 600
+
+    - name: Push image to DigitalOcean Container Registry
+      run: docker push registry.digitalocean.com/gbarkway/hs-web
+
+    - name: Display new tag
+      run: echo "Pushed new image under tag registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7)"
