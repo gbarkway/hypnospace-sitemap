@@ -4,10 +4,8 @@ COPY ["package.json", "package-lock.json", "./"]
 RUN npm install --silent
 COPY ["src", "src/"]
 COPY ["public", "public/"]
-ARG REACT_APP_PAGE_SERV_URL
-ARG REACT_APP_CAPTURE_SERV_URL
-ENV REACT_APP_CAPTURE_SERV_URL $REACT_APP_CAPTURE_SERV_URL
-ENV REACT_APP_PAGE_SERV_URL $REACT_APP_PAGE_SERV_URL
+ARG DOT_ENV=".env.production"
+COPY ${DOT_ENV} ./.env
 RUN npm run build
 
 FROM node:12.18-alpine AS production

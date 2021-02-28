@@ -36,8 +36,7 @@ services:
     build:
       context: web 
       args:
-        - REACT_APP_PAGE_SERV_URL=http://localhost:3000
-        - REACT_APP_CAPTURE_SERV_URL=http://localhost:3001
+        - DOT_ENV=.env.development
     depends_on:
       - pageserv
       - captureserv 
