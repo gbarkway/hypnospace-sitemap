@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'src/capture-serv/**'
+      - 'src/web/**'
 
 jobs:
 
