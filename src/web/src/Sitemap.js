@@ -314,7 +314,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     //TODO: images, colors, pizazz
     //TODO: "places of note" list
     return (
-        <Card className="square">
+        <Card className="square h-100">
             <Card.Header>
                 <img src={worldIcon} alt=""></img>
                 <b>Site Graph - {date}</b>
@@ -336,18 +336,20 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     </Nav.Item>
                 </Nav>
             </Navbar>
-            <Card.Body style={{ padding: 0 }}>
-                <div id="asdf" >
-                    <div style={loading ? { "display": "block" } : { "display": "none" }}>
-                        <div className="d-flex align-items-center justify-content-center" style={{"height": "700px"}}>
-                            <Spinner  animation="border" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                        </div>
+            <Card.Body style={{ padding: 0 }} className="h-100">
+                <div style={loading ? { "display": "block" } : { "display": "none" }} className="h-100">
+                    <div className="d-flex align-items-center justify-content-center" style={{ "height": "700px" }}>
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
                     </div>
-                    <div id="cy" ref={container} style={loading ? {"visibility": "none"} : {"visibility": "visible"}}>
-
-                    </div>
+                </div>
+                <div
+                    ref={container}
+                    style={{
+                        "visibility": (loading ? "none" : "visible"),
+                        "height": "100%"
+                    }}>
                 </div>
             </Card.Body>
             <Card.Footer>

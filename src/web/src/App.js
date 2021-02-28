@@ -71,7 +71,7 @@ function App() {
         searchRequest={searchRequest}
         onSearchClick={setSearchRequest}
         />
-      <Container fluid>
+      <Container fluid className="h-100">
         <Row>
           <Col>
             <Navbar className="navbar-95">
@@ -88,8 +88,8 @@ function App() {
             </Navbar>
           </Col>
         </Row>
-        <Row>
-          <Col lg={4} xs={12}>
+        <Row className="h-100">
+          <Col lg={3} xs={12}>
             <div className="my-1">
               <PageDetails
                 date={date}
@@ -98,8 +98,8 @@ function App() {
                 onUserNameClick={(userName) => updateFieldsAndSearch({ userNameQuery: userName })} />
             </div>
           </Col>
-          <Col lg={8} xs={12}>
-            <div className="my-1">
+          <Col lg={9} xs={12} className="h-100">
+            <div className="my-1 h-100">
               <Sitemap
                 date={date}
                 onTap={onNodeTap}
