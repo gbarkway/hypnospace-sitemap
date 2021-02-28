@@ -6,7 +6,7 @@ import Sitemap from "./Sitemap";
 import TutorialModal from "./TutorialModal";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './win95-bootstrap/win95.css';
-import { Container, Row, Col, Button, Navbar, Nav } from "react-bootstrap";
+import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
 import SearchModal from "./SearchModal";
 import githubLogo from "./GitHub-Mark-32px.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_small-1.png"

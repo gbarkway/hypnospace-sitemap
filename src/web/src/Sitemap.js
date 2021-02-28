@@ -303,13 +303,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         })
     }, [elements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
-    const resetStyle = () => {
-        if (!cyRef.current) return;
-        
-        cyRef.current.elements().removeClass("transparent highlighted");
-        cyRef.current.elements().deselect();
-    }
-
     //TODO: make toolbar nicer
     //TODO: images, colors, pizazz
     //TODO: "places of note" list
@@ -323,9 +316,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 <Nav>
                     <Nav.Item>
                         <Button className="mx-1" variant="secondary" onClick={() => cyRef.current.fit()} disabled={loading}>Zoom to Fit</Button>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Button className="mx-1" variant="secondary" onClick={resetStyle} disabled={loading}>Clear Highlighting</Button>
                     </Nav.Item>
                     <Nav.Item>
                         <DropdownButton className="mx-1" variant="secondary" id="dropdown-basic-button" title="Go to zone" disabled={loading}>
