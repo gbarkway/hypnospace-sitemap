@@ -1,7 +1,6 @@
 import './App.css';
 import { useState, useCallback } from "react";
 import PageDetails from "./PageDetails";
-import DatePicker from "./DatePicker";
 import Sitemap from "./Sitemap";
 import TutorialModal from "./TutorialModal";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,6 +10,7 @@ import SearchModal from "./SearchModal";
 import githubLogo from "./GitHub-Mark-32px.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_small-1.png"
 import searchIcon from "./win95-bootstrap/icons/search_file-1.png"
+import DatePickerDropdown from "./DatePickerDropdown"
 
 const defaultSearchFields = {
   pageNameQuery: "",
@@ -79,12 +79,13 @@ function App() {
               <Navbar.Toggle />
               <Navbar.Collapse className="justify-content-end">
                 <Nav>
-                  <DatePicker
-                    value={date}
-                    onDatePicked={(date) => {
-                      setPath(null);
-                      setDate(date);
-                    }} />
+                    <DatePickerDropdown
+                      value={date}
+                      onDatePicked = {(date) => {
+                        setPath(null);
+                        setDate(date);
+                      }}
+                    />
                   <Nav.Link as="button" className="mx-1 btn btn-secondary" eventKey="1" title="Search" onClick={() => setShowSearchModal(true)}><img src={searchIcon} alt="" height="16" width="16"></img></Nav.Link>
                   <Nav.Link className="mx-1 btn btn-secondary" as="button" eventKey="2" title="Help" onClick={() => setShowHelpModal(true)}><img src={helpIcon} alt=""></img></Nav.Link>
                   <Nav.Link className="mx-1 btn btn-secondary" target="_blank" eventKey="3" title="GitHub" href="https://github.com/gbarkway/hypnospace-sitemap"><img src={githubLogo} width="16px" height="16px" alt=""></img></Nav.Link>

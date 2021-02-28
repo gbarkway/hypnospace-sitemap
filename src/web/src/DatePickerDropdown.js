@@ -1,9 +1,8 @@
 import {useState, useEffect} from "react";
-import {Form} from "react-bootstrap";
+import {NavDropdown} from "react-bootstrap";
 
-export default function DatePicker({value, onDatePicked}) {
+export default function DatePickerDropdown({value, onDatePicked}) {
     const [dates, setDates] = useState([]);
-    const [currentDate, setCurrentDate] = useState(value);
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures`)
@@ -19,15 +18,17 @@ export default function DatePicker({value, onDatePicked}) {
     }, []);
 
     const onChange = (e) => {
-        setCurrentDate(e.target.value);
-        onDatePicked(e.target.value);
+        onDatePicked(e);
     };
 
     return (
-        <Form.Control as="select" size="sm" value={currentDate} onChange={onChange} id="dat-select">
+        <NavDropdown className="btn btn-secondary mx-1" title={value}>
             {dates.map((d, i) => (
-                <option value={d} key={`date-select${i}`}>{d}</option>
+                <NavDropdown.Item 
+                    eventKey={`${i+10}`}
+                    key={`date-select${i}`}
+                    onClick={() => onChange(d)}>{d}</NavDropdown.Item>
             ))}
-        </Form.Control>
+        </NavDropdown>
     );
 }
