@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Spinner } from "react-bootstrap";
 
 const placeholder = {
     "tags": [
@@ -12,15 +12,18 @@ const placeholder = {
     "user": ""
   };
 
-//TODO: loading spinner
 export default function PageDetails({ date, path, onTagClick, onUserNameClick }) {
     onTagClick = onTagClick || (() => {});
     onUserNameClick = onUserNameClick || (() => {});
 
     const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+
     useEffect(() => {
         if (!path) return;
 
+        setLoading(true);
         fetch(`${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages/${encodeURIComponent(path)}`)
             .then((res) => {
                 if (res.status === 200) {
@@ -34,7 +37,8 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
             .then(setData)
             .catch((err) => {
                 console.log(err);
-            });
+            })
+            .finally(() => setLoading(false));
     }, [date, path]);
 
     if (data) {
@@ -45,7 +49,23 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                         <b>Page Details - {data.name}</b>
                     </Card.Header>
                     <Card.Body style={{ "overflowY": "scroll" }}>
-                        <Card.Text><b>{data.name}</b></Card.Text>
+                        <div className="d-flex justify-content-between">
+                            <Card.Text>
+                                <b>{data.name}</b>
+
+                            </Card.Text>
+                            <Spinner
+                                size="sm"
+                                animation="border"
+                                role="status"
+                                style={
+                                    {
+                                        "display": (loading ? "block" : "none"),
+                                    }
+                                }>
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        </div>
                         <Card.Subtitle className="text-muted">
                             {data.path}
                         </Card.Subtitle>

@@ -5,7 +5,6 @@ import {Card, Button, Nav, Navbar, Dropdown, DropdownButton, Spinner} from "reac
 import worldIcon from "./win95-bootstrap/icons/world-1.png"
 cytoscape.use(fcose);
 
-//TODO: loading indicator
 //TODO: make zones visually distinct
 //TODO: tooltip on node hover or other indication of which nodes are which
 //TODO: non-selected zones say "Tap me to see more" or something
