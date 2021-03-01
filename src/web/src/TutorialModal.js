@@ -3,6 +3,7 @@ import searchIcon from "./win95-bootstrap/icons/search_file-2.png";
 export default function TutorialModal({ show, onCloseButtonClick }) {
     onCloseButtonClick = onCloseButtonClick || (() => { })
 
+    //TODO: revisit this
     return (
         <Modal show={show} onHide={onCloseButtonClick} animation={false} centered>
             <Modal.Header>

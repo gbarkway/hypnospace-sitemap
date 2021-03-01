@@ -14,7 +14,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     
     const container = useRef();
     const cyRef = useRef(); //TODO: is this right?
-    const [hover, setHover] = useState("Hover over something");
+    const [hover, setHover] = useState("");
     const [zones, setZones] = useState([]);
     const [loading, setLoading] = useState(true);
 
