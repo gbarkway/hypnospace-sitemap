@@ -83,7 +83,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                         return {
                             data: {
                                 id: page.path, 
-                                label: page.path,
+                                label: page.path.split('\\')[1],
                                 parent: page.zone,
                                 zone: page.zone,
                             },
@@ -178,15 +178,21 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     }
                 },
                 {
-                    selector: "node.highlighted",
+                    selector: "node:child.highlighted",
                     style: {
                         //'background-blacken': '0.5'
                         "z-index": "20",
                         "border-color": "black",
+                        'content': 'data(label)',
+                        'text-outline-color': 'white',
+                        'text-outline-width': 1,
+                        'text-valign': 'center',
+                        'font-weight': 'bold',
+                        'font-size': 12,
                     }
                 },
                 {
-                    selector: "node.selected",
+                    selector: "node:child.selected",
                     style: {
                         'width': '50',
                         'height': '50',
