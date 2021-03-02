@@ -56,7 +56,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         cyRef.current.animate({
             fit: {
                 eles: node.closedNeighborhood().not("#hub").filter("node"),
-                padding: 100,
             }
         }, {
             duration: 1000,
@@ -178,17 +177,22 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     }
                 },
                 {
+                    selector: "node:child",
+                    style: {
+                        'text-outline-color': 'white',
+                        'text-outline-width': 1,
+                        'text-valign': 'center',
+                        'font-weight': 'bold',
+                        'font-size': 12,
+                    }
+                },
+                {
                     selector: "node:child.highlighted",
                     style: {
                         //'background-blacken': '0.5'
                         "z-index": "20",
                         "border-color": "black",
                         'content': 'data(label)',
-                        'text-outline-color': 'white',
-                        'text-outline-width': 1,
-                        'text-valign': 'center',
-                        'font-weight': 'bold',
-                        'font-size': 12,
                     }
                 },
                 {
@@ -198,6 +202,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                         'height': '50',
                         "border-color": "white",
                         "border-width": 5,
+                        'content': 'data(label)',
                     }
                 },
                 {
