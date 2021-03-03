@@ -11,11 +11,15 @@ export default function DatePickerDropdown({value, onDatePicked}) {
                 if (res.status === 200) {
                     return res.json();
                 } else {
-                    return [];
+                    throw new Error(`Error fetching dates. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`);
                 }
             })
             .then(setDates)
-            .catch(console.err);
+            .catch((err) => {
+                if (process.env.NODE_ENV === "development") {
+                    console.log(err);
+                }               
+            })
     }, []);
 
     const onChange = (e) => {

@@ -18,7 +18,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
-
+    const [error, setError] = useState("");
 
     useEffect(() => {
         if (!path) return;
@@ -29,14 +29,19 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                 if (res.status === 200) {
                     return res.json();
                 } else if (res.status === 404) {
-                    return {...placeholder, ...{date, path, name: "Not Found"}}
+                    return {...placeholder, ...{date, path, name: "Page not Found"}}
                 } else {
-                    throw new Error(res);
+                    throw new Error(`Error fetching page details. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`);               
                 }
             })
             .then(setData)
             .catch((err) => {
-                console.log(err);
+                if (process.env.NODE_ENV==="development") {
+                    console.log(err);
+                }
+
+                setError("Error getting page details");
+                setData(null);
             })
             .finally(() => setLoading(false));
     }, [date, path]);
@@ -92,7 +97,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                     </Card.Header>
                     <Card.Body>
                         <Card.Text>
-                            No page selected
+                            {error.length ? error : "No page selected"}
                         </Card.Text>
                     </Card.Body>
                 </Card>

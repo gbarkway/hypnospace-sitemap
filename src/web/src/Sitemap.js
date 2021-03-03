@@ -17,6 +17,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     const [hover, setHover] = useState("");
     const [zones, setZones] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     const selectNode = (node) => {
         if (!cyRef.current) return;
@@ -69,14 +70,18 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             cyRef.current.destroy();
         }
         setLoading(true);
+        setError("");
         fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`)
             .then((res) => {
-                console.log(res);
+                if (res.status !== 200) {
+                    throw new Error(`Error fetching sitemap. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`);
+                }
+
                 return res.json();
             })
             .then((capture) => {
                 const zs = capture.pages.filter((page) => page.path.includes("zone.hsp")).map((page) => ({zone: page.zone, path: page.path}))
-                const thing = [
+                const els = [
                     ...zs.map(n => ({data: {id: n.zone, label: n.zone, zone: n.zone}, pannable: true})),
                     ...capture.pages.map((page) => { 
                         return {
@@ -93,13 +98,17 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     ...capture.links.map((link) => ({data: {source: link.sourcePath, target: link.targetPath}, classes: ['hidden']})),
                 ];
                 setZones(zs);
-                return thing;
+                return els;
             })
-            .then((asdf) => {
-                setElements(asdf);
-                setLoading(false);
+            .then(setElements)
+            .catch((err) => {
+                if (process.env.NODE_ENV === "development") {
+                    console.log(err);
+                }
+
+                setError("Error loading sitemap");
             })
-            .catch(console.err);
+            .finally(() => setLoading(false));
     }, [date]);
 
     useEffect(() => {
@@ -344,6 +353,9 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
                         </div>
+                    </Nav.Item>
+                    <Nav.Item style={error.length ? { "display": "block"} : { "display": "none"}}>
+                        <span className="text-danger">{error}</span>
                     </Nav.Item>
                 </Nav>
             </Navbar>
