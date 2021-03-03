@@ -40,17 +40,26 @@ const degoosify = (document) => {
 }
 
 const makeDal = () => {
-    let host = process.env.MONGO_HOST;
+    const host = process.env.MONGO_HOST;
     if (!host) {
-        throw 'Env variable MONGO_HOST must be set';
+        throw new Error('Env variable MONGO_HOST must be set');
     }
-    
+
+    let connected = false;
     connect(host)
-        .then(() => console.log('Connected to Mongo'))
+        .then(() => {
+            console.log('Connected to mongodb');
+            connected = true;
+        })
         .catch((err) => console.error('Failed to connect to Mongo', err));
+
+    throwIfNotConnected = () => {
+        if (!connected) throw new Error('mongodb not connected')
+    }
 
     return {
         getPages: async (date, opts) => {
+            throwIfNotConnected();
             opts = opts || {};
             const filter = { date };
             if (opts.user) {
@@ -79,15 +88,17 @@ const makeDal = () => {
         },
 
         getDates: async () => {
+            throwIfNotConnected();
             const found = await Capture.find();
             return found.map(f => f.date);
         },
 
         getPageByHapId: async () => {
-            throw 'HAP IDs not implemented';
+            throw new Error('HAP IDs not implemented');
         },
 
         getPageByPath: async (date, path) => {
+            throwIfNotConnected();
             return degoosify(await Page.findOne({ date, path }));
         },
 
