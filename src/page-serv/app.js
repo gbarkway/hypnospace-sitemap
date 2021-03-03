@@ -11,8 +11,13 @@ const app = express();
 app.use(cors());
 
 app.get('/captures', async (req, res) => {
-    const dates = await service.getDates();
-    res.json(dates);
+    try {
+        const dates = await service.getDates();
+        res.json(dates);
+    } catch (err) {
+        res.status(500).end();
+        return;
+    }
 });
 
 //TODO: Sanitize args
@@ -50,13 +55,17 @@ app.get('/captures/:date/pages', async (req, res) => {
         return;
     }
 
-    if (!(await service.hasDate(date))) {
-        res.status(404).json('Invalid capture date');
-        return;
-    }
+    try {
+        if (!(await service.hasDate(date))) {
+            res.status(404).json('Invalid capture date');
+            return;
+        }
 
-    const pages = await service.getPages(date, opts);
-    res.json(pages);
+        const pages = await service.getPages(date, opts);
+        res.json(pages);
+    } catch (err) {
+        res.status(500).end();
+    }
 });
 
 app.get('/captures/:date/pages/:path', async (req, res) => {
@@ -67,16 +76,20 @@ app.get('/captures/:date/pages/:path', async (req, res) => {
         return;
     }
 
-    if (!(await service.hasDate(date))) {
-        res.status(404).json('Invalid capture date');
-        return;
-    }
+    try {
+        if (!(await service.hasDate(date))) {
+            res.status(404).json('Invalid capture date');
+            return;
+        }
 
-    const page = await service.getPage(req.params['date'], path);
-    if (page) {
-        res.status(200).json(page);
-    } else {
-        res.status(404).json('Page not found');
+        const page = await service.getPage(req.params['date'], path);
+        if (page) {
+            res.status(200).json(page);
+        } else {
+            res.status(404).json('Page not found');
+        }
+    } catch (err) {
+        res.status(500).end();
     }
 })
 
