@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const promiseRetry = require('promise-retry')
 
 const Page = mongoose.model('Page', {
     path: String,
@@ -14,23 +15,6 @@ const Capture = mongoose.model('Capture', {
     date: String,
 });
 
-const connect = async (host) => {
-    const maxTries = 5;
-    for (let i = 0; i < maxTries; i++) {
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            await mongoose.connect(host);
-            break;
-        } catch (e) {
-            if (i < maxTries - 1) {
-                console.log('Connecting to Mongo failed. Retrying in 1 second')
-            } else {
-                throw e;
-            }
-        }
-    }
-};
-
 const degoosify = (document) => {
     if (!document) return document;
     return document.toObject({transform: function(doc, ret, options) {
@@ -45,13 +29,20 @@ const makeDal = () => {
         throw new Error('Env variable MONGO_HOST must be set');
     }
 
+    let disconnectRequested = false;
     let connected = false;
-    connect(host)
-        .then(() => {
-            console.log('Connected to mongodb');
-            connected = true;
-        })
-        .catch((err) => console.error('Failed to connect to Mongo', err));
+    promiseRetry(function (retry, number) { // if you let vscode turn this callback async, it stops working
+        if (disconnectRequested) return;
+
+        console.log(`Connecting to mongodb attempt number ${number}`)
+        return mongoose.connect(host)
+            .catch(retry);
+    })
+    .then(() => {
+        console.log('Connected to mongodb');
+        connected = true;
+    })
+    .catch((err) => console.error('Failed to connect to Mongo', err));
 
     throwIfNotConnected = () => {
         if (!connected) throw new Error('mongodb not connected')
@@ -103,6 +94,7 @@ const makeDal = () => {
         },
 
         disconnect: async () => {
+            disconnectRequested = true;
             await mongoose.disconnect();
         }
     }

@@ -12,7 +12,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.11.9"
+    "mongoose": "^5.11.9",
+    "promise-retry": "^2.0.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
