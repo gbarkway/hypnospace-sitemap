@@ -37,7 +37,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
             .then(setData)
             .catch((err) => {
                 if (process.env.NODE_ENV==="development") {
-                    console.log(err);
+                    console.error(err);
                 }
 
                 setError("Error getting page details");

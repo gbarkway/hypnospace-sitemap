@@ -103,7 +103,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             .then(setElements)
             .catch((err) => {
                 if (process.env.NODE_ENV === "development") {
-                    console.log(err);
+                    console.error(err);
                 }
 
                 setError("Error loading sitemap");
