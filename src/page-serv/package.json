@@ -4,7 +4,7 @@
   "description": "Page service for hypnospace map",
   "main": "app.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 30000",
     "start": "node app.js"
   },
   "author": "",

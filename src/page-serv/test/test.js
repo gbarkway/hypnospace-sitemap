@@ -1,14 +1,14 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
-const { app, close }= require('../app')
+const { app, close, readyPromise }= require('../app')
 
 chai.use(chaiHttp);
 chai.should();
 
 //wait a second for db to be online
-before(function(done) {
-    setTimeout(done, 1000);
+before(function(done) {   
+    readyPromise.finally(() => done());
 });
 
 describe('GET /captures', function() {

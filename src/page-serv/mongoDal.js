@@ -31,7 +31,7 @@ const makeDal = () => {
 
     let disconnectRequested = false;
     let connected = false;
-    promiseRetry(function (retry, number) { // if you let vscode turn this callback async, it stops working
+    const p = promiseRetry(function (retry, number) { // if you let vscode turn this callback async, it stops working
         if (disconnectRequested) return;
 
         console.log(`Connecting to mongodb attempt number ${number}`)
@@ -49,6 +49,8 @@ const makeDal = () => {
     }
 
     return {
+        readyPromise: p, // TODO: is this weird, would it be better to emit an event?
+
         getPages: async (date, opts) => {
             throwIfNotConnected();
             opts = opts || {};

@@ -103,4 +103,4 @@ const close = async () => {
     await dal.disconnect();
 }
 
-module.exports = { app, close }
+module.exports = { app, close, readyPromise: dal.readyPromise}
