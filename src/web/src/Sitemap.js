@@ -198,7 +198,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 {
                     selector: "node:child.highlighted",
                     style: {
-                        //'background-blacken': '0.5'
+                        // TODO: min zoom level of text not right
                         "z-index": "20",
                         "border-color": "black",
                         'content': 'data(label)',
