@@ -4,6 +4,7 @@ import re
 from collections import namedtuple, Counter
 from configparser import ConfigParser
 from pathlib import Path
+import networkx as nx
 
 Page = namedtuple('Page', ['name', 'path', 'linksTo', 'description', 'tags', 'user', 'zone'])
 Capture = namedtuple('Capture', ['date', 'pages'])
@@ -68,15 +69,59 @@ def __getCapture(capturePath):
     pages = [page for zonePath in zonePaths for page in __getZonePages(zonePath)]
 
     # remove dead links
-    # remove unreachable pages
+    pagePaths = set([page.path for page in pages])
+    for page in pages:
+        toRemove = [link for link in page.linksTo if not link in pagePaths]
+        for link in toRemove:
+            page.linksTo.remove(link)
+
+    # remove unreachable pages. some pages appear in data files but aren't reachable in-game.
     # a page is reachable if
     # a) has a tag
     # b) is a zone.hsp
-    # c) is linked to by other reachable page
-    
+    # c) there is a path to the page from one of a) or b)
+
+    # a) and b)
+    reachablePaths = [page.path for page in pages if len(page.tags) or 'zone.hsp' in page.path]
+
+    # c)
+    # depth-first graph traversal to find path between current page and a known reachable page
+    G = pages2Graph(pages)
+    for page in pages:
+        if page.path in reachablePaths:
+            continue
+        
+        stack = list(G.predecessors(page.path))
+        visited = set(stack) # avoid cycles
+        foundReachable = False
+
+        while(len(stack) and not foundReachable):
+            path = stack.pop()
+            foundReachable = path in reachablePaths
+            if not foundReachable:
+                for pre in [pre for pre in G.predecessors(path) if pre not in visited]:
+                    visited.add(pre)
+                    stack.append(pre)
+
+        if foundReachable:
+            reachablePaths.append(page.path)
+        else:
+            print(page.path)
+
+    pages = [page for page in pages if page.path in reachablePaths]          
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
+    print(__iniDate2iso(config['data']['date']))
+    print('^^^^')
     return Capture(__iniDate2iso(config['data']['date']), pages)
+
+
+def pages2Graph(pages):
+    G = nx.DiGraph()
+    G.add_nodes_from([page.path for page in pages])
+    G.add_edges_from([(page.path, link) for page in pages for link in page.linksTo])
+    return G
+    
 
 def read_data(dataPath):
     dataPath = Path(dataPath)
