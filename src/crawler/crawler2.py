@@ -63,7 +63,7 @@ def __iniDate2iso(iniDate):
         except ValueError:
             pass
 
-def __getCaptureInfo(capturePath):
+def __getCapture(capturePath):
     zonePaths = [p for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()]
     pages = [page for zonePath in zonePaths for page in __getZonePages(zonePath)]
 
@@ -81,7 +81,7 @@ def __getCaptureInfo(capturePath):
 def read_data(dataPath):
     dataPath = Path(dataPath)
     captureFolders = [p for p in dataPath.iterdir() if (p / 'capture.ini').exists()]
-    return [__getCaptureInfo(p) for p in captureFolders]
+    return [__getCapture(p) for p in captureFolders]
 
 
 c = read_data("/home/greg/data")
