@@ -19,9 +19,17 @@ def __getPage(hspPath):
         
     myPath = '\\'.join(hspPath.parts[-2:])
 
+    # page files are JSON objects w/ heavy nesting. in below list comp, each level referred to like this:
+    # top level     - dom           object
+    # .2nd level    - dom['data']   (array<array>)
+    # ..3rd level   - dataSection   (array<array>)
+    # ...4th level  - element       (array<string>)
+    # ....5th level - attr          string
+    linkAttributes = [str(attr) for dataSection in dom['data'] for element in dataSection for attr in [element[10], element[11]]]
+
     # lower() because some links randomly use title casing
     # set() to avoid duplicates
-    links = set([match[1].lower() for dataSection in dom['data'] for element in dataSection for match in [__linkRe.search(str(element[10]))] if match])
+    links = set([match[1].lower() for attr in linkAttributes for match in [__linkRe.search(attr)] if match])
 
     # no links to self
     if myPath in links:
@@ -125,6 +133,8 @@ def pages2Graph(pages):
 def read_all_links(filePath):
     with open(filePath) as file:
         matches = [__linkRe.search(line) for line in file]
+
+    # lower() because some links randomly use title casing
     return [match[1].lower() for match in matches if match]
 
 def read_data(dataPath):
