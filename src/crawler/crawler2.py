@@ -11,10 +11,6 @@ Capture = namedtuple('Capture', ['date', 'pages'])
 
 __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
 def __getPageInfo(hspPath):
-    # TODO: 04_teentopia\~sboulder-doorm2.hsp appears orphaned even though it is linked to by:
-    # ./04_teentopia/~sboulder-doornm2.hsp
-    # ./04_teentopia/~sboulder-doorm1.hsp
-    # this may be because it's a "redirect" event, not a direct link
     with open(hspPath) as file:
         dom = json.load(file)
         
