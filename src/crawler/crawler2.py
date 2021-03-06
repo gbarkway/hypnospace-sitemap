@@ -6,13 +6,14 @@ from configparser import ConfigParser
 from pathlib import Path
 import networkx as nx
 
-Page = namedtuple('Page', ['name', 'path', 'linksTo', 'description', 'tags', 'user', 'zone', 'emailed'])
+Page = namedtuple('Page', ['name', 'path', 'linksTo', 'description', 'tags', 'user', 'zone'])
 Capture = namedtuple('Capture', ['date', 'pages'])
+Hypnospace = namedtuple('Hypnospace', ['captures', 'adLinks', 'mailLinks'])
 
 __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
 emailLinks = set()
 
-def __getPageInfo(hspPath):
+def __getPage(hspPath):
     with open(hspPath) as file:
         dom = json.load(file)
         
@@ -37,19 +38,16 @@ def __getPageInfo(hspPath):
         else:
             description = descriptionAndTags
             tags = []
-
-    if '~easysurvey.hsp' in myPath:
-        breakpoint()
         
-    return Page(dom['data'][0][1][1], myPath, list(links), description, tags, dom['data'][0][1][2], hspPath.parts[-2], myPath in emailLinks)
+    return Page(dom['data'][0][1][1], myPath, list(links), description, tags, dom['data'][0][1][2], hspPath.parts[-2])
 
 
 def __getZonePages(zonePath):
-    pages = [__getPageInfo(f) for f in zonePath.iterdir() if not f.name == 'zone.hsp']
+    pages = [__getPage(f) for f in zonePath.iterdir() if not f.name == 'zone.hsp']
 
     # "links" in zones.hsp not explicitly defined in hsp file
-    zonePage = __getPageInfo(zonePath / 'zone.hsp')
-    zonePage = Page(zonePage.name, zonePage.path, list(set(zonePage.linksTo + [p.path for p in pages if not '~' in p.path])), zonePage.description, zonePage.tags, zonePage.user, zonePage.zone, zonePage.emailed)
+    zonePage = __getPage(zonePath / 'zone.hsp')
+    zonePage = Page(zonePage.name, zonePage.path, list(set(zonePage.linksTo + [p.path for p in pages if not '~' in p.path])), zonePage.description, zonePage.tags, zonePage.user, zonePage.zone)
     pages.append(zonePage)
 
     return pages
@@ -65,7 +63,7 @@ def __iniDate2iso(iniDate):
         except ValueError:
             pass
 
-def __getCapture(capturePath):
+def __getCapture(capturePath, noprune=[]):
     zonePaths = [p for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()]
     pages = [page for zonePath in zonePaths for page in __getZonePages(zonePath)]
 
@@ -80,12 +78,13 @@ def __getCapture(capturePath):
     # a page is reachable if
     # a) has a tag
     # b) is a zone.hsp
-    # c) there is a path to the page from one of a) or b)
+    # c) is in whitelist
+    # d) there is a path to the page from one of a), b) or c)
 
-    # a) and b)
-    reachablePaths = [page.path for page in pages if len(page.tags) or 'zone.hsp' in page.path]
+    # a), b), and c)
+    reachablePaths = [page.path for page in pages if len(page.tags) or 'zone.hsp' in page.path or page.path in noprune]
 
-    # c)
+    # d)
     # depth-first graph traversal to find path between current page and a known reachable page
     G = pages2Graph(pages)
     for page in pages:
@@ -107,7 +106,7 @@ def __getCapture(capturePath):
         if foundReachable:
             reachablePaths.append(page.path)
         else:
-            print(f'{page.path}, {page.emailed}')
+            print(f'{page.path}')
 
     pages = [page for page in pages if page.path in reachablePaths]          
     config = ConfigParser()
@@ -122,22 +121,22 @@ def pages2Graph(pages):
     G.add_edges_from([(page.path, link) for page in pages for link in page.linksTo])
     return G
 
-def readEmailLinks(emailsFilePath):
-    with open(emailsFilePath) as file:
+# every link in a text file
+def read_all_links(filePath):
+    with open(filePath) as file:
         matches = [__linkRe.search(line) for line in file]
-    links = [match[1].lower() for match in matches if match]
-    return set(links)
+    return [match[1].lower() for match in matches if match]
 
 def read_data(dataPath):
     dataPath = Path(dataPath)
-    emailLinks = readEmailLinks(dataPath / 'misc' / 'emails.ini')
-    print('emails:')
-    for link in emailLinks:
-        print(link)
-    print('emails^^^')
-    captureFolders = [p for p in dataPath.iterdir() if (p / 'capture.ini').exists()]
-    return [__getCapture(p) for p in captureFolders]
 
+    mailLinks = read_all_links(dataPath / 'misc' / 'emails.ini')
+    adLinks = read_all_links(dataPath / 'misc' / 'ads.ini')
+
+    captureFolders = [p for p in dataPath.iterdir() if (p / 'capture.ini').exists()]
+    captures = [__getCapture(p, noprune=(mailLinks + adLinks)) for p in captureFolders]
+
+    return Hypnospace(captures, mailLinks, adLinks)
 
 c = read_data("/home/greg/data")
 pass
