@@ -11,9 +11,10 @@ Capture = namedtuple('Capture', ['date', 'pages'])
 Hypnospace = namedtuple('Hypnospace', ['captures', 'adLinks', 'mailLinks'])
 
 __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
-emailLinks = set()
 
-def __getPage(hspPath):
+def readPage(hspPath):
+    """Read single .hsp file and return Page"""
+
     with open(hspPath) as file:
         dom = json.load(file)
         
@@ -49,18 +50,21 @@ def __getPage(hspPath):
         
     return Page(dom['data'][0][1][1], myPath, list(links), description, tags, dom['data'][0][1][2], hspPath.parts[-2])
 
+def readZone(zonePath):
+    """Read zone folder (e.g. '04_teentopia') and return list of Page"""
 
-def __getZonePages(zonePath):
-    pages = [__getPage(f) for f in zonePath.iterdir() if not f.name == 'zone.hsp']
+    pages = [readPage(f) for f in zonePath.iterdir() if not f.name == 'zone.hsp']
 
     # "links" in zones.hsp not explicitly defined in hsp file
-    zonePage = __getPage(zonePath / 'zone.hsp')
+    zonePage = readPage(zonePath / 'zone.hsp')
     zonePage = Page(zonePage.name, zonePage.path, list(set(zonePage.linksTo + [p.path for p in pages if not '~' in p.path])), zonePage.description, zonePage.tags, zonePage.user, zonePage.zone)
     pages.append(zonePage)
 
     return pages
 
-def __iniDate2iso(iniDate):
+def iniDate2Iso(iniDate):
+    """Given string of format 'MM DD,YYYY' (used in capture.ini) return 'YYYY-MM-DD'"""
+
     if iniDate == 'XX XX, 20XX':
         return '20XX-XX-XX'
 
@@ -71,9 +75,17 @@ def __iniDate2iso(iniDate):
         except ValueError:
             pass
 
-def __getCapture(capturePath, noprune=[]):
+def readCapture(capturePath, noprune=[]):
+    """Read capture folder (e.g. 'hs') and return Capture
+
+    Keyword arguments:
+    noprune --  A page must a) have a tag, b) be a zone homepage, c) be in noprune, or d) have an ancestor with one of these properties
+                If a page tree is only accessible via an email link or a spam popup (professor helper) it is pruned by default unless it is
+                in noprune.
+    """
+
     zonePaths = [p for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()]
-    pages = [page for zonePath in zonePaths for page in __getZonePages(zonePath)]
+    pages = [page for zonePath in zonePaths for page in readZone(zonePath)]
 
     # remove dead links
     pagePaths = set([page.path for page in pages])
@@ -86,7 +98,7 @@ def __getCapture(capturePath, noprune=[]):
     # a page is reachable if
     # a) has a tag
     # b) is a zone.hsp
-    # c) is in whitelist
+    # c) is in noprune
     # d) there is a path to the page from one of a), b) or c)
 
     # a), b), and c)
@@ -101,52 +113,54 @@ def __getCapture(capturePath, noprune=[]):
         
         stack = list(G.predecessors(page.path))
         visited = set(stack) # avoid cycles
-        foundReachable = False
+        hasReachablePre = False
 
-        while(len(stack) and not foundReachable):
+        while(len(stack) and not hasReachablePre):
             path = stack.pop()
-            foundReachable = path in reachablePaths
-            if not foundReachable:
+            hasReachablePre = path in reachablePaths
+            if not hasReachablePre:
                 for pre in [pre for pre in G.predecessors(path) if pre not in visited]:
                     visited.add(pre)
                     stack.append(pre)
 
-        if foundReachable:
+        if hasReachablePre:
             reachablePaths.append(page.path)
-        else:
-            print(f'{page.path}')
 
     pages = [page for page in pages if page.path in reachablePaths]          
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
-    print(__iniDate2iso(config['data']['date']))
-    print('^^^^')
-    return Capture(__iniDate2iso(config['data']['date']), pages)
+    return Capture(iniDate2Iso(config['data']['date']), pages)
 
 def pages2Graph(pages):
+    """networkx DiGraph"""
+
     G = nx.DiGraph()
     G.add_nodes_from([page.path for page in pages])
     G.add_edges_from([(page.path, link) for page in pages for link in page.linksTo])
     return G
 
-# every link in a text file
-def read_all_links(filePath):
+def readLinksFromFile(filePath):
+    """List containing every HSP url in a file"""
+
     with open(filePath) as file:
         matches = [__linkRe.search(line) for line in file]
 
     # lower() because some links randomly use title casing
     return [match[1].lower() for match in matches if match]
 
-def read_data(dataPath):
+def readHypnospace(dataPath):
+    """Given Hypnospace Outlaw data file, return Hypnospace namedtuple"""
+
     dataPath = Path(dataPath)
 
-    mailLinks = read_all_links(dataPath / 'misc' / 'emails.ini')
-    adLinks = read_all_links(dataPath / 'misc' / 'ads.ini')
+    mailLinks = readLinksFromFile(dataPath / 'misc' / 'emails.ini')
+    adLinks = readLinksFromFile(dataPath / 'misc' / 'ads.ini')
 
     captureFolders = [p for p in dataPath.iterdir() if (p / 'capture.ini').exists()]
-    captures = [__getCapture(p, noprune=(mailLinks + adLinks)) for p in captureFolders]
+    captures = [readCapture(p, noprune=(mailLinks + adLinks)) for p in captureFolders]
 
     return Hypnospace(captures, mailLinks, adLinks)
 
-c = read_data("/home/greg/data")
+
+c = readHypnospace("/home/greg/data")
 pass
