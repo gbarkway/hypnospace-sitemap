@@ -14,7 +14,7 @@ def captureServCapture(capture):
     }
 
 if len(sys.argv) < 2:
-    print('Usage: python crawler.py [PATH]')
+    print('Usage: python make_captureserv_data.py [PATH]')
     print('Path must be the path to a Hypnospace Outlaw data folder. For example: C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hypnospace Outlaw\\data')
     exit()
 
