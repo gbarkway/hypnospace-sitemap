@@ -11,7 +11,7 @@ export default function SearchModal({date, onResultClick, searchFields, onSearch
             <Modal.Header>
                 <Modal.Title>
                     <img className="m-1" src={searchIcon} alt="" width="24" height="24"></img>
-                    Search
+                    Search {date}
                 </Modal.Title>
                 <Button variant="secondary" className="win95-close" onClick={onCloseButtonClick}>
                     <span>×</span>

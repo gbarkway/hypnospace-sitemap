@@ -20,7 +20,8 @@ app.get('/captures', async (req, res) => {
     }
 });
 
-//TODO: Sanitize args
+//TODO: name/description query also searches by path
+//TODO: user query should also be sloppy
 app.get('/captures/:date/pages', async (req, res) => {
     const date = req.params['date'];
     const expectedQuery = new Set(['tags', 'user', 'zone', 'nameOrDescription']);

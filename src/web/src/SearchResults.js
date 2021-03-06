@@ -85,7 +85,7 @@ export default function SearchResults({date, searchRequest, onResultClick}){
                                 </td>
                             </tr>))}
                         {error.length ? <tr><td className="text-danger">Error loading search results</td></tr> : null}
-                        {!searchResults.length && !error.length ? <tr><td className="text-muted">No results found</td></tr> : null}
+                        {!searchResults.length && !error.length && !loading ? <tr><td className="text-muted">No results found in {date}</td></tr> : null}
                     </tbody>
                 </Table>
             </div>
