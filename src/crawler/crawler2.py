@@ -6,10 +6,12 @@ from configparser import ConfigParser
 from pathlib import Path
 import networkx as nx
 
-Page = namedtuple('Page', ['name', 'path', 'linksTo', 'description', 'tags', 'user', 'zone'])
+Page = namedtuple('Page', ['name', 'path', 'linksTo', 'description', 'tags', 'user', 'zone', 'emailed'])
 Capture = namedtuple('Capture', ['date', 'pages'])
 
 __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
+emailLinks = set()
+
 def __getPageInfo(hspPath):
     with open(hspPath) as file:
         dom = json.load(file)
@@ -36,7 +38,10 @@ def __getPageInfo(hspPath):
             description = descriptionAndTags
             tags = []
 
-    return Page(dom['data'][0][1][1], myPath, list(links), description, tags, dom['data'][0][1][2], hspPath.parts[-2])
+    if '~easysurvey.hsp' in myPath:
+        breakpoint()
+        
+    return Page(dom['data'][0][1][1], myPath, list(links), description, tags, dom['data'][0][1][2], hspPath.parts[-2], myPath in emailLinks)
 
 
 def __getZonePages(zonePath):
@@ -44,7 +49,7 @@ def __getZonePages(zonePath):
 
     # "links" in zones.hsp not explicitly defined in hsp file
     zonePage = __getPageInfo(zonePath / 'zone.hsp')
-    zonePage = Page(zonePage.name, zonePage.path, list(set(zonePage.linksTo + [p.path for p in pages if not '~' in p.path])), zonePage.description, zonePage.tags, zonePage.user, zonePage.zone)
+    zonePage = Page(zonePage.name, zonePage.path, list(set(zonePage.linksTo + [p.path for p in pages if not '~' in p.path])), zonePage.description, zonePage.tags, zonePage.user, zonePage.zone, zonePage.emailed)
     pages.append(zonePage)
 
     return pages
@@ -102,7 +107,7 @@ def __getCapture(capturePath):
         if foundReachable:
             reachablePaths.append(page.path)
         else:
-            print(page.path)
+            print(f'{page.path}, {page.emailed}')
 
     pages = [page for page in pages if page.path in reachablePaths]          
     config = ConfigParser()
@@ -111,16 +116,25 @@ def __getCapture(capturePath):
     print('^^^^')
     return Capture(__iniDate2iso(config['data']['date']), pages)
 
-
 def pages2Graph(pages):
     G = nx.DiGraph()
     G.add_nodes_from([page.path for page in pages])
     G.add_edges_from([(page.path, link) for page in pages for link in page.linksTo])
     return G
-    
+
+def readEmailLinks(emailsFilePath):
+    with open(emailsFilePath) as file:
+        matches = [__linkRe.search(line) for line in file]
+    links = [match[1].lower() for match in matches if match]
+    return set(links)
 
 def read_data(dataPath):
     dataPath = Path(dataPath)
+    emailLinks = readEmailLinks(dataPath / 'misc' / 'emails.ini')
+    print('emails:')
+    for link in emailLinks:
+        print(link)
+    print('emails^^^')
     captureFolders = [p for p in dataPath.iterdir() if (p / 'capture.ini').exists()]
     return [__getCapture(p) for p in captureFolders]
 
