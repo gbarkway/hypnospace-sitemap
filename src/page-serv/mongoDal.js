@@ -56,7 +56,7 @@ const makeDal = () => {
             opts = opts || {};
             const filter = { date };
             if (opts.user) {
-                filter.user = opts.user;
+                filter.user = new RegExp(`.*${opts.user}.*`, 'i');
             }
             if (opts.zone) {
                 filter.zone = opts.zone;
