@@ -121,7 +121,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 animate: false,
                 idealEdgeLength: () => 200,
                 nodeRepulsion: () => 50000, //prevent nodes from being too clustered
-                randomize: false,
+                randomize: true, // if randomize off, 20XX is arranged in a straight line
             },
             minZoom: 0.1,
             style: [
