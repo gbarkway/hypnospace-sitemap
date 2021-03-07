@@ -19,7 +19,7 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
                 <p>This is an interactive map of Hypnospace, the alternate-reality Internet from the wonderful 2019 game <a target="_blank" rel="noreferrer" href="http://www.hypnospace.net/">Hypnospace Outlaw</a></p>
                 <h5>Controls</h5>
                 <ul>
-                    <li>Click and drag to pan. Scroll to zoom.</li>
+                    <li><b>Click and drag</b> to pan. <b>Scroll</b> (mouse) or pinch and zoom (touchscreen) to zoom.</li>
                     <li>Big rectangles are zones, and circles are pages. Tap one to see more information about it</li>
                 </ul>
                 <h5>Other features</h5>
