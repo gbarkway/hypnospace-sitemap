@@ -20,7 +20,8 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
                 <h5>Controls</h5>
                 <ul>
                     <li><b>Click and drag</b> to pan. <b>Scroll</b> (mouse) or pinch and zoom (touchscreen) to zoom.</li>
-                    <li>Big rectangles are zones, and circles are pages. Tap one to see more information about it</li>
+                    <li>Big rectangles are zones, and circles are pages. <b>Tap</b> one to see more information about it</li>
+                    <li><b>Tap again</b> on an already-selected node to zoom to its neighborhood</li>
                 </ul>
                 <h5>Other features</h5>
                 <ul>
