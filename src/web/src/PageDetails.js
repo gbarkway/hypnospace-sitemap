@@ -12,6 +12,7 @@ const placeholder = {
     "user": ""
   };
 
+//TODO: indicate if a page is linked to by hypnomail or by an ad
 export default function PageDetails({ date, path, onTagClick, onUserNameClick }) {
     onTagClick = onTagClick || (() => {});
     onUserNameClick = onUserNameClick || (() => {});

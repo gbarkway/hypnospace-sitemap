@@ -48,9 +48,7 @@ function App() {
   }, [])
 
   //TODO: link to cytoscape, win95 css, etc.
-  //TODO: tooltips for links
   //TODO: accessibility properties
-  //TODO: on iphone, full app does not fit entirely to viewport
   return (
     <div className="App">
       <TutorialModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)}></TutorialModal>

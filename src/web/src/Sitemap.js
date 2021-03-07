@@ -6,14 +6,13 @@ import worldIcon from "./win95-bootstrap/icons/world-1.png"
 cytoscape.use(fcose);
 
 //TODO: make zones visually distinct
-//TODO: tooltip on node hover or other indication of which nodes are which
 //TODO: non-selected zones say "Tap me to see more" or something
 export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick, onPanZoom }) {
     onZoneMenuClick = onZoneMenuClick || (() => {});
     const [elements, setElements] = useState([]);
     
     const container = useRef();
-    const cyRef = useRef(); //TODO: is this right?
+    const cyRef = useRef();
     const [hover, setHover] = useState("");
     const [zones, setZones] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -327,8 +326,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         })
     }, [elements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
-    //TODO: images, colors, pizazz
-    //TODO: "places of note" list
     return (
         <Card className="square h-100">
             <Card.Header>

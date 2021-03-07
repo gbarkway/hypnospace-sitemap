@@ -1,6 +1,5 @@
 import {Form, Button} from "react-bootstrap";
 
-//TODO: input validation
 export default function SearchFields({onSearchClicked, searchFields, onSearchFieldsChange}) 
 { 
     return (

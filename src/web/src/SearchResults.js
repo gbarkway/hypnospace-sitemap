@@ -67,6 +67,7 @@ export default function SearchResults({date, searchRequest, onResultClick}){
                         <tr>
                             <th>Name</th>
                             <th>Zone</th>
+                            <th>Username</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,6 +83,9 @@ export default function SearchResults({date, searchRequest, onResultClick}){
                                 </td>
                                 <td>
                                     {r.zone}
+                                </td>
+                                <td>
+                                    {r.user}
                                 </td>
                             </tr>))}
                         {error.length ? <tr><td className="text-danger">Error loading search results</td></tr> : null}
