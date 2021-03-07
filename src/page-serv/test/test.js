@@ -238,6 +238,18 @@ describe('GET /captures/:date/pages', function() {
                     done();
                 });
         })
+
+        it('Searches by path', function (done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?nameOrDescription=outlaw.hsp')
+                .end((err, res) => {
+                    res.status.should.equal(200);
+                    res.body.should.be.a('Array');
+                    res.body.should.have.lengthOf(1);
+                    res.body[0].name.should.equal('outlaw network testing');
+                    done();
+                });
+        })
     })
 
     describe('combined filters', function(){

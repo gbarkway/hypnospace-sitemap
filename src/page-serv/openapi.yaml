@@ -40,7 +40,7 @@ paths:
             items:
               type: string
         - name: nameOrDescription
-          description: Return pages where name and/or description contains this argument
+          description: Return pages where name and/or description and/or path contains this argument
           in: query
           required: false
           schema:

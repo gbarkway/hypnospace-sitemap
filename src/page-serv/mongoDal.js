@@ -73,6 +73,7 @@ const makeDal = () => {
                 filter.$or = [
                     { "name": re },
                     { "description": re },
+                    { "path": re },
                 ]
             }
 
