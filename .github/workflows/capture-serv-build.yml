@@ -1,0 +1,37 @@
+# based on https://github.com/do-community/example-doctl-action/blob/master/.github/workflows/workflow.yaml
+name: capture-serv-build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/capture-serv/**'
+      - '.github/workflows/capture-serv-build.yml'
+
+jobs:
+
+  build:
+    name: Build and push
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout master
+      uses: actions/checkout@master
+
+    - name: Build container image
+      run: docker build -t registry.digitalocean.com/gbarkway/hs-captureserv:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/gbarkway/hs-captureserv:latest ./src/capture-serv
+    
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DO_ACCESS_TOKEN }}
+
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 600
+
+    - name: Push image to DigitalOcean Container Registry
+      run: docker push -a registry.digitalocean.com/gbarkway/hs-captureserv
+
+    - name: Display new tag
+      run: echo "Pushed registry.digitalocean.com/gbarkway/hs-captureserv:$(echo $GITHUB_SHA | head -c7) and registry.digitalocean.com/gbarkway/hs-captureserv:latest"
