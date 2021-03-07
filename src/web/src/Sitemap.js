@@ -119,7 +119,9 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
             layout: { 
                 name: 'fcose',
                 animate: false,
+                idealEdgeLength: () => 200,
                 nodeRepulsion: () => 50000, //prevent nodes from being too clustered
+                randomize: false,
             },
             minZoom: 0.1,
             style: [
@@ -197,7 +199,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                 {
                     selector: "node:child.highlighted",
                     style: {
-                        // TODO: min zoom level of text not right
+                        'min-zoomed-font-size': '5',
                         "z-index": "20",
                         "border-color": "black",
                         'content': 'data(label)',
@@ -208,6 +210,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     style: {
                         'width': '50',
                         'height': '50',
+                        'z-index': '21',
                         "border-color": "white",
                         "border-width": 5,
                         'content': 'data(label)',
@@ -280,17 +283,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
                     selector: 'node.zoneListing.selected',
                     style: {
                         'border-color': 'white',
-                    }
-                },
-                {
-                    selector: '#hub',
-                    style: {
-                        "shape": "star",
-                        "width": "100",
-                        "height": "100",
-                        'background-color': 'pink',
-                        'border-color': 'black',
-                        'border-width': 5,
                     }
                 },
             ],
