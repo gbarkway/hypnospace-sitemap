@@ -8,16 +8,31 @@ export default function SearchFields({onSearchClicked, searchFields, onSearchFie
             onSearchClicked(searchFields);
         }}>
             <Form.Group>
-                <Form.Label>Page name or description:</Form.Label>
-                <Form.Control value={searchFields.pageNameQuery} onChange={(e) => onSearchFieldsChange({ ...searchFields, pageNameQuery: e.target.value })} type="text" placeholder="Page name" />
+                <Form.Label htmlFor="nameOrDescriptionField">Page name or description:</Form.Label>
+                <Form.Control 
+                    value={searchFields.pageNameQuery} 
+                    onChange={(e) => onSearchFieldsChange({ ...searchFields, pageNameQuery: e.target.value })} 
+                    type="text" 
+                    placeholder="Keyword" 
+                    id="nameOrDescriptionField"/>
             </Form.Group>
             <Form.Group>
-                <Form.Label>User name:</Form.Label>
-                <Form.Control value={searchFields.userNameQuery} onChange={(e) => onSearchFieldsChange({ ...searchFields, userNameQuery: e.target.value })} type="text" placeholder="User name" />
+                <Form.Label htmlFor="userNameField">Username:</Form.Label>
+                <Form.Control 
+                    value={searchFields.userNameQuery} 
+                    onChange={(e) => onSearchFieldsChange({ ...searchFields, userNameQuery: e.target.value })} 
+                    type="text" 
+                    placeholder="Username" 
+                    id="userNameField"/>
             </Form.Group>
             <Form.Group>
-                <Form.Label>Tags:</Form.Label>
-                <Form.Control value={searchFields.tagsQuery} onChange={(e) => onSearchFieldsChange({ ...searchFields, tagsQuery: e.target.value })} type="text" placeholder="tag1,tag2,tag3" />
+                <Form.Label htmlFor="tagsField">Tags:</Form.Label>
+                <Form.Control 
+                    value={searchFields.tagsQuery} 
+                    onChange={(e) => onSearchFieldsChange({ ...searchFields, tagsQuery: e.target.value })} 
+                    type="text" 
+                    placeholder="tag1,tag2,tag3" 
+                    id="tagsField"/>
             </Form.Group>
             <Button variant="primary" type="submit">Search</Button>
         </Form>
