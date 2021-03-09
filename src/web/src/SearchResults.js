@@ -15,12 +15,15 @@ const buildUrl = (date, {pageNameQuery, userNameQuery, tagsQuery}) => {
     return url.href;  
 }
 
-export default function SearchResults({date, searchRequest, onResultClick}){
+export default function SearchResults({date, searchRequest, onResultClick, onLoadingStart, onLoadingEnd}){
     const [searchResults, setSearchResults] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     onResultClick = onResultClick || (() => {});
+    onLoadingStart = onLoadingStart || (() => {});
+    onLoadingEnd = onLoadingEnd || (() => {});
+    
     useEffect(() => {
         if (!searchRequest) return;
         setError("");
@@ -43,6 +46,14 @@ export default function SearchResults({date, searchRequest, onResultClick}){
             })
             .finally(() => setLoading(false));
     }, [searchRequest, date]);
+
+    useEffect(() => {
+        if (loading) {
+            onLoadingStart();
+        } else {
+            onLoadingEnd();
+        }
+    }, [loading, onLoadingEnd, onLoadingStart]);
 
     if (!searchRequest) return null;
     return (
