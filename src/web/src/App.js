@@ -70,7 +70,7 @@ function App() {
         <Row>
           <Col>
             <Navbar className="navbar-95" expand="sm" collapseOnSelect={true}>
-              <Navbar.Brand>Hypnospace Map</Navbar.Brand>
+              <Navbar.Brand><h5>Hypnospace Map</h5></Navbar.Brand>
               <Navbar.Toggle />
               <Navbar.Collapse className="justify-content-end">
                 <Nav>

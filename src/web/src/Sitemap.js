@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
 import {Card, Button, Nav, Navbar, Dropdown, DropdownButton, Spinner} from "react-bootstrap";
-import worldIcon from "./win95-bootstrap/icons/world-1.png"
+import worldIcon from "./win95-bootstrap/icons/connected_world-1.png"
 cytoscape.use(fcose);
 
 //TODO: make zones visually distinct
@@ -320,9 +320,8 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
 
     return (
         <Card className="square h-100">
-            <Card.Header>
-                <img src={worldIcon} alt=""></img>
-                <b>Site Graph - {date}</b>
+            <Card.Header>      
+                <h5><img src={worldIcon} alt=""></img> Site Graph - {date}</h5>
             </Card.Header>
             <Navbar className="navbar-95">
                 <Nav>

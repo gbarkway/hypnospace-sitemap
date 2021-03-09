@@ -52,7 +52,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
             <div className="pageDetails h-100">
                 <Card className="square h-100">
                     <Card.Header>
-                        <b>Page Details - {data.name}</b>
+                        <h5>Page Details - {data.name}</h5>
                     </Card.Header>
                     <Card.Body style={{ "overflowY": "scroll" }}>
                         <div className="d-flex justify-content-between">
@@ -94,7 +94,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
             <div className="pageDetails h-100">
                 <Card className="square h-100">
                     <Card.Header>
-                        <b>Page Details</b>
+                        <h5>Page Details</h5>
                     </Card.Header>
                     <Card.Body>
                         <Card.Text>
