@@ -253,12 +253,14 @@ CARDS
     display: block;
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow-x: hidden;
     padding-top: 2px;
     padding-bottom: 1px;
     padding-left: 4px;
     text-align: left;
     line-height: 1.15;
     font-size: 0.9rem;
+    min-height: 24px;
 }
 .card-header.icon{
     padding-left: 4px;
