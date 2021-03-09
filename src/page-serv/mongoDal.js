@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const promiseRetry = require('promise-retry')
+const escapeStringRegexp = require('escape-string-regexp');
 
 const Page = mongoose.model('Page', {
     path: String,
@@ -56,7 +57,7 @@ const makeDal = () => {
             opts = opts || {};
             const filter = { date };
             if (opts.user) {
-                filter.user = new RegExp(`.*${opts.user}.*`, 'i');
+                filter.user = new RegExp(`.*${escapeStringRegexp(opts.user)}.*`, 'i');
             }
             if (opts.zone) {
                 filter.zone = opts.zone;
@@ -69,7 +70,7 @@ const makeDal = () => {
                 } // else no tag filter
             }
             if (opts.nameOrDescription) {
-                const re = new RegExp(`.*${opts.nameOrDescription}.*`, 'i');
+                const re = new RegExp(`.*${escapeStringRegexp(opts.nameOrDescription)}.*`, 'i');
                 filter.$or = [
                     { "name": re },
                     { "description": re },

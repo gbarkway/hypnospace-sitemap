@@ -140,6 +140,18 @@ describe('GET /captures/:date/pages', function() {
                     done();
                 })
         })
+
+        it('special characters are escaped in user filter', function(done) {
+            chai.request(app)
+                .get('/captures/1999-11-05/pages?user=*GraysPeak')
+                .end((err, res) => {
+                    res.status.should.equal(200);
+                    res.body.should.be.a('Array');
+                    res.body.should.have.lengthOf(3);
+                    res.body.filter(p => p.user != "*GraysPeak").length.should.equal(0);
+                    done();
+                })
+        })
     })
 
     describe('tags filter', function(){
