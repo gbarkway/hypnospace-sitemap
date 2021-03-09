@@ -11,7 +11,8 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
             <Modal.Header>
                 <Modal.Title>Welcome!</Modal.Title>
                 <Button variant="secondary" className="win95-close" onClick={onCloseButtonClick}>
-                    <span>×</span>
+                    <span aria-hidden="true">×</span>
+                    <span className="sr-only">Close</span>
                 </Button>
             </Modal.Header>
             <Modal.Body>

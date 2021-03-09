@@ -14,7 +14,8 @@ export default function SearchModal({date, onResultClick, searchFields, onSearch
                     Search {date}
                 </Modal.Title>
                 <Button variant="secondary" className="win95-close" onClick={onCloseButtonClick}>
-                    <span>×</span>
+                    <span aria-hidden="true">×</span>
+                    <span className="sr-only">Close</span>
                 </Button>
             </Modal.Header>
             <Modal.Body>
