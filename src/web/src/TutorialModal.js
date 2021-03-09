@@ -32,7 +32,7 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
                     <li>Click the <img src={helpIcon} alt="help"></img> button to see this dialog again</li>
                 </ul>
                 <h5>About</h5>
-                <p>See <a target="_blank" rel="noreferrer" href="/licenses">here</a> for open source licenses and <a target="_blank" rel="noreferrer" href="https://github.com/gbarkway/hypnospace-sitemap">here</a> for this project's GitHub</p>
+                <p>See <a target="_blank" rel="noreferrer" href="/licenses">attributions</a> or <a target="_blank" rel="noreferrer" href="https://github.com/gbarkway/hypnospace-sitemap">this project's GitHub</a>.</p>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={onCloseButtonClick}>OK</Button>
