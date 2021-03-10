@@ -17,7 +17,11 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
             </Modal.Header>
             <Modal.Body>
                 <h5>Introduction</h5>
-                <p>This is an interactive map of Hypnospace, the alternate-reality Internet from the wonderful 2019 game <a target="_blank" rel="noreferrer" href="http://www.hypnospace.net/">Hypnospace Outlaw</a></p>
+                <p>
+                    This is an interactive map of Hypnospace, the alternate-reality Internet from the wonderful 
+                    2019 game <a target="_blank" rel="noreferrer" href="http://www.hypnospace.net/">Hypnospace Outlaw</a>.
+                    Spoilers, of course!
+                </p>
                 <h5>Controls</h5>
                 <ul>
                     <li><b>Click and drag</b> to pan. <b>Scroll</b> (mouse) or pinch and zoom (touchscreen) to zoom.</li>
@@ -31,8 +35,15 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
                     <li>Click on a page name in search results to jump to it</li>
                     <li>Click the <img src={helpIcon} alt="help"></img> button to see this dialog again</li>
                 </ul>
-                <h5>About</h5>
-                <p>See <a target="_blank" rel="noreferrer" href="/licenses">attributions</a> or <a target="_blank" rel="noreferrer" href="https://github.com/gbarkway/hypnospace-sitemap">this project's GitHub</a>.</p>
+                <h5>More</h5>
+                <ul>
+                    <li>
+                        Check out <a target="_blank" rel="noreferrer" href="https://js.cytoscape.org/">Cytoscape.js</a> (graph vis library) and 
+                        <a target="_blank" rel="noreferrer" href="https://alexbsoft.github.io/win95.css/"> win95 css</a> (this cool modern styling 😎)
+                    </li>
+                    <li><a target="_blank" rel="noreferrer" href="/licenses">Open source licenses</a></li>
+                    <li><a target="_blank" rel="noreferrer" href="https://github.com/gbarkway/hypnospace-sitemap">GitHub</a></li>
+                </ul>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={onCloseButtonClick}>OK</Button>
