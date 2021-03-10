@@ -39,7 +39,7 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
                 <ul>
                     <li>
                         Check out <a target="_blank" rel="noreferrer" href="https://js.cytoscape.org/">Cytoscape.js</a> (graph vis library) and 
-                        <a target="_blank" rel="noreferrer" href="https://alexbsoft.github.io/win95.css/">win95 css</a> (this cool modern styling 😎)
+                        <a target="_blank" rel="noreferrer" href="https://alexbsoft.github.io/win95.css/"> win95 css</a> (this cool modern styling 😎)
                     </li>
                     <li><a target="_blank" rel="noreferrer" href="/licenses">Open source licenses</a></li>
                     <li><a target="_blank" rel="noreferrer" href="https://github.com/gbarkway/hypnospace-sitemap">GitHub</a></li>
