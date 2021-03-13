@@ -8,13 +8,14 @@ import networkx as nx
 
 Page = namedtuple('Page', ['name', 'path', 'linksTo', 'description', 'tags', 'user', 'zone', 'isZoneHome'])
 Capture = namedtuple('Capture', ['date', 'pages'])
-Hypnospace = namedtuple('Hypnospace', ['captures', 'adLinks', 'mailLinks'])
+Hypnospace = namedtuple('Hypnospace', ['captures', 'mailLinks', 'adLinks'])
 
 __linkRe = re.compile(r'hs[abc]?\\(.+\.hsp)')
 
 def readPage(hspPath):
     """Read single .hsp file and return Page"""
 
+    hspPath = Path(hspPath)
     with open(hspPath) as file:
         dom = json.load(file)
         
@@ -53,6 +54,7 @@ def readPage(hspPath):
 def readZone(zonePath):
     """Read zone folder (e.g. '04_teentopia') and return list of Page"""
 
+    zonePath = Path(zonePath)
     pages = [readPage(f) for f in zonePath.iterdir() if not f.name == 'zone.hsp']
 
     # "links" in zones.hsp not explicitly defined in hsp file
@@ -84,6 +86,7 @@ def readCapture(capturePath, noprune=[]):
                 in noprune.
     """
 
+    capturePath = Path(capturePath)
     zonePaths = [p for p in capturePath.iterdir() if p.is_dir() and (p / 'zone.hsp').exists()]
     pages = [page for zonePath in zonePaths for page in readZone(zonePath)]
 
@@ -102,7 +105,7 @@ def readCapture(capturePath, noprune=[]):
     # d) there is a path to the page from one of a), b) or c)
 
     # a), b), and c)
-    reachablePaths = [page.path for page in pages if len(page.tags) or 'zone.hsp' in page.path or page.path in noprune]
+    reachablePaths = [page.path for page in pages if len(page.tags) or page.path.endswith(r'\zone.hsp') or page.path in noprune]
 
     # d)
     # depth-first graph traversal to find path between current page and a known reachable page
@@ -149,7 +152,7 @@ def readLinksFromFile(filePath):
     return [match[1].lower() for match in matches if match]
 
 def readHypnospace(dataPath):
-    """Given Hypnospace Outlaw data file, return Hypnospace namedtuple"""
+    """Given Hypnospace Outlaw data folder, return Hypnospace namedtuple"""
 
     dataPath = Path(dataPath)
 
