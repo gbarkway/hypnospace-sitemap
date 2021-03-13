@@ -1,5 +1,7 @@
 # Hypnospace Page Crawler
 
+[![crawler test](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml/badge.svg)](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml)
+
 The scripts in this folder generate Hypnospace Outlaw page metadata.
 
 - `crawler.py` is the module that does most of the work
