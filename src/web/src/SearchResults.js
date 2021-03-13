@@ -72,6 +72,7 @@ export default function SearchResults({date, searchRequest, onResultClick, onLoa
                     <span className="sr-only">Loading...</span>
                 </Spinner>
             </h5>
+            <span className="text-muted">Click on page name to view page.</span>
             <div className="search-results">
                 <Table size="sm">
                     <thead>

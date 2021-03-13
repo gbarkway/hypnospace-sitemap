@@ -98,7 +98,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                     </Card.Header>
                     <Card.Body>
                         <Card.Text>
-                            {error.length ? error : "No page selected"}
+                            {error.length ? error : "No page selected. Click a zone to get started."}
                         </Card.Text>
                     </Card.Body>
                 </Card>
