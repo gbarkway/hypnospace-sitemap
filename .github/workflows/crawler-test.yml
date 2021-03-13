@@ -5,9 +5,17 @@ name: Python application
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+    - main
+    paths:
+    - 'src/crawler/**'
+    - '.github/workflows/crawler-test.yml'
   pull_request:
-    branches: [ main ]
+    branches:
+    - main
+    paths:
+    - 'src/crawler/**'
+    - '.github/workflows/crawler-test.yml'
 
 jobs:
   build:
