@@ -9,8 +9,8 @@ const app = express();
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
     app.use(cors());
-} else if (process.env.CORS_ORIGIN) {
-    app.use(cors({origin: process.env.CORS_ORIGIN.split(',')}))
+} else if (process.env.CORS_ALLOWED_ORIGINS) {
+    app.use(cors({origin: process.env.CORS_ALLOWED_ORIGINS.split(',')}))
 }
 
 app.get('/captures', async (req, res) => {
