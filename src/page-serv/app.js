@@ -7,8 +7,11 @@ const dal = makeDal();
 const service = makeCaptureService(dal);
 const app = express();
 
-// TODO: make api gateway and push cors to that? or serve api and web from same origin?
-app.use(cors());
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+    app.use(cors());
+} else if (process.env.CORS_ORIGIN) {
+    app.use(cors({origin: process.env.CORS_ORIGIN.split(',')}))
+}
 
 app.get('/captures', async (req, res) => {
     try {
