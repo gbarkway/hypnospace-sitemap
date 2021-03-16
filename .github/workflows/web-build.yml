@@ -25,7 +25,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker-compose build web
+      run: docker-compose -f ./src/docker-compose.yml build web
     
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -36,4 +36,4 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker-compose push web
+      run: docker-compose -f ./src/docker-compose.yml push web

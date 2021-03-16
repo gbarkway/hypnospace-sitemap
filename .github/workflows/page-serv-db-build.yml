@@ -24,8 +24,8 @@ jobs:
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker-compose build pageserv-db
-    
+      run: docker-compose -f ./src/docker-compose.yml build pageserv-db
+
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
       with:
@@ -35,4 +35,4 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker-compose push pageserv-db
+      run: docker-compose -f ./src/docker-compose.yml push pageserv-db
