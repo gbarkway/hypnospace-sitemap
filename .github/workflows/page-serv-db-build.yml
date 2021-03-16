@@ -25,7 +25,7 @@ jobs:
 
     - name: Build container image
       run: docker-compose -f ./src/docker-compose.yml build pageserv-db
-    
+
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
       with:

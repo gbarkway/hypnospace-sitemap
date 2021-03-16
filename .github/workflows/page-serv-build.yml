@@ -37,3 +37,4 @@ jobs:
 
     - name: Push image to DigitalOcean Container Registry
       run: docker-compose -f ./src/docker-compose.yml push pageserv
+
