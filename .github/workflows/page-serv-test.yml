@@ -12,11 +12,11 @@ on:
 
 jobs:
 
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Run docker-compose
-      run: docker-compose -f ./src/page-serv/docker-compose.yml -f ./src/page-serv/docker-compose.debug.yml run pageserv npm test
+      run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml run pageserv npm test

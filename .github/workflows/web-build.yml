@@ -14,13 +14,18 @@ jobs:
   build:
     name: Build and push
     runs-on: ubuntu-latest
+    env:
+      REGISTRY: registry.digitalocean.com/gbarkway
+      TAG: ${{ github.sha }}
+      WEBAPP_DOT_ENV_PATH: ".env.production"
+      
     steps:
 
     - name: Checkout master
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build -t registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/gbarkway/hs-web:latest ./src/web
+      run: docker-compose build web
     
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -31,7 +36,4 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker push -a registry.digitalocean.com/gbarkway/hs-web
-
-    - name: Display new tag
-      run: echo "Pushed registry.digitalocean.com/gbarkway/hs-web:$(echo $GITHUB_SHA | head -c7) and registry.digitalocean.com/gbarkway/hs-web:latest"
+      run: docker-compose push web

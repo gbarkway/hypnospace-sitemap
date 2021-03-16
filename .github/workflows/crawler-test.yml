@@ -18,7 +18,7 @@ on:
     - '.github/workflows/crawler-test.yml'
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
