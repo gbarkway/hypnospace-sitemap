@@ -17,7 +17,6 @@ jobs:
     env:
       REGISTRY: registry.digitalocean.com/gbarkway
       TAG: ${{ github.sha }}
-      WEBAPP_EXTERNAL_DNS: "https://hypnospacemap.ca,https://www.hypnospacemap.ca"
       
     steps:
 
