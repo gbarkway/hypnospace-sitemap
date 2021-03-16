@@ -14,13 +14,18 @@ jobs:
   build:
     name: Build and push
     runs-on: ubuntu-latest
+    env:
+      REGISTRY: registry.digitalocean.com/gbarkway
+      TAG: ${{ github.sha }}
+      WEBAPP_EXTERNAL_DNS: "https://hypnospacemap.ca,https://www.hypnospacemap.ca"
+      
     steps:
 
     - name: Checkout master
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build -t registry.digitalocean.com/gbarkway/hs-captureserv:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/gbarkway/hs-captureserv:latest ./src/capture-serv
+      run: docker-compose build captureserv
     
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -31,7 +36,4 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker push -a registry.digitalocean.com/gbarkway/hs-captureserv
-
-    - name: Display new tag
-      run: echo "Pushed registry.digitalocean.com/gbarkway/hs-captureserv:$(echo $GITHUB_SHA | head -c7) and registry.digitalocean.com/gbarkway/hs-captureserv:latest"
+      run: docker-compose push captureserv

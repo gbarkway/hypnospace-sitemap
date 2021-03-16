@@ -6,21 +6,26 @@ on:
     branches:
       - main
     paths:
-      - 'src/page-serv/db/**'
+      - 'src/page-serv-db/**'
       - '.github/workflows/page-serv-db-build.yml'
 
 jobs:
 
   build:
-    name: Build and push image
+    name: Build and push
     runs-on: ubuntu-latest
+    env:
+      REGISTRY: registry.digitalocean.com/gbarkway
+      TAG: ${{ github.sha }}
+      WEBAPP_EXTERNAL_DNS: "https://hypnospacemap.ca,https://www.hypnospacemap.ca"
+      
     steps:
 
     - name: Checkout master
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build -t registry.digitalocean.com/gbarkway/hs-pageserv-db:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/gbarkway/hs-pageserv-db:latest ./src/page-serv/db
+      run: docker-compose build pageserv-db
     
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -31,7 +36,4 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker push -a registry.digitalocean.com/gbarkway/hs-pageserv-db
-
-    - name: Display new tag
-      run: echo "Pushed registry.digitalocean.com/gbarkway/hs-pageserv-db:$(echo $GITHUB_SHA | head -c7) and registry.digitalocean.com/gbarkway/hs-pageserv-db:latest"
+      run: docker-compose push pageserv-db
