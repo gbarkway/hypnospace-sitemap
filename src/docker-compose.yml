@@ -2,12 +2,12 @@ version: '3.4'
 
 services:
   pageserv-db:
-    image: hs-pageserv-db
+    image: ${REGISTRY:-hs}/hs-pageserv-db:${TAG:-latest} # hs stands for hypnospace 🙂
     build:
-      context: page-serv/db
+      context: page-serv-db
     
   pageserv:
-    image: hs-pageserv
+    image: ${REGISTRY:-hs}/hs-pageserv:${TAG:-latest}
     build:
       context: page-serv
       target: production
@@ -16,27 +16,29 @@ services:
     environment:
       NODE_ENV: production
       MONGO_HOST: mongodb://pageserv-db/hypnospace
+      CORS_ALLOWED_ORIGINS: ${WEBAPP_EXTERNAL_DNS}
     ports:
       - 3000:3000
 
   captureserv:
-    image: hs-captureserv
+    image: ${REGISTRY:-hs}/hs-captureserv:${TAG:-latest}
     build:
       context: capture-serv
       target: production
     environment:
       NODE_ENV: production
+      CORS_ALLOWED_ORIGINS: ${WEBAPP_EXTERNAL_DNS}
     ports:
       - 3001:3000
 
   web:
-    image: hs-web
+    image: ${REGISTRY:-hs}/hs-web:${TAG:-latest}
     profiles:
     - frontend
     build:
       context: web 
       args:
-        - DOT_ENV=.env.development
+        - DOT_ENV=${WEBAPP_DOT_ENV_PATH}
     depends_on:
       - pageserv
       - captureserv 
