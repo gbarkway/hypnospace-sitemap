@@ -10,20 +10,10 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
     <Modal show={show} onHide={onCloseButtonClick} animation={false} centered>
       <Modal.Header>
         <Modal.Title>
-          <img
-            className="m-1"
-            src={helpIcon}
-            alt=""
-            width="24"
-            height="24"
-          ></img>
+          <img className="m-1" src={helpIcon} alt="" width="24" height="24"></img>
           Welcome!
         </Modal.Title>
-        <Button
-          variant="secondary"
-          className="win95-close"
-          onClick={onCloseButtonClick}
-        >
+        <Button variant="secondary" className="win95-close" onClick={onCloseButtonClick}>
           <span aria-hidden="true">×</span>
           <span className="sr-only">Close</span>
         </Button>
@@ -31,8 +21,8 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
       <Modal.Body>
         <h5>Introduction</h5>
         <p>
-          This is an interactive map of Hypnospace, the alternate-reality
-          Internet from the wonderful 2019 game{" "}
+          This is an interactive map of Hypnospace, the alternate-reality Internet from the
+          wonderful 2019 game{" "}
           <a target="_blank" rel="noreferrer" href="http://www.hypnospace.net/">
             Hypnospace Outlaw
           </a>
@@ -47,24 +37,19 @@ export default function TutorialModal({ show, onCloseButtonClick }) {
             <b>Zoom:</b> scroll (mouse) or pinch and zoom (touchscreen)
           </li>
           <li>
-              <img src={calIcon} alt="calendar"></img>
-              <b>:</b> change date
+            <img src={calIcon} alt="calendar"></img>
+            <b>:</b> change date
           </li>
           <li>
-              <img src={searchIcon} alt="help"></img>
-              <b>:</b> search!
+            <img src={searchIcon} alt="help"></img>
+            <b>:</b> search!
           </li>
         </ul>
         <p>Zones are big rectangles. Click on one to get started!</p>
       </Modal.Body>
       <Modal.Footer className="justify-content-between">
         <div>
-          <a
-            className="mx-2 small"
-            target="_blank"
-            rel="noreferrer"
-            href="/licenses"
-          >
+          <a className="mx-2 small" target="_blank" rel="noreferrer" href="/licenses">
             Licenses
           </a>
           <a

@@ -24,20 +24,10 @@ export default function SearchModal({
     <Modal show={show} onHide={onCloseButtonClick} animation={false} size="lg">
       <Modal.Header>
         <Modal.Title>
-          <img
-            className="m-1"
-            src={searchIcon}
-            alt=""
-            width="24"
-            height="24"
-          ></img>
+          <img className="m-1" src={searchIcon} alt="" width="24" height="24"></img>
           Search {date}
         </Modal.Title>
-        <Button
-          variant="secondary"
-          className="win95-close"
-          onClick={onCloseButtonClick}
-        >
+        <Button variant="secondary" className="win95-close" onClick={onCloseButtonClick}>
           <span aria-hidden="true">×</span>
           <span className="sr-only">Close</span>
         </Button>

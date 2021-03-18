@@ -1,28 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import cytoscape from "cytoscape";
 import fcose from "cytoscape-fcose";
-import {
-  Card,
-  Button,
-  Nav,
-  Navbar,
-  Dropdown,
-  DropdownButton,
-  Spinner,
-} from "react-bootstrap";
+import { Card, Button, Nav, Navbar, Dropdown, DropdownButton, Spinner } from "react-bootstrap";
 import worldIcon from "./win95-bootstrap/icons/connected_world-1.png";
 cytoscape.use(fcose);
 
 //TODO: make zones visually distinct
 //TODO: non-selected zones say "Tap me to see more" or something
-export default function Sitemap({
-  date,
-  onTap,
-  selected,
-  focused,
-  onZoneMenuClick,
-  onPanZoom,
-}) {
+export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick, onPanZoom }) {
   onZoneMenuClick = onZoneMenuClick || (() => {});
   const [elements, setElements] = useState([]);
 
@@ -116,10 +101,7 @@ export default function Sitemap({
                 zone: page.zone,
               },
               pannable: true,
-              classes: [
-                "hidden",
-                ...(page.path.includes("zone.hsp") ? ["zoneList"] : []),
-              ],
+              classes: ["hidden", ...(page.path.includes("zone.hsp") ? ["zoneList"] : [])],
             };
           }),
           ...capture.links.map((link) => ({
@@ -327,12 +309,7 @@ export default function Sitemap({
           node = node.children(".zoneList");
         }
 
-        onTap(
-          node.id(),
-          node.hasClass("selected"),
-          node.data("zone"),
-          isParent
-        );
+        onTap(node.id(), node.hasClass("selected"), node.data("zone"), isParent);
       }
     });
 
@@ -391,18 +368,14 @@ export default function Sitemap({
               ))}
             </DropdownButton>
           </Nav.Item>
-          <Nav.Item
-            style={loading ? { display: "block" } : { display: "none" }}
-          >
+          <Nav.Item style={loading ? { display: "block" } : { display: "none" }}>
             <div className="d-flex h-100 align-items-center">
               <Spinner size="sm" animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
             </div>
           </Nav.Item>
-          <Nav.Item
-            style={error.length ? { display: "block" } : { display: "none" }}
-          >
+          <Nav.Item style={error.length ? { display: "block" } : { display: "none" }}>
             <span className="text-danger">{error}</span>
           </Nav.Item>
         </Nav>

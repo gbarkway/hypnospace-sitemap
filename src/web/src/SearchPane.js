@@ -27,11 +27,7 @@ export default function SearchPane({
             onSearchFieldsChange={onSearchFieldsChange}
           />
           <hr></hr>
-          <SearchResults
-            date={date}
-            searchRequest={searchRequest}
-            onResultClick={onResultClick}
-          />
+          <SearchResults date={date} searchRequest={searchRequest} onResultClick={onResultClick} />
         </Card.Body>
       </Card>
     </div>

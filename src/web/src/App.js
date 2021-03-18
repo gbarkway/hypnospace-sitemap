@@ -49,10 +49,7 @@ function App() {
 
   return (
     <div className="App">
-      <TutorialModal
-        show={showHelpModal}
-        onCloseButtonClick={() => setShowHelpModal(false)}
-      />
+      <TutorialModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)} />
       <SearchModal
         show={showSearchModal}
         onCloseButtonClick={() => setShowSearchModal(false)}
@@ -109,12 +106,7 @@ function App() {
                     title="GitHub"
                     href="https://github.com/gbarkway/hypnospace-sitemap"
                   >
-                    <img
-                      src={githubLogo}
-                      width="16px"
-                      height="16px"
-                      alt=""
-                    ></img>
+                    <img src={githubLogo} width="16px" height="16px" alt=""></img>
                   </Nav.Link>
                 </Nav>
               </Navbar.Collapse>
@@ -128,9 +120,7 @@ function App() {
                 date={date}
                 path={path}
                 onTagClick={(t) => updateFieldsAndSearch({ tagsQuery: t })}
-                onUserNameClick={(userName) =>
-                  updateFieldsAndSearch({ userNameQuery: userName })
-                }
+                onUserNameClick={(userName) => updateFieldsAndSearch({ userNameQuery: userName })}
               />
             </div>
           </Col>

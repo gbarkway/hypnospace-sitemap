@@ -15,9 +15,7 @@ export default function SearchFields({
     >
       <fieldset disabled={disabled}>
         <Form.Group>
-          <Form.Label htmlFor="nameOrDescriptionField">
-            Page name or description:
-          </Form.Label>
+          <Form.Label htmlFor="nameOrDescriptionField">Page name or description:</Form.Label>
           <Form.Control
             value={searchFields.pageNameQuery}
             onChange={(e) =>

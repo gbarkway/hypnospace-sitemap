@@ -12,12 +12,7 @@ const placeholder = {
 };
 
 //TODO: indicate if a page is linked to by hypnomail or by an ad
-export default function PageDetails({
-  date,
-  path,
-  onTagClick,
-  onUserNameClick,
-}) {
+export default function PageDetails({ date, path, onTagClick, onUserNameClick }) {
   onTagClick = onTagClick || (() => {});
   onUserNameClick = onUserNameClick || (() => {});
 
@@ -97,11 +92,7 @@ export default function PageDetails({
             </Card.Text>
             <Card.Text>
               {data.tags.map((t, i) => (
-                <Button
-                  onClick={() => onTagClick(t)}
-                  variant="link"
-                  key={`tag-${i}`}
-                >
+                <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
                   &gt;{t}
                 </Button>
               ))}
@@ -119,9 +110,7 @@ export default function PageDetails({
           </Card.Header>
           <Card.Body>
             <Card.Text>
-              {error.length
-                ? error
-                : "No page selected. Click a zone to get started."}
+              {error.length ? error : "No page selected. Click a zone to get started."}
             </Card.Text>
           </Card.Body>
         </Card>
