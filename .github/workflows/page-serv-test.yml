@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Build
-      run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml build pageserv
+      run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml build pageserv pageserv-db
     
     - name: Lint
       run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml run pageserv npx eslint
