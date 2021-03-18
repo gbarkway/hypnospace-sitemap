@@ -10,7 +10,7 @@ paths:
     get:
       summary: List available captures
       responses:
-        '200':
+        "200":
           description: Capture dates
           content:
             application/json:
@@ -49,14 +49,14 @@ paths:
           in: query
           required: false
           schema:
-              type: integer
+            type: integer
         - name: count
           in: query
           required: false
           schema:
-              type: integer
+            type: integer
       responses:
-        '200':
+        "200":
           description: Pages
           content:
             application/json:
@@ -73,18 +73,18 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Page'
+                      $ref: "#/components/schemas/Page"
   /captures/{date}/pages/{path_or_hap}:
-     get:
+    get:
       summary: Get single page by hsp path or by hap id
       responses:
-        '200':
+        "200":
           description: Page found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
-        '404':
+                $ref: "#/components/schemas/Page"
+        "404":
           description: Page not found
 
 components:
