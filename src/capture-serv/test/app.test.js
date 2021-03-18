@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+/* eslint-disable no-undef */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { app, server } = require('../app')
