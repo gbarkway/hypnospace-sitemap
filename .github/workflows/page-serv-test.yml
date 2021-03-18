@@ -13,10 +13,18 @@ on:
 jobs:
 
   test:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Run docker-compose
+    
+    - name: Build
+      run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml build pageserv
+    
+    - name: Lint
+      run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml run pageserv npx eslint
+      
+    - name: Check code style
+      run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml run pageserv npx prettier --check .
+      
+    - name: Run tests
       run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml run pageserv npm test
