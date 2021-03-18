@@ -10,14 +10,14 @@ paths:
     get:
       summary: List available captures
       responses:
-        '200':
+        "200":
           description: Available capture dates
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: string    
+                  type: string
               example:
                 - "1999-11-05"
                 - "1999-11-26"
@@ -39,7 +39,7 @@ paths:
               - "1999-12-31"
               - "20xx-xx-xx"
       responses:
-        '200':
+        "200":
           description: Capture
           content:
             application/json:
@@ -66,9 +66,5 @@ paths:
                           type: string
                         targetPath:
                           type: string
-        '404':
+        "404":
           description: invalid date
-          
-
-
-

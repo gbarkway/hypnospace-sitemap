@@ -21,12 +21,14 @@ Or:
 ```
 docker-compose -f docker-compose.yml -f docker-compose.debug.yml up
 ```
+
 This runs with features to aid debugging:
 
 - Opens node inspect port on 9229
 - Runs service in nodemon and monitors project files for changes
 
 For convenience you can alias the above:
+
 ```
 alias docker-compose-dbg="docker-compose -f docker-compose.yml -f docker-compose.debug.yml"
 docker-compose-dbg up
@@ -35,10 +37,8 @@ docker-compose-dbg up
 ## Running Tests
 
 To run tests in container:
+
 ```
 docker-compose-dbg run --rm captureserv npm test
 docker-compose-dbg down
 ```
-
-
-
