@@ -18,7 +18,7 @@ const Capture = mongoose.model('Capture', {
 
 const degoosify = (document) => {
     if (!document) return document;
-    return document.toObject({transform: function(doc, ret, options) {
+    return document.toObject({transform: function(doc, ret) {
         delete ret._id;
         return ret;
     }});
@@ -45,7 +45,7 @@ const makeDal = () => {
     })
     .catch((err) => console.error('Failed to connect to Mongo', err));
 
-    throwIfNotConnected = () => {
+    const throwIfNotConnected = () => {
         if (!connected) throw new Error('mongodb not connected')
     }
 

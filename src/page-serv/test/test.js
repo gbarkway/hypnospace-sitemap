@@ -1,6 +1,6 @@
+/* eslint-disable no-undef */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const mongoose = require('mongoose');
 const { app, close, readyPromise }= require('../app')
 
 chai.use(chaiHttp);
@@ -16,9 +16,6 @@ describe('GET /captures', function() {
         chai.request(app)
             .get('/captures')
             .end((err, res) => {
-                if (err) {
-                    
-                }
                 res.status.should.equal(200);
                 res.body.should.be.a('Array');
                 res.body.length.should.equal(4);
