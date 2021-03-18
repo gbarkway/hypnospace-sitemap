@@ -21,7 +21,7 @@
   height: 75%;
 }
 
-@media (min-width: 992px){
+@media (min-width: 992px) {
   .details-col {
     height: 100%;
   }
@@ -42,7 +42,8 @@ button.win95-close {
   padding: 0px;
 }
 
-.card-header > h5 { /* want semantic meaning of header tag but not the big text*/
+.card-header > h5 {
+  /* want semantic meaning of header tag but not the big text*/
   font-size: small;
   font-weight: bold;
   margin-bottom: 0;
