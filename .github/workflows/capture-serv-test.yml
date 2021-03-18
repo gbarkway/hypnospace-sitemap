@@ -13,11 +13,12 @@ on:
 jobs:
 
   test:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Build
+      run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml build captureserv
     
     - name: Lint
       run: docker-compose -f ./src/docker-compose.yml -f ./src/docker-compose.dev.yml run captureserv npx eslint
