@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Although this project can be run from a container using the Dockerfile or docker-compose, I mostly developed this component outside the container.
 
-```
+```shell
 # start backend services
 docker-compose -f ../docker-compose.yml -d
 npm install

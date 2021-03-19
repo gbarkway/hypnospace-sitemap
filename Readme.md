@@ -5,11 +5,9 @@
 [![crawler test](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml/badge.svg)](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml)
 
 
-An interactive map of Hypnospace, the alternate-reality Internet from the wonderful 2019 game [Hypnospace Outlaw](http://www.hypnospace.net/).
+An interactive map of Hypnospace, the alternate-reality Internet from the wonderful 2019 game [Hypnospace Outlaw](http://www.hypnospace.net/). [Currently hosted here](https://hypnospacemap.ca)
 
-TODO: gif goes here
-
-[Currently hosted here](https://hypnospacemap.ca)
+![Animated screencapture](./screencapture.gif)
 
 ## Run on your local machine
 
