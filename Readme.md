@@ -37,7 +37,7 @@ Visit the subfolders listed below for more project-specific instructions
 
 ## Dev Configuration
 
-You can run with a more dev-friendly configuration by using the docker-compose.dev.yaml file.
+You can run with a more dev-friendly configuration by using the docker-compose.dev.yml file.
 
 ```
 cd src
@@ -48,7 +48,7 @@ docker-compose-dev up --build
 This is equivalent to
 ```
 cd src
-docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up --build
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
 Note: webapp is part of the frontend profile, so it won't run by default.
