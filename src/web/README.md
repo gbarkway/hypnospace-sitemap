@@ -7,12 +7,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Although this project can be run from a container using the Dockerfile or docker-compose, I mostly developed this component outside the container.
 
 ```
+# start backend services
 docker-compose -f ../docker-compose.yml -d
 npm install
 npm start
 ```
 
-Backend endpoint locations can be set by modifying .env.development, or creating a .env.local file. [See here for description of dotenv files in create-react-app projects](https://create-react-app.dev/docs/adding-custom-environment-variables/#what-other-env-files-can-be-used).
+Backend endpoint locations can be changed by modifying .env.development, or creating a .env.local file. [See here for description of dotenv files in create-react-app projects](https://create-react-app.dev/docs/adding-custom-environment-variables/#what-other-env-files-can-be-used). 
 
 ## Building
 
