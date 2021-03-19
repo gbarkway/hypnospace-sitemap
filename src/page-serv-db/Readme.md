@@ -1,6 +1,6 @@
 # Page-service Database
 
-This is a container running mongodb. It populates using the data in captures.json. Page-serv uses it. 
+This is a container running mongodb. It populates using the data in captures.json.
 
 To run:
 
