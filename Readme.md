@@ -53,7 +53,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 Note: webapp is part of the frontend profile, so it won't run by default.
 
-The .dev.yaml file makes these changes to the base:
+The .dev.yml file makes these changes to the base:
 
 - Maps page-serv and capture-serv app folders to src/page-serv and src/capture-serv and enables hot reloading
 - Exposes ports for Node.js debugging:

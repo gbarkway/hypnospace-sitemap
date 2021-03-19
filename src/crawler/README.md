@@ -21,7 +21,7 @@ import crawler
 hs = crawler.readHypnospace('C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hypnospace Outlaw\\data')
 ```
 
-`readHypnospace` returns a `Hypnospace` namedtuple. `Hypnospace` contains multiple `Capture`s, and a `Capture` contains multiple `Page`s
+`readHypnospace` returns a `Hypnospace` namedtuple. `Hypnospace` contains many `Capture` tuples, and a `Capture` contains many `Page` tuples.
 
 ### JSON-generating scripts
 

@@ -14,16 +14,16 @@ docker-compose up
 
 Service will be available on host port 3001.
 
-If you have previously run with the debug configuration below, run with the `--build` flag to make sure the debug image isn't cached.
+If you have previously run with the dev configuration below, run with the `--build` flag to make sure the debug image isn't cached.
 
-Or:
+To run with development configuration:
 
 ```
 source aliases.sh
 docker-compose-dev up
 ```
 
-This runs with features to aid debugging:
+This runs with the following features to aid debugging:
 
 - Opens node inspect port on 9229
 - Runs service in nodemon and monitors project files for changes

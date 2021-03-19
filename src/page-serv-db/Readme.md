@@ -2,7 +2,7 @@
 
 This is a container running mongodb. It populates using the data in captures.json. Page-serv uses it. 
 
-To run on its own:
+To run:
 
 ```
 cd ..

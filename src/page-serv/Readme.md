@@ -14,7 +14,9 @@ docker-compose up
 
 Service will be available on host port 3000.
 
-Or:
+If you have previously run with the dev configuration below, run with the `--build` flag to make sure the debug image isn't cached.
+
+To run with development configuration:
 
 ```
 source aliases.sh
@@ -24,7 +26,7 @@ docker-compose-dev up
 This runs with features to aid debugging:
 
 - Opens ports on host:
-  - 27017 (mongo)
+  - 27017 (mongodb)
   - 9230 (node debugger)
 - Runs service in nodemon and monitors project files for changes
 
