@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, date
 import json
 import re
 from collections import namedtuple
@@ -54,10 +54,8 @@ def readPage(hspPath):
     if len(descriptionAndTags) > 0:
         tagStartIndex = descriptionAndTags.find('>')
         if tagStartIndex > -1:
-            description = descriptionAndTags[:descriptionAndTags.
-                                             find('>')].strip()
-            tags = descriptionAndTags[descriptionAndTags.find('>') +
-                                      1:].split(' >')
+            description = descriptionAndTags[:tagStartIndex].strip()
+            tags = descriptionAndTags[(tagStartIndex+1):].split(' >')
         else:
             description = descriptionAndTags
             tags = []
@@ -76,13 +74,13 @@ def readZone(zonePath):
 
     # "links" in zones.hsp not explicitly defined in hsp file
     zonePage = readPage(zonePath / 'zone.hsp')
-    zonePage = Page(
-        zonePage.name, zonePage.path,
-        list(
-            set(zonePage.linksTo +
-                [p.path for p in pages if '~' not in p.path])),
-        zonePage.description, zonePage.tags, zonePage.user, zonePage.zone,
-        True)
+    links = list(set(
+        zonePage.linksTo +
+        [p.path for p in pages if '~' not in p.path]
+    ))
+
+    zonePage = Page(zonePage.name, zonePage.path, links, zonePage.description,
+                    zonePage.tags, zonePage.user, zonePage.zone, True)
     pages.append(zonePage)
 
     return pages
@@ -98,10 +96,10 @@ def iniDate2Iso(iniDate):
 
     for formatStr in ['%b %d,%Y', '%b %d, %Y']:
         try:
-            timetuple = datetime.datetime.strptime(iniDate,
-                                                   formatStr).timetuple()
-            return datetime.date(timetuple.tm_year, timetuple.tm_mon,
-                                 timetuple.tm_mday).isoformat()
+            timetuple = datetime.strptime(iniDate, formatStr).timetuple()
+            return date(timetuple.tm_year,
+                        timetuple.tm_mon,
+                        timetuple.tm_mday).isoformat()
         except ValueError:
             pass
 
@@ -182,8 +180,8 @@ def pages2Graph(pages):
 
     G = nx.DiGraph()
     G.add_nodes_from([page.path for page in pages])
-    G.add_edges_from([(page.path, link) for page in pages
-                      for link in page.linksTo])
+    edges = [(page.path, link) for page in pages for link in page.linksTo]
+    G.add_edges_from(edges)
     return G
 
 
