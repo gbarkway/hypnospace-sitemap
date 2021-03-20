@@ -78,7 +78,7 @@ function App() {
               <Navbar.Collapse className="justify-content-end">
                 <Nav>
                   <DatePickerDropdown
-                    value={date}
+                    date={date}
                     onDatePicked={(date) => {
                       setPath(null);
                       setDate(date);
