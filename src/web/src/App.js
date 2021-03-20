@@ -122,7 +122,7 @@ function App() {
               <PageDetails
                 date={date}
                 path={path}
-                onTagClick={(t) => showPrefilledSearch({ tagsQuery: t })}
+                onTagClick={(tag) => showPrefilledSearch({ tagsQuery: tag })}
                 onUserNameClick={(userName) => showPrefilledSearch({ userNameQuery: userName })}
               />
             </div>
