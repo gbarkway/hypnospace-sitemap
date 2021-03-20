@@ -20,15 +20,18 @@ const defaultSearchFields = {
 
 function App() {
   const [date, setDate] = useState("1999-11-05");
+  // path of selected page
   const [path, setPath] = useState(null);
-  const [focused, setFocused] = useState(null);
+  // path of focused (ie zoomed-in-on) node, if any
+  const [focusedPath, setFocusedPath] = useState(null);
   const [searchFields, setSearchFields] = useState({ ...defaultSearchFields });
   const [searchRequest, setSearchRequest] = useState(null);
   const [showHelpModal, setShowHelpModal] = useState(true);
   const [showSearchModal, setShowSearchModal] = useState(false);
 
-  const updateFieldsAndSearch = (fieldstoUpdate) => {
-    const newFields = { ...defaultSearchFields, ...fieldstoUpdate };
+  // see defaultSearchFields for possible props of arg
+  const showPrefilledSearch = (fields) => {
+    const newFields = { ...defaultSearchFields, ...fields };
     setSearchFields(newFields);
     setSearchRequest(newFields);
     setShowSearchModal(true);
@@ -37,14 +40,14 @@ function App() {
   const onNodeTap = useCallback((path, alreadySelected, zone, isParent) => {
     setPath(path);
     if (isParent) {
-      setFocused(zone);
+      setFocusedPath(zone);
     } else if (alreadySelected) {
-      setFocused(path);
+      setFocusedPath(path);
     }
   }, []);
 
   const onPanZoom = useCallback(() => {
-    setFocused(null);
+    setFocusedPath(null);
   }, []);
 
   return (
@@ -56,7 +59,7 @@ function App() {
         date={date}
         onResultClick={(path) => {
           setPath(path);
-          setFocused(path);
+          setFocusedPath(path);
           setShowSearchModal(false);
         }}
         searchFields={searchFields}
@@ -119,8 +122,8 @@ function App() {
               <PageDetails
                 date={date}
                 path={path}
-                onTagClick={(t) => updateFieldsAndSearch({ tagsQuery: t })}
-                onUserNameClick={(userName) => updateFieldsAndSearch({ userNameQuery: userName })}
+                onTagClick={(t) => showPrefilledSearch({ tagsQuery: t })}
+                onUserNameClick={(userName) => showPrefilledSearch({ userNameQuery: userName })}
               />
             </div>
           </Col>
@@ -130,10 +133,10 @@ function App() {
                 date={date}
                 onTap={onNodeTap}
                 selected={path}
-                focused={focused}
+                focused={focusedPath}
                 onZoneMenuClick={({ zone, path }) => {
                   setPath(path);
-                  setFocused(zone);
+                  setFocusedPath(zone);
                 }}
                 onPanZoom={onPanZoom}
               />
