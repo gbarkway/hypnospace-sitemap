@@ -1,4 +1,4 @@
-import { Form, Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 export default function SearchFields({
   onSearchClicked,

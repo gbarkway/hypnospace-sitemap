@@ -1,11 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown, NavItem, NavLink } from "react-bootstrap";
+
 import calIcon from "./win95-bootstrap/icons/time_and_date-1.png";
 
-export default function DatePickerDropdown({ value, onDatePicked }) {
+export default function DatePickerDropdown({ date, onDatePicked }) {
   const [dates, setDates] = useState([]);
 
   useEffect(() => {
+    if (!process.env.REACT_APP_CAPTURE_SERV_URL && process.env.NODE_ENV === "development") {
+      console.error("Env variable REACT_APP_CAPTURE_SERV_URL is unset");
+    }
+
     fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures`)
       .then((res) => {
         if (res.status === 200) {
@@ -32,7 +37,7 @@ export default function DatePickerDropdown({ value, onDatePicked }) {
     <Dropdown as={NavItem} className="d-flex flex-column justify-content-center mx-1">
       <Dropdown.Toggle as={NavLink} id="datepicker-toggle">
         <img src={calIcon} alt=""></img>
-        {value}
+        {date}
       </Dropdown.Toggle>
       <Dropdown.Menu>
         {dates.map((d, i) => (

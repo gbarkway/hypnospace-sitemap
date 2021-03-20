@@ -1,19 +1,78 @@
-import { useEffect, useState, useRef } from "react";
 import cytoscape from "cytoscape";
 import fcose from "cytoscape-fcose";
-import { Card, Button, Nav, Navbar, Dropdown, DropdownButton, Spinner } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { Button, Card, Dropdown, DropdownButton, Nav, Navbar, Spinner } from "react-bootstrap";
+
+import cytoscapeStyle from "./cytoscapeStyle";
 import worldIcon from "./win95-bootstrap/icons/connected_world-1.png";
+
 cytoscape.use(fcose);
+
+const fetchCapture = (date) => {
+  return fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`).then((res) => {
+    if (res.status !== 200) {
+      throw new Error(
+        `Error fetching sitemap. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`
+      );
+    }
+
+    return res.json();
+  });
+};
+
+const toZoneList = (capture) => {
+  return capture.pages
+    .filter((page) => page.path.includes("zone.hsp"))
+    .map((page) => ({ zone: page.zone, path: page.path }));
+};
+
+const toCyElements = (capture) => {
+  const zs = toZoneList(capture);
+  const zoneNodes = zs.map((z) => ({
+    data: { id: z.zone, label: z.zone, zone: z.zone },
+    pannable: true,
+  }));
+
+  const pageNodes = capture.pages.map((page) => {
+    return {
+      data: {
+        id: page.path,
+        label: page.path.split("\\")[1],
+        parent: page.zone,
+        zone: page.zone,
+      },
+      pannable: true,
+      classes: ["hidden", ...(page.path.includes("zone.hsp") ? ["zoneList"] : [])],
+    };
+  });
+
+  const edges = capture.links.map((link) => ({
+    data: { source: link.sourcePath, target: link.targetPath },
+    classes: ["hidden"],
+  }));
+
+  return [...zoneNodes, ...pageNodes, ...edges];
+};
 
 //TODO: make zones visually distinct
 //TODO: non-selected zones say "Tap me to see more" or something
+
+// Callbacks
+// onTap: (path: string, alreadySelected: bool, zoneName: string, isParent: bool)
+// onZoneMenuClick: (zone: {zone: string, path: string})
+// onPanZoom: ()
 export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick, onPanZoom }) {
   onZoneMenuClick = onZoneMenuClick || (() => {});
-  const [elements, setElements] = useState([]);
+  onTap = onTap || (() => {});
+  onPanZoom = onPanZoom || (() => {});
 
+  // cytoscape.js component integrated in a very non-React way
+  // there is a react cytoscape package but I couldn't make it work
   const container = useRef();
   const cyRef = useRef();
-  const [hover, setHover] = useState("");
+
+  const [cyElements, setCyElements] = useState([]);
+  const [footerText, setFooterText] = useState("");
   const [zones, setZones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -40,18 +99,8 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     myZone.addClass("highlighted");
   };
 
-  useEffect(() => {
+  const focusNode = (node) => {
     if (!cyRef.current) return;
-    const node = cyRef.current.getElementById(selected);
-    selectNode(node);
-  }, [selected, elements]);
-
-  useEffect(() => {
-    if (!cyRef.current) return;
-    if (!focused) return;
-
-    const node = cyRef.current.getElementById(focused);
-    if (!node.length) return;
 
     cyRef.current.animate(
       {
@@ -65,54 +114,33 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         queue: false,
       }
     );
+  };
+
+  useEffect(() => {
+    if (!cyRef.current) return;
+
+    const node = cyRef.current.getElementById(selected);
+    selectNode(node);
+  }, [selected, cyElements]);
+
+  useEffect(() => {
+    if (!cyRef.current) return;
+    if (!focused) return;
+
+    const node = cyRef.current.getElementById(focused);
+    if (!node.length) return;
+
+    focusNode(node);
   }, [focused]);
 
   useEffect(() => {
-    if (cyRef.current) {
-      cyRef.current.destroy();
-    }
     setLoading(true);
     setError("");
-    fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`)
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(
-            `Error fetching sitemap. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`
-          );
-        }
-
-        return res.json();
-      })
+    fetchCapture(date)
       .then((capture) => {
-        const zs = capture.pages
-          .filter((page) => page.path.includes("zone.hsp"))
-          .map((page) => ({ zone: page.zone, path: page.path }));
-        const els = [
-          ...zs.map((n) => ({
-            data: { id: n.zone, label: n.zone, zone: n.zone },
-            pannable: true,
-          })),
-          ...capture.pages.map((page) => {
-            return {
-              data: {
-                id: page.path,
-                label: page.path.split("\\")[1],
-                parent: page.zone,
-                zone: page.zone,
-              },
-              pannable: true,
-              classes: ["hidden", ...(page.path.includes("zone.hsp") ? ["zoneList"] : [])],
-            };
-          }),
-          ...capture.links.map((link) => ({
-            data: { source: link.sourcePath, target: link.targetPath },
-            classes: ["hidden"],
-          })),
-        ];
-        setZones(zs);
-        return els;
+        setCyElements(toCyElements(capture));
+        setZones(toZoneList(capture));
       })
-      .then(setElements)
       .catch((err) => {
         if (process.env.NODE_ENV === "development") {
           console.error(err);
@@ -124,9 +152,13 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
   }, [date]);
 
   useEffect(() => {
+    if (cyRef.current) {
+      cyRef.current.destroy();
+    }
+
     cyRef.current = cytoscape({
       container: container.current,
-      elements: elements,
+      elements: cyElements,
       autounselectify: true,
       autoungrabify: true,
       layout: {
@@ -137,187 +169,23 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         randomize: true, // if randomize off, 20XX is arranged in a straight line
       },
       minZoom: 0.1,
-      style: [
-        {
-          selector: "node",
-          style: {
-            "border-color": "black",
-            "border-width": 1,
-          },
-        },
-        {
-          selector: 'node[parent="Hypnospace Central"]',
-          style: {
-            "background-color": "orange",
-          },
-        },
-        {
-          selector: 'node[parent="The Cafe"]',
-          style: {
-            "background-color": "red",
-          },
-        },
-        {
-          selector: 'node[parent="Goodtime Valley"]',
-          style: {
-            "background-color": "green",
-          },
-        },
-        {
-          selector: 'node[parent="Teentopia"]',
-          style: {
-            "background-color": "blue",
-          },
-        },
-        {
-          selector: 'node[parent="Coolpunk Paradise"],node[parent="The Venue"]',
-          style: {
-            "background-color": "cyan",
-          },
-        },
-        {
-          selector: 'node[parent="Starport Castle Dreamstation"]',
-          style: {
-            "background-color": "rgb(255,0,255)",
-          },
-        },
-        {
-          selector: 'node[parent="Open Eyed"]',
-          style: {
-            "background-color": "purple",
-          },
-        },
-        {
-          selector: 'node[parent="HSPD Enforcer Handbook"]',
-          style: {
-            "background-color": "gray",
-          },
-        },
-        {
-          selector: 'node[parent="FLIST DIRECTORY MASTER"]',
-          style: {
-            "background-color": "black",
-          },
-        },
-        {
-          selector: "node:child",
-          style: {
-            "text-outline-color": "white",
-            "text-outline-width": 1,
-            "text-valign": "center",
-            "font-weight": "bold",
-            "font-size": 12,
-          },
-        },
-        {
-          selector: "node:child.highlighted",
-          style: {
-            "min-zoomed-font-size": "5",
-            "z-index": "20",
-            "border-color": "black",
-            content: "data(label)",
-          },
-        },
-        {
-          selector: "node:child.selected",
-          style: {
-            width: "50",
-            height: "50",
-            "z-index": "21",
-            "border-color": "white",
-            "border-width": 5,
-            content: "data(label)",
-          },
-        },
-        {
-          selector: "node:parent",
-          style: {
-            "background-color": "lightgray",
-            "background-opacity": 0.5,
-            "border-color": "black",
-            content: "data(label)",
-            "font-size": 55,
-            "font-weight": "bold",
-          },
-        },
-        {
-          selector: "node:parent.highlighted",
-          style: {
-            "border-color": "white",
-            "border-width": 10,
-          },
-        },
-        {
-          selector: "edge",
-          style: {
-            "target-arrow-shape": "triangle",
-            "curve-style": "bezier",
-          },
-        },
-        {
-          selector: "edge.highlighted",
-          style: {
-            width: "5",
-            "line-color": "black",
-            "target-arrow-color": "black",
-            "z-index": "10",
-          },
-        },
-        {
-          selector: "edge.transparent",
-          style: {
-            "line-opacity": 0.2,
-            "target-arrow-shape": "none",
-          },
-        },
-        {
-          selector: "node:child.transparent",
-          style: {
-            "background-opacity": 0.4,
-            "border-width": 0,
-          },
-        },
-        {
-          selector: ".hidden",
-          style: {
-            visibility: "hidden",
-          },
-        },
-        {
-          selector: "node.zoneListing",
-          style: {
-            shape: "star",
-            "border-color": "black",
-            "border-width": 5,
-          },
-        },
-        {
-          selector: "node.zoneListing.selected",
-          style: {
-            "border-color": "white",
-          },
-        },
-      ],
+      style: cytoscapeStyle,
     });
 
     cyRef.current.on("tap", "node", function (evt) {
       //TODO: cache collection the first time instead of recalculating all the time
       let node = evt.target;
-      if (onTap) {
-        const isParent = node.isParent();
-        if (isParent) {
-          node = node.children(".zoneList");
-        }
-
-        onTap(node.id(), node.hasClass("selected"), node.data("zone"), isParent);
+      const isParent = node.isParent();
+      if (isParent) {
+        node = node.children(".zoneList");
       }
+
+      onTap(node.id(), node.hasClass("selected"), node.data("zone"), isParent);
     });
 
     cyRef.current.on("tap", "edge", function (evt) {
-      if (onTap) {
-        const node = evt.target.target();
-        onTap(node.id(), node.hasClass("selected"), node.data("zone"));
-      }
+      const node = evt.target.target();
+      onTap(node.id(), node.hasClass("selected"), node.data("zone"));
     });
 
     cyRef.current.on("viewport", function () {
@@ -326,9 +194,9 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
 
     cyRef.current.on("mouseover", "node", function (e) {
       var node = e.target;
-      setHover(node.id());
+      setFooterText(node.id());
     });
-  }, [elements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
+  }, [cyElements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
   return (
     <Card className="square h-100">
@@ -390,7 +258,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         ></div>
       </Card.Body>
       <Card.Footer>
-        <i>{hover}</i>
+        <i>{footerText}</i>
       </Card.Footer>
     </Card>
   );
