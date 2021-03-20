@@ -28,7 +28,6 @@ This runs with the following features to aid debugging:
 - Opens node inspect port on 9229
 - Runs service in nodemon and monitors project files for changes
 
-
 ## Running Tests
 
 To run tests in container:
