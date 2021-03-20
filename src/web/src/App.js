@@ -87,28 +87,29 @@ function App() {
                       setDate(date);
                     }}
                   />
+                  {/* links have eventKey props or else Navbar.collapseOnSelect doesn't work */}
                   <Nav.Link
                     as="button"
-                    className="mx-1 btn btn-light"
-                    eventKey="1"
+                    className="mx-1 btn"
+                    eventKey="search"
                     title="Search"
                     onClick={() => setShowSearchModal(true)}
                   >
                     <img src={searchIcon} alt="" height="16" width="16"></img>
                   </Nav.Link>
                   <Nav.Link
-                    className="mx-1 btn btn-light"
+                    className="mx-1 btn"
                     as="button"
-                    eventKey="2"
+                    eventKey="help"
                     title="Help"
                     onClick={() => setShowHelpModal(true)}
                   >
                     <img src={helpIcon} alt=""></img>
                   </Nav.Link>
                   <Nav.Link
-                    className="mx-1 btn btn-light"
+                    className="mx-1 btn"
                     target="_blank"
-                    eventKey="3"
+                    eventKey="github"
                     title="GitHub"
                     href="https://github.com/gbarkway/hypnospace-sitemap"
                   >

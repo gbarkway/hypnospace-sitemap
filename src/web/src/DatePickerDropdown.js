@@ -41,7 +41,12 @@ export default function DatePickerDropdown({ date, onDatePicked }) {
       </Dropdown.Toggle>
       <Dropdown.Menu>
         {dates.map((d, i) => (
-          <Dropdown.Item eventKey={`${i + 10}`} key={`date-select${i}`} onClick={() => onChange(d)}>
+          // eventKey required for react-bootstrap quirk, see nav links in App.js
+          <Dropdown.Item
+            eventKey={`date-select${i}`}
+            key={`date-select${i}`}
+            onClick={() => onChange(d)}
+          >
             {d}
           </Dropdown.Item>
         ))}
