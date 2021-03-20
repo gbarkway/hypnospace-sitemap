@@ -2,7 +2,7 @@ import "./App.css";
 import { useState, useCallback } from "react";
 import PageDetails from "./PageDetails";
 import Sitemap from "./Sitemap";
-import TutorialModal from "./TutorialModal";
+import HelpModal from "./HelpModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./win95-bootstrap/win95.css";
 import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
@@ -52,7 +52,7 @@ function App() {
 
   return (
     <div className="App">
-      <TutorialModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)} />
+      <HelpModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)} />
       <SearchModal
         show={showSearchModal}
         onCloseButtonClick={() => setShowSearchModal(false)}
