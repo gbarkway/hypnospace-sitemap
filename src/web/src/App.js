@@ -15,7 +15,6 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./win95-bootstrap/win95.css";
 
-
 const defaultSearchFields = {
   pageNameQuery: "",
   userNameQuery: "",

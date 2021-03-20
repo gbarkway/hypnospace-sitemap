@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Card, Button, Spinner } from "react-bootstrap";
 
 const defaultPage = {
@@ -24,8 +24,8 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
     if (!path) return;
 
     setLoading(true);
-    if (!process.env.REACT_APP_PAGE_SERV_URL && process.env.NODE_ENV === 'development') {
-      console.error('Env variable REACT_APP_PAGE_SERV_URL is unset');
+    if (!process.env.REACT_APP_PAGE_SERV_URL && process.env.NODE_ENV === "development") {
+      console.error("Env variable REACT_APP_PAGE_SERV_URL is unset");
     }
     fetch(
       `${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages/${encodeURIComponent(path)}`

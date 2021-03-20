@@ -1,63 +1,58 @@
 import cytoscape from "cytoscape";
 import fcose from "cytoscape-fcose";
-import { useEffect, useRef, useState  } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Card, Dropdown, DropdownButton, Nav, Navbar, Spinner } from "react-bootstrap";
 
-import cytoscapeStyle from "./cytoscapeStyle"
+import cytoscapeStyle from "./cytoscapeStyle";
 import worldIcon from "./win95-bootstrap/icons/connected_world-1.png";
 
 cytoscape.use(fcose);
 
 const fetchCapture = (date) => {
-  return fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`)
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(
-          `Error fetching sitemap. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`
-        );
-      }
+  return fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`).then((res) => {
+    if (res.status !== 200) {
+      throw new Error(
+        `Error fetching sitemap. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`
+      );
+    }
 
-      return res.json();
-    })
-}
+    return res.json();
+  });
+};
 
 const toZoneList = (capture) => {
   return capture.pages
     .filter((page) => page.path.includes("zone.hsp"))
     .map((page) => ({ zone: page.zone, path: page.path }));
-}
+};
 
 const toCyElements = (capture) => {
-    const zs = toZoneList(capture);
-    const zoneNodes = zs.map((z) => ({
-      data: { id: z.zone, label: z.zone, zone: z.zone },
+  const zs = toZoneList(capture);
+  const zoneNodes = zs.map((z) => ({
+    data: { id: z.zone, label: z.zone, zone: z.zone },
+    pannable: true,
+  }));
+
+  const pageNodes = capture.pages.map((page) => {
+    return {
+      data: {
+        id: page.path,
+        label: page.path.split("\\")[1],
+        parent: page.zone,
+        zone: page.zone,
+      },
       pannable: true,
-    }));
+      classes: ["hidden", ...(page.path.includes("zone.hsp") ? ["zoneList"] : [])],
+    };
+  });
 
-    const pageNodes = capture.pages.map((page) => {
-      return {
-        data: {
-          id: page.path,
-          label: page.path.split("\\")[1],
-          parent: page.zone,
-          zone: page.zone,
-        },
-        pannable: true,
-        classes: ["hidden", ...(page.path.includes("zone.hsp") ? ["zoneList"] : [])],
-      };
-    });
+  const edges = capture.links.map((link) => ({
+    data: { source: link.sourcePath, target: link.targetPath },
+    classes: ["hidden"],
+  }));
 
-    const edges = capture.links.map((link) => ({
-      data: { source: link.sourcePath, target: link.targetPath },
-      classes: ["hidden"],
-    }));
-
-    return [
-      ...zoneNodes,
-      ...pageNodes,
-      ...edges,
-    ];
-}
+  return [...zoneNodes, ...pageNodes, ...edges];
+};
 
 //TODO: make zones visually distinct
 //TODO: non-selected zones say "Tap me to see more" or something
@@ -119,7 +114,7 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
         queue: false,
       }
     );
-  }
+  };
 
   useEffect(() => {
     if (!cyRef.current) return;
@@ -180,17 +175,17 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     cyRef.current.on("tap", "node", function (evt) {
       //TODO: cache collection the first time instead of recalculating all the time
       let node = evt.target;
-        const isParent = node.isParent();
-        if (isParent) {
-          node = node.children(".zoneList");
-        }
+      const isParent = node.isParent();
+      if (isParent) {
+        node = node.children(".zoneList");
+      }
 
-        onTap(node.id(), node.hasClass("selected"), node.data("zone"), isParent);
+      onTap(node.id(), node.hasClass("selected"), node.data("zone"), isParent);
     });
 
     cyRef.current.on("tap", "edge", function (evt) {
-        const node = evt.target.target();
-        onTap(node.id(), node.hasClass("selected"), node.data("zone"));
+      const node = evt.target.target();
+      onTap(node.id(), node.hasClass("selected"), node.data("zone"));
     });
 
     cyRef.current.on("viewport", function () {
