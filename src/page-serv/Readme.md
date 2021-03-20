@@ -6,7 +6,7 @@ Microservice for Hypnospace page details like tags, description, username, and H
 
 ## Getting Started
 
-To run service with  seeded database:
+To run service with seeded database:
 
 ```
 docker-compose up
