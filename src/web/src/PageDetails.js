@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState} from "react";
 import { Card, Button, Spinner } from "react-bootstrap";
 
-const placeholder = {
+const defaultPage = {
   tags: [],
   path: "",
   zone: "",
@@ -16,7 +16,7 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
   onTagClick = onTagClick || (() => {});
   onUserNameClick = onUserNameClick || (() => {});
 
-  const [data, setData] = useState(null);
+  const [page, setPage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,6 +24,9 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
     if (!path) return;
 
     setLoading(true);
+    if (!process.env.REACT_APP_PAGE_SERV_URL && process.env.NODE_ENV === 'development') {
+      console.error('Env variable REACT_APP_PAGE_SERV_URL is unset');
+    }
     fetch(
       `${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages/${encodeURIComponent(path)}`
     )
@@ -31,36 +34,36 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
         if (res.status === 200) {
           return res.json();
         } else if (res.status === 404) {
-          return { ...placeholder, ...{ date, path, name: "Page not Found" } };
+          return { ...defaultPage, ...{ date, path, name: "Page not Found" } };
         } else {
           throw new Error(
             `Error fetching page details. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`
           );
         }
       })
-      .then(setData)
+      .then(setPage)
       .catch((err) => {
         if (process.env.NODE_ENV === "development") {
           console.error(err);
         }
 
         setError("Error getting page details");
-        setData(null);
+        setPage(null);
       })
       .finally(() => setLoading(false));
   }, [date, path]);
 
-  if (data) {
+  if (page) {
     return (
       <div className="pageDetails h-100">
         <Card className="square h-100">
           <Card.Header>
-            <h5>Page Details - {data.name}</h5>
+            <h5>Page Details - {page.name}</h5>
           </Card.Header>
           <Card.Body style={{ overflowY: "scroll" }}>
             <div className="d-flex justify-content-between">
               <Card.Text>
-                <b>{data.name}</b>
+                <b>{page.name}</b>
               </Card.Text>
               <Spinner
                 size="sm"
@@ -73,25 +76,25 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
                 <span className="sr-only">Loading...</span>
               </Spinner>
             </div>
-            <Card.Subtitle className="text-muted">{data.path}</Card.Subtitle>
+            <Card.Subtitle className="text-muted">{page.path}</Card.Subtitle>
             <Card.Text>
-              <b>Zone:</b> {data.zone || "<None>"}
+              <b>Zone:</b> {page.zone || "<None>"}
             </Card.Text>
             <Card.Text>
               <b>User:</b>
               <Button
-                onClick={() => onUserNameClick(data.user)}
+                onClick={() => onUserNameClick(page.user)}
                 variant="link"
-                disabled={!Boolean(data.user)}
+                disabled={!Boolean(page.user)}
               >
-                {data.user || "<None>"}
+                {page.user || "<None>"}
               </Button>
             </Card.Text>
             <Card.Text>
-              <b>Description:</b> {data.description || "<None>"}
+              <b>Description:</b> {page.description || "<None>"}
             </Card.Text>
             <Card.Text>
-              {data.tags.map((t, i) => (
+              {page.tags.map((t, i) => (
                 <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
                   &gt;{t}
                 </Button>
