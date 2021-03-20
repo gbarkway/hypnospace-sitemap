@@ -1,16 +1,20 @@
-import "./App.css";
-import { useState, useCallback } from "react";
-import PageDetails from "./PageDetails";
-import Sitemap from "./Sitemap";
+import { useCallback, useState } from "react";
+import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+
+import DatePickerDropdown from "./DatePickerDropdown";
 import HelpModal from "./HelpModal";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./win95-bootstrap/win95.css";
-import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
+import PageDetails from "./PageDetails";
 import SearchModal from "./SearchModal";
+import Sitemap from "./Sitemap";
+
 import githubLogo from "./GitHub-Mark-32px.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_small-1.png";
 import searchIcon from "./win95-bootstrap/icons/search_file-1.png";
-import DatePickerDropdown from "./DatePickerDropdown";
+
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./win95-bootstrap/win95.css";
+
 
 const defaultSearchFields = {
   pageNameQuery: "",
