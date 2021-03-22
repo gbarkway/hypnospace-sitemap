@@ -4,7 +4,6 @@
 ![capture-serv test](https://github.com/gbarkway/hypnospace-sitemap/workflows/capture-serv%20test/badge.svg)
 [![crawler test](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml/badge.svg)](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml)
 
-
 An interactive map of Hypnospace, the alternate-reality Internet from the wonderful 2019 game [Hypnospace Outlaw](http://www.hypnospace.net/). [Currently hosted here](https://hypnospacemap.ca)
 
 ![Animated screencapture](./screencapture.gif)
@@ -13,13 +12,12 @@ An interactive map of Hypnospace, the alternate-reality Internet from the wonder
 
 The below instructions require Docker and docker-compose
 
-```
+```shell
 cd src
 docker-compose --profile frontend up
 ```
 
 The webapp is available at **http://localhost:5000**
-
 
 Visit the subfolders listed below for more project-specific instructions
 
@@ -37,14 +35,15 @@ Visit the subfolders listed below for more project-specific instructions
 
 You can run with a more dev-friendly configuration by using the docker-compose.dev.yml file.
 
-```
+```shell
 cd src
 source aliases.sh
 docker-compose-dev up --build
 ```
 
 This is equivalent to
-```
+
+```shell
 cd src
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
@@ -55,6 +54,6 @@ The .dev.yml file makes these changes to the base:
 
 - Maps page-serv and capture-serv app folders to src/page-serv and src/capture-serv and enables hot reloading
 - Exposes ports for Node.js debugging:
-    - page-serv: 9230
-    - capture-serv: 9229
+  - page-serv: 9230
+  - capture-serv: 9229
 - Exposes page-serv-db on localhost:27017

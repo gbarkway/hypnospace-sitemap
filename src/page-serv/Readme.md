@@ -8,7 +8,7 @@ Microservice for Hypnospace page details like tags, description, username, and H
 
 To run service with seeded database:
 
-```
+```shell
 docker-compose up
 ```
 
@@ -18,7 +18,7 @@ If you have previously run with the dev configuration below, run with the `--bui
 
 To run with development configuration:
 
-```
+```shell
 source aliases.sh
 docker-compose-dev up
 ```
@@ -36,7 +36,7 @@ Run `docker-compose down` after finishing.
 
 To run tests in container:
 
-```
+```shell
 docker-compose-dev run --rm pageserv npm test
 docker-compose-dev down
 ```
