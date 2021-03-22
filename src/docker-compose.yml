@@ -2,7 +2,8 @@ version: '3.4'
 
 services:
   pageserv-db:
-    image: ${REGISTRY:-hs}/hs-pageserv-db:${TAG:-latest} # hs stands for hypnospace 🙂
+    # default values should not point to real registry, do not attempt to push
+    image: ${REGISTRY:-hs}/hs-pageserv-db:${TAG:-latest} 
     build:
       context: page-serv-db
     
