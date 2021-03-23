@@ -1,0 +1,26 @@
+name: web test
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/web/**'
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'src/web/**'
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build test container
+      run: docker build --build-arg DOT_ENV=".env.development" --target build -t web-test ./src/web
+
+    - name: Run tests in container
+      run: docker run --env CI=true web-test npm test
