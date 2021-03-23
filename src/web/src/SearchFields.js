@@ -6,6 +6,14 @@ export default function SearchFields({
   onSearchFieldsChange,
   disabled,
 }) {
+  onSearchClicked = onSearchClicked || (() => {}); 
+  onSearchFieldsChange = onSearchFieldsChange || (() => {});
+  searchFields = searchFields || {
+    pageNameQuery: "",
+    userNameQuery: "",
+    tagsQuery: "",
+  };
+
   return (
     <Form
       onSubmit={(e) => {
@@ -17,7 +25,7 @@ export default function SearchFields({
         <Form.Group>
           <Form.Label htmlFor="nameOrDescriptionField">Page name or description:</Form.Label>
           <Form.Control
-            value={searchFields.pageNameQuery}
+            value={searchFields?.pageNameQuery ?? ""}
             onChange={(e) =>
               onSearchFieldsChange({
                 ...searchFields,

@@ -25,13 +25,13 @@ export default function SearchResults({
   onLoadingStart,
   onLoadingEnd,
 }) {
-  const [searchResults, setSearchResults] = useState([]);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
   onResultClick = onResultClick || (() => {});
   onLoadingStart = onLoadingStart || (() => {});
   onLoadingEnd = onLoadingEnd || (() => {});
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!searchRequest) return;

@@ -14,6 +14,10 @@ export default function SearchModal({
   show,
   onCloseButtonClick,
 }) {
+  onResultClick = onResultClick || (() => {});
+  onSearchFieldsChange = onSearchFieldsChange || (() => {});
+  onSearchClick = onSearchClick || (() => {});
+  show = show || false;
   onCloseButtonClick = onCloseButtonClick || (() => {});
 
   const [disabled, setDisabled] = useState(false);
