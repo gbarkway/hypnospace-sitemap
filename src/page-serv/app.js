@@ -1,6 +1,6 @@
 const cors = require("cors");
 const express = require("express");
-const morgan = require('morgan');
+const morgan = require("morgan");
 
 const { makeCaptureService } = require("./captureService");
 const { makeDal } = require("./mongoDal");
@@ -9,7 +9,7 @@ const dal = makeDal();
 const service = makeCaptureService(dal);
 const app = express();
 
-app.use(morgan('combined'));
+app.use(morgan("combined"));
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
   app.use(cors());
 } else if (process.env.CORS_ALLOWED_ORIGINS) {
