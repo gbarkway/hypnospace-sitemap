@@ -32,6 +32,13 @@ app.get("/captures/:date", (req, res) => {
   }
 });
 
+app.use(
+  expressWinston.errorLogger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.json(),
+  })
+);
+
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`Express started on port ${port}`);
