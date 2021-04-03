@@ -1,11 +1,17 @@
 const cors = require("cors");
 const express = require("express");
-const morgan = require("morgan");
+const winston = require("winston");
+const expressWinston = require("express-winston");
 
 const { getCaptureByDate, hasDate, getDates } = require("./captureService");
 
 const app = express();
-app.use(morgan("combined"));
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.json(),
+  })
+);
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
   app.use(cors());
 } else if (process.env.CORS_ALLOWED_ORIGINS) {
@@ -26,7 +32,14 @@ app.get("/captures/:date", (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000; // look into dotenv
+app.use(
+  expressWinston.errorLogger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.json(),
+  })
+);
+
+const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`Express started on port ${port}`);
 });

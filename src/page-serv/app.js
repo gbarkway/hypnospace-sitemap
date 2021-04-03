@@ -1,6 +1,7 @@
 const cors = require("cors");
 const express = require("express");
-const morgan = require("morgan");
+const winston = require("winston");
+const expressWinston = require("express-winston");
 
 const { makeCaptureService } = require("./captureService");
 const { makeDal } = require("./mongoDal");
@@ -9,24 +10,29 @@ const dal = makeDal();
 const service = makeCaptureService(dal);
 const app = express();
 
-app.use(morgan("combined"));
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.json(),
+  })
+);
+
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
   app.use(cors());
 } else if (process.env.CORS_ALLOWED_ORIGINS) {
   app.use(cors({ origin: process.env.CORS_ALLOWED_ORIGINS.split(",") }));
 }
 
-app.get("/captures", async (req, res) => {
+app.get("/captures", async (req, res, next) => {
   try {
     const dates = await service.getDates();
     res.json(dates);
   } catch (err) {
-    res.status(500).end();
-    return;
+    next(err);
   }
 });
 
-app.get("/captures/:date/pages", async (req, res) => {
+app.get("/captures/:date/pages", async (req, res, next) => {
   const date = req.params["date"];
   const expectedQuery = new Set(["tags", "user", "zone", "nameOrDescription"]);
   if (Object.keys(req.query).some((q) => !expectedQuery.has(q))) {
@@ -69,11 +75,11 @@ app.get("/captures/:date/pages", async (req, res) => {
     const pages = await service.getPages(date, opts);
     res.json(pages);
   } catch (err) {
-    res.status(500).end();
+    next(err);
   }
 });
 
-app.get("/captures/:date/pages/:path", async (req, res) => {
+app.get("/captures/:date/pages/:path", async (req, res, next) => {
   const date = req.params["date"];
   const path = req.params["path"].replace("|", "\\");
   if (!path.endsWith(".hsp")) {
@@ -94,9 +100,16 @@ app.get("/captures/:date/pages/:path", async (req, res) => {
       res.status(404).json("Page not found");
     }
   } catch (err) {
-    res.status(500).end();
+    next(err);
   }
 });
+
+app.use(
+  expressWinston.errorLogger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.json(),
+  })
+);
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
