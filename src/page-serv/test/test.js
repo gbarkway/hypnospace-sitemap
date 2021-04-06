@@ -99,7 +99,7 @@ describe("GET /captures/:date/pages", function () {
               zone: "Hypnospace Central",
               date: "1999-11-05",
               name: "TV Spot Survey",
-              description: "",
+              description: null,
               user: "Merchantsoft",
             },
           ]);
@@ -206,7 +206,7 @@ describe("GET /captures/:date/pages", function () {
         });
     });
 
-    it("returns valid data for multiple tags", function (done) {
+    it("multiple tags are additive", function (done) {
       chai
         .request(app)
         .get("/captures/1999-11-05/pages?tags=bullring,roddy")
@@ -216,9 +216,12 @@ describe("GET /captures/:date/pages", function () {
           res.body
             .map((p) => p.tags)
             .forEach(function (tags) {
-              tags.should.include.members(["bullring", "roddy"]);
+              // tags.should.contain.oneOf(["bullring", "roddy"]);
+              (
+                tags.includes("bullring") || tags.includes("roddy")
+              ).should.be.true;
             });
-          res.body.should.have.lengthOf(4);
+          res.body.should.have.lengthOf(5);
           done();
         });
     });

@@ -27,7 +27,6 @@ Visit the subfolders listed below for more project-specific instructions
 | ------- |---------------|------| ----- |
 | Capture service | Backend service for sitemap graph data (i.e. edges between pages) | src/capture-serv | 3001 |
 | Page service | Backend service for viewing and searching detailed page information | src/page-serv | 3000 |
-| Page service database | Mongodb for Page Service | src/page-serv-db |
 | Webapp | Web frontend | src/web | 5000
 | Crawler | Python scripts that parse Hypnospace Outlaw game data for use of above services | src/crawler |
 

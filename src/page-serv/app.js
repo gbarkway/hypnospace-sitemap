@@ -4,7 +4,7 @@ const winston = require("winston");
 const expressWinston = require("express-winston");
 
 const { makeCaptureService } = require("./captureService");
-const { makeDal } = require("./mongoDal");
+const { makeDal } = require("./sqliteDal");
 
 const dal = makeDal();
 const service = makeCaptureService(dal);

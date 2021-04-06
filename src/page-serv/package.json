@@ -14,8 +14,8 @@
     "escape-string-regexp": "^4.0.0",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
-    "mongoose": "^5.11.9",
     "promise-retry": "^2.0.1",
+    "sqlite3": "^5.0.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {

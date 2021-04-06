@@ -5,7 +5,7 @@
 The scripts in this folder generate Hypnospace Outlaw page metadata.
 
 - `crawler.py` is the module that does most of the work
-- `make_pageserv_data.py` and `make_captureserv_data.py` use `crawler` to export JSON files that the page service and capture service ingest
+- `make_pageserv_data.py` and `make_captureserv_data.py` use `crawler` to export data files that the page service and capture service use
 
 ## Requirements
 
@@ -23,7 +23,7 @@ hs = crawler.readHypnospace('C:\\Program Files (x86)\\Steam\\steamapps\\common\\
 
 `readHypnospace` returns a `Hypnospace` namedtuple. `Hypnospace` contains many `Capture` tuples, and a `Capture` contains many `Page` tuples.
 
-### JSON-generating scripts
+### Data-generating scripts
 
 ```
 python make_pageserv_data.py DATAPATH
