@@ -1,31 +1,23 @@
-import json
 import sys
+import sqlite3
 from pathlib import Path
 import crawler
+import json
 
 
-def pageServPages(capture):
-    zoneNames = {
-        page.zone: page.name
-        for page in capture.pages if page.isZoneHome
-    }
-
-    def pageServPage(page):
-        return {
-            'path': page.path,
-            'zone': zoneNames[page.zone],
-            'date': capture.date,
-            'name': page.name,
-            'description': page.description or '',
-            'tags': page.tags,
-            'user': page.user
-        }
-
-    return [pageServPage(page) for page in capture.pages]
-
-
-def pageServCaptures(captures):
-    return [{'date': c.date} for c in captures]
+def pageRowTuples(hypnospace):
+    return [
+        (
+            page.path,
+            page.zone,
+            capture.date,
+            page.name,
+            page.description,
+            json.dumps(page.tags),
+            page.user
+        )
+        for capture in hypnospace.captures for page in capture.pages
+    ]
 
 
 if len(sys.argv) < 2:
@@ -44,22 +36,25 @@ if not dataPath.exists():
     exit()
 
 hypnospace = crawler.readHypnospace(dataPath)
+outPath = Path('./pageserv.db')
+with sqlite3.connect(outPath) as con:
+    cur = con.cursor()
+    cur.execute(
+        '''CREATE TABLE "page" (
+        "path"	TEXT NOT NULL,
+        "zone"	TEXT,
+        "date"	TEXT NOT NULL,
+        "name"	TEXT,
+        "description"	TEXT,
+        "tags"	TEXT DEFAULT (json('[]')),
+        "citizen_name"	TEXT,
+        PRIMARY KEY("path","date"))'''
+    )
+    cur.executemany(
+        'INSERT INTO page VALUES (?,?,?,?,?,json(?),?)',
+        pageRowTuples(hypnospace)
+    )
+    con.commit()
 
-pages = [
-    page for capture in hypnospace.captures for page in pageServPages(capture)
-]
-outPath = Path('./pageserv.pages.json')
-with open(outPath, 'w') as file:
-    file.writelines((json.dumps(p) + '\n' for p in pages))
 print(f'Output written to ${outPath.resolve()}')
-
-pageServCaptures = pageServCaptures(hypnospace.captures)
-outPath = Path('./pageserv.captures.json')
-with open(outPath, 'w') as file:
-    file.writelines((json.dumps(c) + '\n' for c in pageServCaptures))
-print(f'Output written to ${outPath.resolve()}')
-
-print(
-    'Copy these files to ../page-serv/db/pages.json and ',
-    '../page-serv/db/captures.json'
-)
+print('Copy to ../page-serv/')
