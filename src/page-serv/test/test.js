@@ -217,7 +217,9 @@ describe("GET /captures/:date/pages", function () {
             .map((p) => p.tags)
             .forEach(function (tags) {
               // tags.should.contain.oneOf(["bullring", "roddy"]);
-              (tags.includes("bullring") || tags.includes("roddy")).should.be.true
+              (
+                tags.includes("bullring") || tags.includes("roddy")
+              ).should.be.true;
             });
           res.body.should.have.lengthOf(5);
           done();
