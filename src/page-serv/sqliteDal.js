@@ -7,6 +7,7 @@ const toApiPage = (dbPage) => {
         zone: dbPage.zone,
         date: dbPage.date,
         name: dbPage.name,
+        description: dbPage.description,
         tags: JSON.parse(dbPage.tags),
         user: dbPage.citizen_name,
     }
@@ -46,6 +47,7 @@ const makeDal = (path) => {
     }
 
     return {
+        readyPromise: Promise.resolve(),
         getPages: (date, opts) => {
             opts = opts || {};
             const expressions = [];
@@ -68,7 +70,7 @@ const makeDal = (path) => {
                 params.push(...opts.tags)
             }
             if (opts.nameOrDescription) {
-                expressions.push("page.name LIKE ? OR page.description LIKE ? OR page.path LIKE ?")
+                expressions.push("(page.name LIKE ? OR page.description LIKE ? OR page.path LIKE ?)")
                 const s = `%${opts.nameOrDescription}%`
                 params.push(s, s, s);
             }
@@ -88,6 +90,7 @@ const makeDal = (path) => {
         },
 
         getPageByPath: (date, path) => {
+            path = path.replace("|", "\\")
             return promiseGet("SELECT * FROM page WHERE date = ? AND path = ?", [date, path]).then(row => toApiPage(row));
         },
 
