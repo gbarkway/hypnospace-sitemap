@@ -5,19 +5,28 @@ import crawler
 import json
 
 
-def pageRowTuples(hypnospace):
-    return [
-        (
-            page.path,
-            page.zone,
-            capture.date,
-            page.name,
-            page.description,
-            json.dumps(page.tags),
-            page.user
-        )
-        for capture in hypnospace.captures for page in capture.pages
-    ]
+def pageRowTuples(captures):
+    rowTuples = []
+    for capture in captures:
+        zoneNames = {
+            page.zone: page.name
+            for page in capture.pages if page.isZoneHome
+        }
+
+        rowTuples += [
+            (
+                page.path,
+                zoneNames[page.zone],
+                capture.date,
+                page.name,
+                page.description,
+                json.dumps(page.tags),
+                page.user
+            )
+            for page in capture.pages
+        ]
+
+    return rowTuples
 
 
 if len(sys.argv) < 2:
@@ -52,7 +61,7 @@ with sqlite3.connect(outPath) as con:
     )
     cur.executemany(
         'INSERT INTO page VALUES (?,?,?,?,?,json(?),?)',
-        pageRowTuples(hypnospace)
+        pageRowTuples(hypnospace.captures)
     )
     con.commit()
 

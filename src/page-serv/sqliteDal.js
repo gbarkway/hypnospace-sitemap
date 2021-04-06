@@ -75,7 +75,7 @@ const makeDal = (path) => {
                 params.push(s, s, s);
             }
 
-            let query = "SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name FROM page, json_each(page.tags) as tag";
+            let query = "SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name FROM page LEFT JOIN json_each(page.tags) as tag";
             if (expressions.length) {
                 query += " WHERE ";
                 query += expressions.join(" AND ");
