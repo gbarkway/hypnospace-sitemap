@@ -1,22 +1,13 @@
 version: '3.4'
 
 services:
-  pageserv-db:
-    # default values should not point to real registry, do not attempt to push
-    image: ${REGISTRY:-hs}/hs-pageserv-db:${TAG:-latest} 
-    build:
-      context: page-serv-db
-    
   pageserv:
     image: ${REGISTRY:-hs}/hs-pageserv:${TAG:-latest}
     build:
       context: page-serv
       target: production
-    depends_on: 
-     - pageserv-db
     environment:
       NODE_ENV: production
-      MONGO_HOST: mongodb://pageserv-db/hypnospace
       CORS_ALLOWED_ORIGINS: ${WEBAPP_EXTERNAL_DNS}
     ports:
       - 3000:3000

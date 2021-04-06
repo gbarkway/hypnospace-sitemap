@@ -1,10 +1,6 @@
 version: '3.4'
 
 services:
-  pageserv-db:
-    ports:
-      - 27017:27017
-      
   pageserv:
     build:
       target: development
