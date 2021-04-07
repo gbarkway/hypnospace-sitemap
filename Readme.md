@@ -1,10 +1,12 @@
 # Hypnospace Outlaw Sitemap
 
+[Currently hosted here](https://hypnospacemap.ca)
+
 ![page-serv test](https://github.com/gbarkway/hypnospace-sitemap/workflows/page-serv%20test/badge.svg)
 ![capture-serv test](https://github.com/gbarkway/hypnospace-sitemap/workflows/capture-serv%20test/badge.svg)
 [![crawler test](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml/badge.svg)](https://github.com/gbarkway/hypnospace-sitemap/actions/workflows/crawler-test.yml)
 
-An interactive map of Hypnospace, the alternate-reality Internet from the wonderful 2019 game [Hypnospace Outlaw](http://www.hypnospace.net/). [Currently hosted here](https://hypnospacemap.ca)
+An interactive map of Hypnospace, the alternate-reality Internet from the wonderful 2019 game [Hypnospace Outlaw](http://www.hypnospace.net/). 
 
 ![Animated screencapture](./screencapture.gif)
 
@@ -56,3 +58,28 @@ The .dev.yml file makes these changes to the base:
   - page-serv: 9230
   - capture-serv: 9229
 - Exposes page-serv-db on localhost:27017
+
+## Deployment
+
+### Building docker images for production
+
+To build a docker image for every service and push them to a container registry:
+
+1) Edit src/.env with appropriate values
+2) `docker-compose build --profile frontend`
+3) `docker-compose push`
+
+### DigitalOcean App Platform
+
+This app is currently hosted on DigitalOcean App Platform. 
+
+The current app spec is in do_app_spec.yaml
+
+Whenever page-serv or capture-serv changes, its new docker image is automatically pushed to a private container registry. These images are used for web service components.
+
+The `web` project is not deployed as a container. Instead, on push to 'src/web' the static site is built using npm and deployed automatically. This is to take advantage of the platform's free hosting for static sites.
+
+### Kubernetes
+
+Even though it was huge overkill, I used to host this in a Kubernetes cluster for fun. Notes on that sometime later 🙂
+

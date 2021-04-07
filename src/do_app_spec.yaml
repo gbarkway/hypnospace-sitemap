@@ -1,0 +1,49 @@
+domains:
+- domain: hypnospacemap.ca
+  type: PRIMARY
+  zone: hypnospacemap.ca
+- domain: www.hypnospacemap.ca
+  type: ALIAS
+  zone: hypnospacemap.ca
+name: hypnospacemap
+region: nyc
+services:
+- envs:
+  - key: NODE_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: production
+  http_port: 3000
+  image:
+    registry_type: DOCR
+    repository: hs-captureserv
+    tag: cbe5de7dd353b6f8e778d16f8310eb0b39a4c3d1
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: captureserv
+  routes:
+  - path: /captureserv
+- envs:
+  - key: NODE_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: production
+  http_port: 3000
+  image:
+    registry_type: DOCR
+    repository: hs-pageserv
+    tag: e7462c51f6fc1ce836acd8bec17d0c659c358276
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: pageserv
+  routes:
+  - path: /pageserv
+static_sites:
+- build_command: npm run build
+  environment_slug: node-js
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: gbarkway/hypnospace-sitemap
+  name: hypnospacemap
+  routes:
+  - path: /
+  source_dir: src/web
