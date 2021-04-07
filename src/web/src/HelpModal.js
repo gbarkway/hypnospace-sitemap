@@ -50,7 +50,7 @@ export default function HelpModal({ show, onCloseButtonClick }) {
       </Modal.Body>
       <Modal.Footer className="justify-content-between">
         <div>
-          <a className="mx-2 small" target="_blank" rel="noreferrer" href="/licenses">
+          <a className="mx-2 small" target="_blank" rel="noreferrer" href="/licenses.html">
             Licenses
           </a>
           <a
