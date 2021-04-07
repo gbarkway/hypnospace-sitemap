@@ -1,6 +1,6 @@
 # Hypnospace Outlaw Sitemap
 
-[Currently hosted here](https://hypnospacemap.ca)
+[**Currently hosted here!**](https://hypnospacemap.ca)
 
 ![page-serv test](https://github.com/gbarkway/hypnospace-sitemap/workflows/page-serv%20test/badge.svg)
 ![capture-serv test](https://github.com/gbarkway/hypnospace-sitemap/workflows/capture-serv%20test/badge.svg)
@@ -65,7 +65,7 @@ The .dev.yml file makes these changes to the base:
 
 To build a docker image for every service and push them to a container registry:
 
-1) Edit src/.env with appropriate values
+1) Edit **src/.env** with appropriate values
 2) `docker-compose build --profile frontend`
 3) `docker-compose push`
 
@@ -73,11 +73,11 @@ To build a docker image for every service and push them to a container registry:
 
 This app is currently hosted on DigitalOcean App Platform. 
 
-The current app spec is in do_app_spec.yaml
+The current app spec is in **do_app_spec.yaml**.
 
-Whenever page-serv or capture-serv changes, its new docker image is automatically pushed to a private container registry. These images are used for web service components.
+Whenever page-serv or capture-serv changes, a GitHub Action pushes its new container image to a private container registry. These images are used for web service components.
 
-The `web` project is not deployed as a container. Instead, on push to 'src/web' the static site is built using npm and deployed automatically. This is to take advantage of the platform's free hosting for static sites.
+The `web` project is not deployed using an image. Instead, on push to 'src/web' the static site is built using npm and deployed directly. This is to take advantage of the platform's free hosting for static sites.
 
 ### Kubernetes
 
