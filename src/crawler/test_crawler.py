@@ -154,6 +154,11 @@ class TestCrawler(unittest.TestCase):
         self.assertEqual(len(page.tags), 0)
         self.assertEqual(None, page.description)
 
+    def test_readPage_empty_user_is_none(self):
+        page = crawler.readPage(
+            'test_data/hs/00_test/no_user_name.hsp')
+        self.assertEqual(None, page.user)
+
 
 if __name__ == '__main__':
     unittest.main()
