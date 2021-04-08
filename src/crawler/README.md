@@ -5,7 +5,8 @@
 The scripts in this folder generate Hypnospace Outlaw page metadata.
 
 - `crawler.py` is the module that does most of the work
-- `make_pageserv_data.py` and `make_captureserv_data.py` use `crawler` to export data files that the page service and capture service use
+- `make_pageserv_data.py` creates page-serv's sqlite3 database (found in ../page-serv/pageserv.db)
+- `make_crawler_data.py` creates ../capture-serv/captures.json
 
 ## Requirements
 
