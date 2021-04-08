@@ -10,12 +10,14 @@ const dal = makeDal();
 const service = makeCaptureService(dal);
 const app = express();
 
-app.use(
-  expressWinston.logger({
-    transports: [new winston.transports.Console()],
-    format: winston.format.json(),
-  })
-);
+if (process.env.NODE_ENV !== "test") {
+  app.use(
+    expressWinston.logger({
+      transports: [new winston.transports.Console()],
+      format: winston.format.json(),
+    })
+  );  
+}
 
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
   app.use(cors());
