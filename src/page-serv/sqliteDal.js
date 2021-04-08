@@ -84,7 +84,6 @@ const makeDal = (path) => {
         query += expressions.join(" AND ");
       }
 
-      console.log(query);
       return promiseAll(query, params).then((rows) => rows.map(toApiPage));
     },
 
