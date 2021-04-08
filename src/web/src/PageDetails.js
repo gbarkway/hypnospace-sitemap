@@ -8,13 +8,13 @@ const defaultPage = {
   date: "",
   name: "Welcome!",
   description: "",
-  user: "",
+  citizen: "",
 };
 
 //TODO: indicate if a page is linked to by hypnomail or by an ad
-export default function PageDetails({ date, path, onTagClick, onUserNameClick }) {
+export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
   onTagClick = onTagClick || (() => {});
-  onUserNameClick = onUserNameClick || (() => {});
+  onCitizenNameClick = onCitizenNameClick || (() => {});
 
   const [page, setPage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -81,13 +81,13 @@ export default function PageDetails({ date, path, onTagClick, onUserNameClick })
               <b>Zone:</b> {page.zone || "<None>"}
             </Card.Text>
             <Card.Text>
-              <b>User:</b>
+              <b>Citizen:</b>
               <Button
-                onClick={() => onUserNameClick(page.user)}
+                onClick={() => onCitizenNameClick(page.citizenName)}
                 variant="link"
-                disabled={!Boolean(page.user)}
+                disabled={!Boolean(page.citizenName)}
               >
-                {page.user || "<None>"}
+                {page.citizenName || "<None>"}
               </Button>
             </Card.Text>
             <Card.Text>

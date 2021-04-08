@@ -17,7 +17,7 @@ import "./win95-bootstrap/win95.css";
 
 const defaultSearchFields = {
   pageNameQuery: "",
-  userNameQuery: "",
+  citizenNameQuery: "",
   tagsQuery: "",
 };
 
@@ -127,7 +127,7 @@ function App() {
                 date={date}
                 path={path}
                 onTagClick={(tag) => showPrefilledSearch({ tagsQuery: tag })}
-                onUserNameClick={(userName) => showPrefilledSearch({ userNameQuery: userName })}
+                onCitizenNameClick={(citizenName) => showPrefilledSearch({ citizenNameQuery: citizenName })}
               />
             </div>
           </Col>
