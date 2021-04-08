@@ -65,17 +65,14 @@ The .dev.yml file makes these changes to the base:
 
 To build a docker image for every service and push them to a container registry:
 
-1) Edit **src/.env** with appropriate values
+1) Set the environment variables in **src/.env** (edit the file directly or set them in your shell)
 2) `docker-compose build --profile frontend`
 3) `docker-compose push`
 
 ### DigitalOcean App Platform
 
-This app is currently hosted on DigitalOcean App Platform. 
-
-[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/gbarkway/hypnospace-sitemap/tree/main)
+See **deploy/app.yaml** for an example app spec for deploying on DigitalOcean App Platform.
 
 ### Kubernetes
 
-Even though it was huge overkill, I used to host this in a Kubernetes cluster for fun. Notes on that sometime later 🙂
-
+Even though it was huge overkill, I used to host this in a Kubernetes cluster for fun. Notes on that in the deploy folder sometime later.
