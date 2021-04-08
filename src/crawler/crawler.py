@@ -57,8 +57,11 @@ def readPage(hspPath):
             description = descriptionAndTags[:tagStartIndex].strip()
             tags = descriptionAndTags[(tagStartIndex+1):].split(' >')
         else:
-            description = descriptionAndTags
+            description = descriptionAndTags.strip()
             tags = []
+
+        if description == '':
+            description = None
 
     return Page(dom['data'][0][1][1], myPath, list(links), description, tags,
                 dom['data'][0][1][2], hspPath.parts[-2], 'zone.hsp' in myPath)

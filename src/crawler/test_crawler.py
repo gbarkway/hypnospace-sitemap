@@ -136,16 +136,14 @@ class TestCrawler(unittest.TestCase):
         self.assertEqual(len(page.tags), 2)
         self.assertEqual('Test description', page.description)
 
-    def test_readPage_no_tags_and_description(self):
+    def test_readPage_tags_and_no_description(self):
         page = crawler.readPage('test_data/hs/00_test/tags_no_description.hsp')
         self.assertIn('tag1', page.tags)
         self.assertIn('tag2', page.tags)
         self.assertEqual(len(page.tags), 2)
-        self.assertEqual('', page.description)
+        self.assertEqual(None, page.description)
 
-    # TODO: uh oh! If no description or tags, description is None
-    # If no descriptions but tags, description is ''
-    def test_readPage_tags_and_no_description(self):
+    def test_readPage_no_tags_and_description(self):
         page = crawler.readPage('test_data/hs/00_test/no_tags_description.hsp')
         self.assertEqual(len(page.tags), 0)
         self.assertEqual('Test description', page.description)
