@@ -7,7 +7,7 @@ from pathlib import Path
 import networkx as nx
 
 Page = namedtuple('Page', [
-    'name', 'path', 'linksTo', 'description', 'tags', 'user', 'zone',
+    'name', 'path', 'linksTo', 'description', 'tags', 'citizenName', 'zone',
     'isZoneHome'
 ])
 Capture = namedtuple('Capture', ['date', 'pages'])
@@ -63,12 +63,12 @@ def readPage(hspPath):
         if description == '':
             description = None
 
-    user = dom['data'][0][1][2]
-    if not len(user):
-        user = None
+    citizenName = dom['data'][0][1][2]
+    if not len(citizenName):
+        citizenName = None
 
     return Page(dom['data'][0][1][1], myPath, list(links), description, tags,
-                user, hspPath.parts[-2], 'zone.hsp' in myPath)
+                citizenName, hspPath.parts[-2], 'zone.hsp' in myPath)
 
 
 def readZone(zonePath):
@@ -87,7 +87,7 @@ def readZone(zonePath):
     ))
 
     zonePage = Page(zonePage.name, zonePage.path, links, zonePage.description,
-                    zonePage.tags, zonePage.user, zonePage.zone, True)
+                    zonePage.tags, zonePage.citizenName, zonePage.zone, True)
     pages.append(zonePage)
 
     return pages

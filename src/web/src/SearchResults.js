@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table, Button, Spinner } from "react-bootstrap";
 
-const buildUrl = (date, { pageNameQuery, userNameQuery, tagsQuery }) => {
+const buildUrl = (date, { pageNameQuery, citizenNameQuery, tagsQuery }) => {
   const url = new URL(
     `${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages`,
     window.location.origin
@@ -9,8 +9,8 @@ const buildUrl = (date, { pageNameQuery, userNameQuery, tagsQuery }) => {
   if (pageNameQuery && pageNameQuery.length) {
     url.searchParams.append("nameOrDescription", pageNameQuery);
   }
-  if (userNameQuery && userNameQuery.length) {
-    url.searchParams.append("user", userNameQuery);
+  if (citizenNameQuery && citizenNameQuery.length) {
+    url.searchParams.append("citizenName", citizenNameQuery);
   }
   if (tagsQuery && tagsQuery.length) {
     url.searchParams.append("tags", tagsQuery);
@@ -89,7 +89,7 @@ export default function SearchResults({
             <tr>
               <th>Name</th>
               <th>Zone</th>
-              <th>Username</th>
+              <th>Citizen Name</th>
             </tr>
           </thead>
           <tbody>
@@ -105,7 +105,7 @@ export default function SearchResults({
                   </Button>
                 </td>
                 <td>{r.zone}</td>
-                <td>{r.user}</td>
+                <td>{r.citizenName}</td>
               </tr>
             ))}
             {error.length ? (

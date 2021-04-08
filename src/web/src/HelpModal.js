@@ -38,12 +38,10 @@ export default function HelpModal({ show, onCloseButtonClick }) {
             <b>Zoom:</b> scroll (mouse) or pinch and zoom (touchscreen)
           </li>
           <li>
-            <b>Change date:</b> click{" "}
-            <img src={calIcon} alt="calendar"></img>
+            <b>Change date:</b> click <img src={calIcon} alt="calendar"></img>
           </li>
           <li>
-            <b>Search:</b> click{" "}
-            <img src={searchIcon} alt="help"></img>
+            <b>Search:</b> click <img src={searchIcon} alt="help"></img>
           </li>
         </ul>
         <p>Zones are big rectangles. Click on one to get started!</p>

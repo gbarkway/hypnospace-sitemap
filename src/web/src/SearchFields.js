@@ -6,11 +6,11 @@ export default function SearchFields({
   onSearchFieldsChange,
   disabled,
 }) {
-  onSearchClicked = onSearchClicked || (() => {}); 
+  onSearchClicked = onSearchClicked || (() => {});
   onSearchFieldsChange = onSearchFieldsChange || (() => {});
   searchFields = searchFields || {
     pageNameQuery: "",
-    userNameQuery: "",
+    citizenNameQuery: "",
     tagsQuery: "",
   };
 
@@ -38,18 +38,18 @@ export default function SearchFields({
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="userNameField">Username:</Form.Label>
+          <Form.Label htmlFor="citizenNameField">Citizen Name:</Form.Label>
           <Form.Control
-            value={searchFields.userNameQuery}
+            value={searchFields.citizenNameQuery}
             onChange={(e) =>
               onSearchFieldsChange({
                 ...searchFields,
-                userNameQuery: e.target.value,
+                citizenNameQuery: e.target.value,
               })
             }
             type="text"
-            placeholder="Username"
-            id="userNameField"
+            placeholder="Citizen"
+            id="citizenNameField"
           />
         </Form.Group>
         <Form.Group>
