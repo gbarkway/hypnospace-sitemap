@@ -5,6 +5,7 @@
 Microservice for Hypnospace page details like tags, description, username, and HAP ID (maybe).
 
 ## Getting Started
+
 In this folder's parent:
 
 ### Docker
@@ -19,7 +20,6 @@ Service will be available on **localhost:3000**.
 If you have previously run with the dev configuration below, run with the `--build` flag to make sure the debug image isn't cached.
 
 #### Developer-friendly docker
-
 
 ```shell
 docker-compose down
@@ -37,6 +37,7 @@ Run `docker-compose down` after finishing.
 ### Non-docker
 
 In this directory
+
 ```
 npm install
 npm start

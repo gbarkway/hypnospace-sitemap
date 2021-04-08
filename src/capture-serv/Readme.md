@@ -20,6 +20,7 @@ Service will be available at **localhost:3001**.
 If you have previously run with the dev configuration below, run with the `--build` flag to make sure the debug image isn't cached.
 
 #### Developer-friendly docker
+
 To run with development configuration:
 
 ```
@@ -34,6 +35,7 @@ This runs with the following features to aid debugging:
 - Source files mapped to this directory with hot reloading
 
 ### Non-docker
+
 In this directory:
 
 ```shell
