@@ -1,5 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 
+const NULL_PLACEHOLDER = "<None>";
 export default function SearchFields({
   onSearchClicked,
   searchFields,
@@ -40,17 +41,29 @@ export default function SearchFields({
         <Form.Group>
           <Form.Label htmlFor="citizenNameField">Citizen Name:</Form.Label>
           <Form.Control
-            value={searchFields.citizenNameQuery}
+            value={searchFields.citizenNameQuery ?? NULL_PLACEHOLDER}
             onChange={(e) =>
               onSearchFieldsChange({
                 ...searchFields,
-                citizenNameQuery: e.target.value,
+                citizenNameQuery: e.target.value === NULL_PLACEHOLDER ? null : e.target.value,
               })
             }
             type="text"
             placeholder="Citizen"
             id="citizenNameField"
           />
+          <Button 
+            variant="link"
+            className="btn-sm"
+            onClick = {() => 
+              onSearchFieldsChange({
+                ...searchFields,
+                citizenNameQuery: null,
+              })
+            }
+          >
+            Use {NULL_PLACEHOLDER} to search anonymous pages
+          </Button>
         </Form.Group>
         <Form.Group>
           <Form.Label htmlFor="tagsField">Tags:</Form.Label>

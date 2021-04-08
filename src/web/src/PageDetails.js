@@ -85,7 +85,6 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
               <Button
                 onClick={() => onCitizenNameClick(page.citizenName)}
                 variant="link"
-                disabled={!Boolean(page.citizenName)}
               >
                 {page.citizenName || "<None>"}
               </Button>
