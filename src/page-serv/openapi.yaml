@@ -45,6 +45,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: citizenName
+          description: Fuzzy search term for citizen name. Empty string to search for pages with no citizen name.
+          in: query
+          required: false
+          schema:
+            type: string
         - name: offset
           in: query
           required: false
