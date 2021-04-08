@@ -182,7 +182,9 @@ describe("GET /captures/:date/pages", function () {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
           res.body.should.have.lengthOf(3);
-          res.body.filter((p) => p.citizenName != "*GraysPeak").length.should.equal(0);
+          res.body
+            .filter((p) => p.citizenName != "*GraysPeak")
+            .length.should.equal(0);
           done();
         });
     });
@@ -336,7 +338,9 @@ describe("GET /captures/:date/pages", function () {
     it("filters right with stacked", function (done) {
       chai
         .request(app)
-        .get("/captures/1999-11-05/pages?tags=guide&citizenName=ProfessorHelper")
+        .get(
+          "/captures/1999-11-05/pages?tags=guide&citizenName=ProfessorHelper"
+        )
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
