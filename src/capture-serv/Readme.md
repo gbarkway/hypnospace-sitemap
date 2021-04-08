@@ -6,33 +6,51 @@ Microservice for Hypnospace captures. Here "capture" means a date, a set of page
 
 ## Getting Started
 
+### Docker
+
 In this directory's parent:
 
 ```
-docker-compose up
+docker-compose down
+docker-compose --build up
 ```
 
-Service will be available on host port 3001.
+Service will be available at **localhost:3001**.
 
 If you have previously run with the dev configuration below, run with the `--build` flag to make sure the debug image isn't cached.
 
+#### Developer-friendly docker
 To run with development configuration:
 
 ```
 source aliases.sh
-docker-compose-dev up
+docker-compose-down
+docker-compose-dev --build up
 ```
 
 This runs with the following features to aid debugging:
 
-- Opens node inspect port on 9229
-- Runs service in nodemon and monitors project files for changes
+- Opens node inspector port on 9229
+- Source files mapped to this directory with hot reloading
+
+### Non-docker
+In this directory:
+
+```shell
+npm install
+npm start
+```
+
+Service will be available at **localhost:3000**
 
 ## Running Tests
 
-To run tests in container:
+### Docker
 
 ```
 docker-compose-dev run --rm captureserv npm test
-docker-compose-dev down
 ```
+
+## API Documentation
+
+This service's API is described by **openapi.yaml**.

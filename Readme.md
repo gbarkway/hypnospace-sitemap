@@ -21,7 +21,7 @@ docker-compose --profile frontend up
 
 The webapp is available at **http://localhost:5000**
 
-Visit the subfolders listed below for more project-specific instructions
+Visit the subfolders listed below for more project-specific instructions, including how to run in a more development-friendly way.
 
 ## Project structure
 
@@ -31,33 +31,6 @@ Visit the subfolders listed below for more project-specific instructions
 | Page service | Backend service for viewing and searching detailed page information | src/page-serv | 3000 |
 | Webapp | Web frontend | src/web | 5000
 | Crawler | Python scripts that parse Hypnospace Outlaw game data for use of above services | src/crawler |
-
-## Dev Configuration
-
-You can run with a more dev-friendly configuration by using the docker-compose.dev.yml file.
-
-```shell
-cd src
-source aliases.sh
-docker-compose-dev up --build
-```
-
-This is equivalent to
-
-```shell
-cd src
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
-```
-
-Note: webapp is part of the frontend profile, so it won't run by default.
-
-The .dev.yml file makes these changes to the base:
-
-- Maps page-serv and capture-serv app folders to src/page-serv and src/capture-serv and enables hot reloading
-- Exposes ports for Node.js debugging:
-  - page-serv: 9230
-  - capture-serv: 9229
-- Exposes page-serv-db on localhost:27017
 
 ## Deployment
 
