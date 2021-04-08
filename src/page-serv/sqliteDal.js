@@ -55,8 +55,8 @@ const makeDal = (path) => {
         expressions.push("page.date = ?");
         params.push(date);
       }
-      
-      if (opts.citizenName === '') {
+
+      if (opts.citizenName === "") {
         expressions.push("page.citizen_name IS NULL");
       } else if (opts.citizenName) {
         expressions.push("page.citizen_name LIKE ?");

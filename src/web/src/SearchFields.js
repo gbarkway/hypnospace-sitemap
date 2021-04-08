@@ -52,10 +52,10 @@ export default function SearchFields({
             placeholder="Citizen"
             id="citizenNameField"
           />
-          <Button 
+          <Button
             variant="link"
             className="btn-sm"
-            onClick = {() => 
+            onClick={() =>
               onSearchFieldsChange({
                 ...searchFields,
                 citizenNameQuery: null,

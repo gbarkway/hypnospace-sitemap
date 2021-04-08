@@ -57,7 +57,7 @@ app.get("/captures/:date/pages", async (req, res, next) => {
       return;
     }
   }
-  
+
   if (opts.zone === "") {
     res.status(400).json("Empty zone parameter");
     return;

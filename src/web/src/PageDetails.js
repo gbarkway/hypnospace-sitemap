@@ -82,10 +82,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
             </Card.Text>
             <Card.Text>
               <b>Citizen:</b>
-              <Button
-                onClick={() => onCitizenNameClick(page.citizenName)}
-                variant="link"
-              >
+              <Button onClick={() => onCitizenNameClick(page.citizenName)} variant="link">
                 {page.citizenName || "<None>"}
               </Button>
             </Card.Text>
