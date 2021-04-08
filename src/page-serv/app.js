@@ -34,7 +34,7 @@ app.get("/captures", async (req, res, next) => {
 
 app.get("/captures/:date/pages", async (req, res, next) => {
   const date = req.params["date"];
-  const expectedQuery = new Set(["tags", "user", "zone", "nameOrDescription"]);
+  const expectedQuery = new Set(["tags", "citizenName", "zone", "nameOrDescription"]);
   if (Object.keys(req.query).some((q) => !expectedQuery.has(q))) {
     res.status(400).json("Unexpected query param");
     return;
@@ -51,8 +51,8 @@ app.get("/captures/:date/pages", async (req, res, next) => {
     }
   }
 
-  if (opts.user === "") {
-    res.status(400).json("Empty username parameter");
+  if (opts.citizenName === "") {
+    res.status(400).json("Empty citizenName parameter");
     return;
   }
 

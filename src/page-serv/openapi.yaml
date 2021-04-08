@@ -102,7 +102,7 @@ components:
             type: string
         description:
           type: string
-        user:
+        citizenName:
           type: string
         hap_id:
           type: integer

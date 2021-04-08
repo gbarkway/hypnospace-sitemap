@@ -9,7 +9,7 @@ const toApiPage = (dbPage) => {
     name: dbPage.name,
     description: dbPage.description,
     tags: JSON.parse(dbPage.tags),
-    user: dbPage.citizen_name,
+    citizenName: dbPage.citizen_name,
   };
 };
 
@@ -55,9 +55,9 @@ const makeDal = (path) => {
         expressions.push("page.date = ?");
         params.push(date);
       }
-      if (opts.user) {
+      if (opts.citizenName) {
         expressions.push("page.citizen_name LIKE ?");
-        params.push(`%${opts.user}%`);
+        params.push(`%${opts.citizenName}%`);
       }
       if (opts.zone) {
         expressions.push("page.zone = ?");

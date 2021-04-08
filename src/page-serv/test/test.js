@@ -45,7 +45,7 @@ describe("GET /captures/:date/pages", function () {
               "date",
               "name",
               "description",
-              "user"
+              "citizenName"
             );
             done();
           });
@@ -90,7 +90,7 @@ describe("GET /captures/:date/pages", function () {
             "date",
             "name",
             "description",
-            "user"
+            "citizenName"
           );
           res.body.should.include.deep.members([
             {
@@ -100,7 +100,7 @@ describe("GET /captures/:date/pages", function () {
               date: "1999-11-05",
               name: "TV Spot Survey",
               description: null,
-              user: "Merchantsoft",
+              citizenName: "Merchantsoft",
             },
           ]);
           res.body
@@ -132,26 +132,26 @@ describe("GET /captures/:date/pages", function () {
     });
   });
 
-  describe("user filter", function () {
-    it("valid user filter returns data", function (done) {
+  describe("citizenName filter", function () {
+    it("valid citizenName filter returns data", function (done) {
       chai
         .request(app)
-        .get("/captures/1999-11-05/pages?user=DarkTwilightTiff")
+        .get("/captures/1999-11-05/pages?citizenName=DarkTwilightTiff")
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
           res.body.should.have.lengthOf(2);
           res.body
-            .filter((p) => p.user != "DarkTwilightTiff")
+            .filter((p) => p.citizenName != "DarkTwilightTiff")
             .length.should.equal(0);
           done();
         });
     });
 
-    it("empty user filter returns 400", function (done) {
+    it("empty citizenName filter returns 400", function (done) {
       chai
         .request(app)
-        .get("/captures/1999-11-05/pages?user=")
+        .get("/captures/1999-11-05/pages?citizenName=")
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.should.be.a("string");
@@ -159,30 +159,30 @@ describe("GET /captures/:date/pages", function () {
         });
     });
 
-    it("user filter is sloppy", function (done) {
+    it("citizenName filter is fuzzy", function (done) {
       chai
         .request(app)
-        .get("/captures/1999-11-05/pages?user=darkTwilight")
+        .get("/captures/1999-11-05/pages?citizenName=darkTwilight")
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
           res.body.should.have.lengthOf(2);
           res.body
-            .filter((p) => p.user != "DarkTwilightTiff")
+            .filter((p) => p.citizenName != "DarkTwilightTiff")
             .length.should.equal(0);
           done();
         });
     });
 
-    it("special characters are escaped in user filter", function (done) {
+    it("special characters are escaped in citizenName filter", function (done) {
       chai
         .request(app)
-        .get("/captures/1999-11-05/pages?user=*GraysPeak")
+        .get("/captures/1999-11-05/pages?citizenName=*GraysPeak")
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
           res.body.should.have.lengthOf(3);
-          res.body.filter((p) => p.user != "*GraysPeak").length.should.equal(0);
+          res.body.filter((p) => p.citizenName != "*GraysPeak").length.should.equal(0);
           done();
         });
     });
@@ -336,7 +336,7 @@ describe("GET /captures/:date/pages", function () {
     it("filters right with stacked", function (done) {
       chai
         .request(app)
-        .get("/captures/1999-11-05/pages?tags=guide&user=ProfessorHelper")
+        .get("/captures/1999-11-05/pages?tags=guide&citizenName=ProfessorHelper")
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
@@ -371,7 +371,7 @@ describe("GET /captures/:date/pages/:path_or_hap", function () {
     name: "Gary's CyberCog Control Room",
     description:
       "Gary's Control Room - 2.6.99 - Welcome aboard visitor, and do keep your hands off the computers unless you know what you're doing!",
-    user: "FirstCaptainGary",
+    citizenName: "FirstCaptainGary",
   };
   it("returns expected page for valid path", function (done) {
     chai
