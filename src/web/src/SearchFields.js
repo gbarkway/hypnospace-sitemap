@@ -36,7 +36,6 @@ export default function SearchFields({
               })
             }
             type="text"
-            placeholder="Keyword"
             id="nameOrDescriptionField"
           />
         </Form.Group>
@@ -51,7 +50,6 @@ export default function SearchFields({
               })
             }
             type="text"
-            placeholder="Citizen"
             id="citizenNameField"
           />
           <Button
@@ -78,9 +76,9 @@ export default function SearchFields({
               })
             }
             type="text"
-            placeholder="tag1,tag2,tag3"
             id="tagsField"
           />
+          <Form.Text className="small muted">Separate commas with tags</Form.Text>
         </Form.Group>
         <div className="d-flex justify-content-end">
           <Button variant="primary" type="submit" className="mr-1">
