@@ -1,6 +1,12 @@
 import { Button, Form } from "react-bootstrap";
 
 const NULL_PLACEHOLDER = "<None>";
+const defaultSearchFields = {
+  pageNameQuery: "",
+  citizenNameQuery: "",
+  tagsQuery: "",
+};
+
 export default function SearchFields({
   onSearchClicked,
   searchFields,
@@ -9,11 +15,7 @@ export default function SearchFields({
 }) {
   onSearchClicked = onSearchClicked || (() => {});
   onSearchFieldsChange = onSearchFieldsChange || (() => {});
-  searchFields = searchFields || {
-    pageNameQuery: "",
-    citizenNameQuery: "",
-    tagsQuery: "",
-  };
+  searchFields = searchFields || { ...defaultSearchFields };
 
   return (
     <Form
@@ -80,9 +82,12 @@ export default function SearchFields({
             id="tagsField"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Search
-        </Button>
+        <div className="d-flex justify-content-end">
+          <Button variant="primary" type="submit" className="mr-1">
+            Search
+          </Button>
+          <Button onClick={() => onSearchFieldsChange({ ...defaultSearchFields })}>Clear</Button>
+        </div>
       </fieldset>
     </Form>
   );
