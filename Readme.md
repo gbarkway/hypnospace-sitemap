@@ -73,11 +73,7 @@ To build a docker image for every service and push them to a container registry:
 
 This app is currently hosted on DigitalOcean App Platform. 
 
-The current app spec is in **do_app_spec.yaml**.
-
-Whenever page-serv or capture-serv changes, a GitHub Action pushes its new container image to a private container registry. These images are used for web service components.
-
-The `web` project is not deployed using an image. Instead, on push to 'src/web' the static site is built using npm and deployed directly. This is to take advantage of the platform's free hosting for static sites.
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/gbarkway/hypnospace-sitemap/tree/main)
 
 ### Kubernetes
 
