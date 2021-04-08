@@ -17,6 +17,7 @@ The scripts in this folder generate Hypnospace Outlaw page metadata.
 ## Usage
 
 ### Crawler module
+
 ```py
 import crawler
 hs = crawler.readHypnospace('C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hypnospace Outlaw\\data')
@@ -26,7 +27,7 @@ hs = crawler.readHypnospace('C:\\Program Files (x86)\\Steam\\steamapps\\common\\
 
 ### Data-generating scripts
 
-```
+```shell
 python make_pageserv_data.py DATAPATH
 python make_captureserv_data.py DATAPATH
 ```
@@ -34,4 +35,5 @@ python make_captureserv_data.py DATAPATH
 Where DATAPATH is the path to a Hypnospace Outlaw data folder. For example: ``C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hypnospace Outlaw\\data``
 
 ## Running tests
+
 ```python -m unittest```
