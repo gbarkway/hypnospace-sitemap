@@ -127,7 +127,9 @@ function App() {
                 date={date}
                 path={path}
                 onTagClick={(tag) => showPrefilledSearch({ tagsQuery: tag })}
-                onCitizenNameClick={(citizenName) => showPrefilledSearch({ citizenNameQuery: citizenName })}
+                onCitizenNameClick={(citizenName) =>
+                  showPrefilledSearch({ citizenNameQuery: citizenName })
+                }
               />
             </div>
           </Col>

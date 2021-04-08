@@ -6,7 +6,7 @@ export default function SearchFields({
   onSearchFieldsChange,
   disabled,
 }) {
-  onSearchClicked = onSearchClicked || (() => {}); 
+  onSearchClicked = onSearchClicked || (() => {});
   onSearchFieldsChange = onSearchFieldsChange || (() => {});
   searchFields = searchFields || {
     pageNameQuery: "",
