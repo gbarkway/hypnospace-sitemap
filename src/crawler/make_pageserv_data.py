@@ -21,7 +21,7 @@ def pageRowTuples(captures):
                 page.name,
                 page.description,
                 json.dumps(page.tags),
-                page.user
+                page.citizenName
             )
             for page in capture.pages
         ]
