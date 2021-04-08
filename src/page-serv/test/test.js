@@ -148,13 +148,14 @@ describe("GET /captures/:date/pages", function () {
         });
     });
 
-    it("empty citizenName filter returns 400", function (done) {
+    it("empty citizenName filter searches for pages with null citizen name", function (done) {
       chai
         .request(app)
         .get("/captures/1999-11-05/pages?citizenName=")
         .end((err, res) => {
-          res.status.should.equal(400);
-          res.body.should.be.a("string");
+          res.status.should.equal(200);
+          res.body.should.be.a("Array");
+          res.body.should.have.lengthOf(33);
           done();
         });
     });
