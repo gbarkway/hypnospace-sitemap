@@ -1,0 +1,49 @@
+# App spec for DigitalOcean app platform
+# Usage: doctl apps create --spec app.yaml
+
+name: hypnospace-sitemap
+region: nyc
+services:
+- dockerfile_path: src/capture-serv/Dockerfile
+  envs:
+  - key: NODE_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: production
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: gbarkway/hypnospace-sitemap
+  http_port: 3000
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: captureserv
+  routes:
+  - path: /captureserv
+  source_dir: src/capture-serv
+- dockerfile_path: src/page-serv/Dockerfile
+  envs:
+  - key: NODE_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: production
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: gbarkway/hypnospace-sitemap
+  http_port: 3000
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: pageserv
+  routes:
+  - path: /pageserv
+  source_dir: src/page-serv
+static_sites:
+- build_command: npm run build
+  environment_slug: node-js
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: gbarkway/hypnospace-sitemap
+  name: hypnospacemap
+  routes:
+  - path: /
+  source_dir: src/web
