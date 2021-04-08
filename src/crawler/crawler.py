@@ -63,8 +63,12 @@ def readPage(hspPath):
         if description == '':
             description = None
 
+    user = dom['data'][0][1][2]
+    if not len(user):
+        user = None
+
     return Page(dom['data'][0][1][1], myPath, list(links), description, tags,
-                dom['data'][0][1][2], hspPath.parts[-2], 'zone.hsp' in myPath)
+                user, hspPath.parts[-2], 'zone.hsp' in myPath)
 
 
 def readZone(zonePath):
