@@ -58,11 +58,6 @@ app.get("/captures/:date/pages", async (req, res, next) => {
     }
   }
 
-  if (opts.citizenName === "") {
-    res.status(400).json("Empty citizenName parameter");
-    return;
-  }
-
   if (opts.zone === "") {
     res.status(400).json("Empty zone parameter");
     return;

@@ -9,7 +9,9 @@ const buildUrl = (date, { pageNameQuery, citizenNameQuery, tagsQuery }) => {
   if (pageNameQuery && pageNameQuery.length) {
     url.searchParams.append("nameOrDescription", pageNameQuery);
   }
-  if (citizenNameQuery && citizenNameQuery.length) {
+  if (citizenNameQuery === null) {
+    url.searchParams.append("citizenName", "");
+  } else if (citizenNameQuery && citizenNameQuery.length) {
     url.searchParams.append("citizenName", citizenNameQuery);
   }
   if (tagsQuery && tagsQuery.length) {
