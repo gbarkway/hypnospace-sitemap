@@ -86,13 +86,10 @@ const makeDal = (path = "./pageserv.db") => {
         params.push(s, s, s);
       }
 
-      let query =
-        "SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name FROM page LEFT JOIN json_each(page.tags) as tag";
-      if (expressions.length) {
-        query += " WHERE ";
-        query += expressions.join(" AND ");
-      }
-
+      const query =
+        "SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name FROM page LEFT JOIN json_each(page.tags) as tag" +
+        expressions.length ? ` WHERE ${expressions.join(" AND ")}` : "";
+        
       const rows = await dbAllAsync(query, params);
       return rows.map(toApiPage);
     },
@@ -104,10 +101,10 @@ const makeDal = (path = "./pageserv.db") => {
 
     getPageByPath: async (date, path) => {
       path = path.replace("|", "\\");
-      const row = await dbGetAsync("SELECT * FROM page WHERE date = ? AND path = ?", [
-        date,
-        path,
-      ]);
+      const row = await dbGetAsync(
+        "SELECT * FROM page WHERE date = ? AND path = ?",
+        [date, path]
+      );
       return toApiPage(row);
     },
   };
