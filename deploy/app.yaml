@@ -43,7 +43,7 @@ static_sites:
     branch: main
     deploy_on_push: true
     repo: gbarkway/hypnospace-sitemap
-  name: hypnospacemap
+  name: web
   routes:
   - path: /
   source_dir: src/web
