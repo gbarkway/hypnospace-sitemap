@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  pageserv:
-    image: ${REGISTRY:-hs}/hs-pageserv:${TAG:-latest}
+  page-serv:
+    image: ${REGISTRY:-hs}/hs-page-serv:${TAG:-latest}
     build:
       context: page-serv
       target: production
@@ -12,8 +12,8 @@ services:
     ports:
       - 3000:3000
 
-  captureserv:
-    image: ${REGISTRY:-hs}/hs-captureserv:${TAG:-latest}
+  capture-serv:
+    image: ${REGISTRY:-hs}/hs-capture-serv:${TAG:-latest}
     build:
       context: capture-serv
       target: production
@@ -32,7 +32,7 @@ services:
       args:
         - DOT_ENV=${WEBAPP_DOT_ENV_PATH}
     depends_on:
-      - pageserv
-      - captureserv 
+      - page-serv
+      - capture-serv 
     ports:
       - 5000:5000

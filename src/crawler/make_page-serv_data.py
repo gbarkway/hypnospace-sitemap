@@ -30,7 +30,7 @@ def pageRowTuples(captures):
 
 
 if len(sys.argv) < 2:
-    print('Usage: python make_pageserv_data.py [PATH]')
+    print('Usage: python make_page-serv_data.py [PATH]')
     print(
         'Path must be the path to a Hypnospace Outlaw data folder. ',
         'For example:',
@@ -45,7 +45,7 @@ if not dataPath.exists():
     exit()
 
 hypnospace = crawler.readHypnospace(dataPath)
-outPath = Path('./pageserv.db')
+outPath = Path('./page-serv.db')
 with sqlite3.connect(outPath) as con:
     cur = con.cursor()
     cur.execute(
