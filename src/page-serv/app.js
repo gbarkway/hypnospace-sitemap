@@ -3,11 +3,9 @@ const express = require("express");
 const winston = require("winston");
 const expressWinston = require("express-winston");
 
-const { makeCaptureService } = require("./captureService");
 const { makeDal } = require("./sqliteDal");
 
 const dal = makeDal();
-const service = makeCaptureService(dal);
 const app = express();
 
 if (process.env.NODE_ENV !== "test") {
@@ -74,7 +72,7 @@ app.get("/captures/:date/pages", async (req, res, next) => {
       return;
     }
 
-    const pages = await service.getPages(date, opts);
+    const pages = await dal.getPages(date, opts);
     res.json(pages);
   } catch (err) {
     next(err);
