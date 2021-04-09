@@ -14,9 +14,6 @@ const makeCaptureService = (dal) => {
       return dates.indexOf(date) !== -1;
     },
 
-    getPage: async (date, path) => {
-      return await dal.getPageByPath(date, path);
-    },
   };
 };
 

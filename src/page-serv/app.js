@@ -95,7 +95,7 @@ app.get("/captures/:date/pages/:path", async (req, res, next) => {
       return;
     }
 
-    const page = await service.getPage(req.params["date"], path);
+    const page = await dal.getPageByPath(req.params["date"], path);
     if (page) {
       res.status(200).json(page);
     } else {
