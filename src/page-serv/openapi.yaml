@@ -22,7 +22,6 @@ paths:
                   type: string
               example: ["1999-11-05", "1999-11-26", "1999-12-31", "20XX-XX-XX"]
 
-          
   /captures/{date}/pages:
     get:
       summary: List page names
@@ -67,9 +66,9 @@ paths:
           content:
             application/json:
               schema:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Page"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Page"
   /captures/{date}/pages/{path}:
     get:
       summary: Get single page by hsp path
@@ -82,7 +81,7 @@ paths:
           schema:
             type: string
           example: "1999-11-05"
-        - name: path 
+        - name: path
           in: path
           required: true
           schema:
@@ -97,7 +96,7 @@ paths:
             pipe:
               value: "01_hypnospace central|globalnewsroom.hsp"
               summary: With pipe character
-              description: > 
+              description: >
                 Since the forward slashes are hard to deal with because of 
                 url-encoding, character escaping, etc. you can use a | instead.
       responses:
@@ -132,4 +131,3 @@ components:
           type: string
         citizenName:
           type: string
-
