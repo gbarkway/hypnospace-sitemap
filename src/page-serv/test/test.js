@@ -1,15 +1,10 @@
 /* eslint-disable no-undef */
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const { app, close, readyPromise } = require("../app");
+const { app, server } = require("../app");
 
 chai.use(chaiHttp);
 chai.should();
-
-//wait a second for db to be online
-before(function (done) {
-  readyPromise.finally(() => done());
-});
 
 describe("GET /captures", function () {
   it("should be array with 4 elements", function (done) {
@@ -437,5 +432,5 @@ describe("GET /captures/:date/pages/:path_or_hap", function () {
 });
 
 after(async function () {
-  await close();
+  await new Promise((resolve) => server.close(resolve));
 });

@@ -13,9 +13,7 @@ const toApiPage = (dbPage) => {
   };
 };
 
-const makeDal = (path) => {
-  path = path || "./pageserv.db";
-
+const makeDal = (path = "./pageserv.db") => {
   const db = new sqlite3.Database(path, (err) => {
     if (err) {
       return console.error(err.message, path);
@@ -23,8 +21,12 @@ const makeDal = (path) => {
     console.log("Connected to database at ", path);
   });
 
-  const promiseAll = (sql, param) => {
+  const dbAllAsync = (sql, param) => {
     return new Promise(function (resolve, reject) {
+      if (!db.open) {
+        reject(new Error("Database closed"));
+      }
+
       db.all(sql, param, function (err, rows) {
         if (err) {
           reject(err);
@@ -35,8 +37,12 @@ const makeDal = (path) => {
     });
   };
 
-  const promiseGet = (sql, param) => {
+  const dbGetAsync = (sql, param) => {
     return new Promise(function (resolve, reject) {
+      if (!db.open) {
+        reject(new Error("Database closed"));
+      }
+
       db.get(sql, param, function (err, row) {
         if (err) reject(err);
         resolve(row);
@@ -45,8 +51,7 @@ const makeDal = (path) => {
   };
 
   return {
-    readyPromise: Promise.resolve(),
-    getPages: (date, opts) => {
+    getPages: async (date, opts) => {
       opts = opts || {};
       const expressions = [];
       const params = [];
@@ -88,33 +93,22 @@ const makeDal = (path) => {
         query += expressions.join(" AND ");
       }
 
-      return promiseAll(query, params).then((rows) => rows.map(toApiPage));
+      const rows = await dbAllAsync(query, params);
+      return rows.map(toApiPage);
     },
 
-    getDates: () => {
-      return promiseAll("SELECT DISTINCT date FROM page", []).then((rows) =>
-        rows.map((row) => row.date)
-      );
+    getDates: async () => {
+      const rows = await dbAllAsync("SELECT DISTINCT date FROM page", []);
+      return rows.map((row) => row.date);
     },
 
-    getPageByPath: (date, path) => {
+    getPageByPath: async (date, path) => {
       path = path.replace("|", "\\");
-      return promiseGet("SELECT * FROM page WHERE date = ? AND path = ?", [
+      const row = await dbGetAsync("SELECT * FROM page WHERE date = ? AND path = ?", [
         date,
         path,
-      ]).then((row) => toApiPage(row));
-    },
-
-    disconnect: () => {
-      return new Promise((resolve, reject) => {
-        db.close((err) => {
-          if (err) {
-            reject(err);
-          }
-
-          resolve();
-        });
-      });
+      ]);
+      return toApiPage(row);
     },
   };
 };
