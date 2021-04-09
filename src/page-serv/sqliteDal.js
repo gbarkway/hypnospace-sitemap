@@ -86,10 +86,11 @@ const makeDal = (path = "./pageserv.db") => {
         params.push(s, s, s);
       }
 
-      const query =
-        "SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name FROM page LEFT JOIN json_each(page.tags) as tag" +
-        expressions.length ? ` WHERE ${expressions.join(" AND ")}` : "";
-        
+      const query = `SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name 
+        FROM page 
+        LEFT JOIN json_each(page.tags) as tag
+        ${expressions.length ? " WHERE " + expressions.join(" AND ") : ""}`;
+
       const rows = await dbAllAsync(query, params);
       return rows.map(toApiPage);
     },
