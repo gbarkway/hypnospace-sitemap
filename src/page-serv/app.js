@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
 
 app.get("/captures", async (req, res, next) => {
   try {
-    const dates = await service.getDates();
+    const dates = await dal.getDates();
     res.json(dates);
   } catch (err) {
     next(err);
@@ -69,7 +69,7 @@ app.get("/captures/:date/pages", async (req, res, next) => {
   }
 
   try {
-    if (!(await service.hasDate(date))) {
+    if (!(await dal.getDates()).includes(date)) {
       res.status(404).json("Invalid capture date");
       return;
     }
@@ -90,7 +90,7 @@ app.get("/captures/:date/pages/:path", async (req, res, next) => {
   }
 
   try {
-    if (!(await service.hasDate(date))) {
+    if (!(await dal.getDates()).includes(date)) {
       res.status(404).json("Invalid capture date");
       return;
     }
