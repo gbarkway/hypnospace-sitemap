@@ -13,7 +13,7 @@ const toApiPage = (dbPage) => {
   };
 };
 
-const makeDal = (path = "./pageserv.db") => {
+const makeDal = (path = "./page-serv.db") => {
   const db = new sqlite3.Database(path, (err) => {
     if (err) {
       return console.error(err.message, path);

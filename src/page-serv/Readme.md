@@ -50,7 +50,7 @@ Service will be available on **localhost:3000**
 ### Docker
 
 ```shell
-docker-compose-dev run --rm pageserv npm test
+docker-compose-dev run --rm page-serv npm test
 ```
 
 ## API Documentation

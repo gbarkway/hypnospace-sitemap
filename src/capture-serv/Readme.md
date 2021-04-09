@@ -50,7 +50,7 @@ Service will be available at **localhost:3000**
 ### Docker
 
 ```
-docker-compose-dev run --rm captureserv npm test
+docker-compose-dev run --rm capture-serv npm test
 ```
 
 ## API Documentation
