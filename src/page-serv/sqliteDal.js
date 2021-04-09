@@ -50,6 +50,7 @@ const makeDal = (path = "./pageserv.db") => {
     });
   };
 
+  let getDatesResult = null;
   return {
     getPages: async (date, opts) => {
       opts = opts || {};
@@ -96,8 +97,13 @@ const makeDal = (path = "./pageserv.db") => {
     },
 
     getDates: async () => {
-      const rows = await dbAllAsync("SELECT DISTINCT date FROM page", []);
-      return rows.map((row) => row.date);
+      // cache forever
+      getDatesResult =
+        getDatesResult ||
+        (await dbAllAsync("SELECT DISTINCT date FROM page", [])).map(
+          (row) => row.date
+        );
+      return getDatesResult;
     },
 
     getPageByPath: async (date, path) => {
