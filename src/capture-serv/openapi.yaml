@@ -2,8 +2,9 @@ openapi: 3.0.0
 info:
   title: Capture Service
   description: >
-    Get state of hypnospace at a certain date.
-  version: 0.0.1
+    Get state of hypnospace (page names and their links to each other)
+    at a certain date.
+  version: "1.0"
 
 paths:
   /captures:
@@ -22,7 +23,7 @@ paths:
                 - "1999-11-05"
                 - "1999-11-26"
                 - "1999-12-31"
-                - "20xx-xx-xx"
+                - "20XX-XX-XX"
 
   /captures/{date}:
     get:
@@ -33,11 +34,6 @@ paths:
           required: true
           schema:
             type: string
-            enum:
-              - "1999-11-05"
-              - "1999-11-26"
-              - "1999-12-31"
-              - "20xx-xx-xx"
       responses:
         "200":
           description: Capture

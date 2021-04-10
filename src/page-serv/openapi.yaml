@@ -3,12 +3,14 @@ info:
   title: Page Service
   description: >
     Get details about Hypnospace pages
-  version: 0.0.1
+  version: "1.0"
 
 paths:
   /captures:
     get:
       summary: List available captures
+      tags:
+        - captures
       responses:
         "200":
           description: Capture dates
@@ -18,20 +20,27 @@ paths:
                 type: array
                 items:
                   type: string
+              example: ["1999-11-05", "1999-11-26", "1999-12-31", "20XX-XX-XX"]
+
   /captures/{date}/pages:
     get:
       summary: List page names
+      tags:
+        - pages
       parameters:
         - name: date
           in: path
           required: true
           schema:
             type: string
+          example: "1999-11-05"
         - name: zone
           in: query
           required: false
+          description: Exact zone match
           schema:
             type: string
+          example: "Hypnospace Central"
         - name: tags
           in: query
           required: false
@@ -51,38 +60,45 @@ paths:
           required: false
           schema:
             type: string
-        - name: offset
-          in: query
-          required: false
-          schema:
-            type: integer
-        - name: count
-          in: query
-          required: false
-          schema:
-            type: integer
       responses:
         "200":
           description: Pages
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  meta:
-                    type: object
-                    properties:
-                      offset:
-                        type: integer
-                      total:
-                        type: integer
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Page"
-  /captures/{date}/pages/{path_or_hap}:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Page"
+  /captures/{date}/pages/{path}:
     get:
-      summary: Get single page by hsp path or by hap id
+      summary: Get single page by hsp path
+      tags:
+        - pages
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "1999-11-05"
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+          examples:
+            forwardSlashes:
+              value: "01_hypnospace central\\globalnewsroom.hsp"
+              summary: With forward slashes
+              description: >
+                The default path format is {zone_name}{forward slash}{page.hsp}.
+                Forward slash is url-encoded as %5C and in json is escaped as "\\\\"
+            pipe:
+              value: "01_hypnospace central|globalnewsroom.hsp"
+              summary: With pipe character
+              description: >
+                Since the forward slashes are hard to deal with because of 
+                url-encoding, character escaping, etc. you can use a | instead.
       responses:
         "200":
           description: Page found
@@ -100,8 +116,13 @@ components:
       properties:
         path:
           type: string
+        zone:
+          type: string
+        date:
+          type: string
         name:
           type: string
+          description: Page name
         tags:
           type: array
           items:
@@ -110,5 +131,3 @@ components:
           type: string
         citizenName:
           type: string
-        hap_id:
-          type: integer

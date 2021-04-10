@@ -32,6 +32,10 @@ Visit the subfolders listed below for more project-specific instructions, includ
 | Webapp | Web frontend | src/web | 5000
 | Crawler | Python scripts that parse Hypnospace Outlaw game data for use of above services | src/crawler |
 
+## Contributing
+
+Issues and pull requests welcome!
+
 ## Deployment
 
 ### Building docker images for production

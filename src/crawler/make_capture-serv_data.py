@@ -24,7 +24,7 @@ def captureServCapture(capture):
 
 
 if len(sys.argv) < 2:
-    print('Usage: python make_captureserv_data.py [PATH]')
+    print('Usage: python make_capture-serv_data.py [PATH]')
     print(
         'Path must be the path to a Hypnospace Outlaw data folder. ',
         'For example: C:\\Program Files (x86)\\Steam\\steamapps\\common\\',
@@ -41,7 +41,7 @@ hypnospace = crawler.readHypnospace(dataPath)
 captureServCaptures = sorted(
     [captureServCapture(c) for c in hypnospace.captures],
     key=lambda c: c['date'])
-outPath = Path('./captureserv.captures.json')
+outPath = Path('./capture-serv.captures.json')
 with open(outPath, 'w') as file:
     json.dump(captureServCaptures, file)
 

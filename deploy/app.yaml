@@ -16,9 +16,9 @@ services:
   http_port: 3000
   instance_count: 1
   instance_size_slug: basic-xxs
-  name: captureserv
+  name: capture-serv
   routes:
-  - path: /captureserv
+  - path: /capture-serv
   source_dir: src/capture-serv
 - dockerfile_path: src/page-serv/Dockerfile
   envs:
@@ -32,9 +32,9 @@ services:
   http_port: 3000
   instance_count: 1
   instance_size_slug: basic-xxs
-  name: pageserv
+  name: page-serv
   routes:
-  - path: /pageserv
+  - path: /page-serv
   source_dir: src/page-serv
 static_sites:
 - build_command: npm run build
@@ -43,7 +43,7 @@ static_sites:
     branch: main
     deploy_on_push: true
     repo: gbarkway/hypnospace-sitemap
-  name: hypnospacemap
+  name: web
   routes:
   - path: /
   source_dir: src/web

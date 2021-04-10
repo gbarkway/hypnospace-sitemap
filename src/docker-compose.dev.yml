@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  pageserv:
+  page-serv:
     build:
       target: development
     environment:
@@ -11,10 +11,10 @@ services:
     volumes:
       - ./page-serv:/usr/src/app
       # workaround for node_modules hiding problem, see https://jdlm.info/articles/2019/09/06/lessons-building-node-app-docker.html#the-node_modules-volume-trick
-      - pageserv_node_modules:/usr/src/app/node_modules     
+      - page-serv_node_modules:/usr/src/app/node_modules     
     command: ["npx", "nodemon", "--inspect=0.0.0.0:9229", "app.js"]
     
-  captureserv:
+  capture-serv:
     build:
       target: development
     environment:
@@ -24,10 +24,10 @@ services:
     volumes:
       - ./capture-serv:/usr/src/app
       # workaround for node_modules hiding problem, see https://jdlm.info/articles/2019/09/06/lessons-building-node-app-docker.html#the-node_modules-volume-trick
-      - captureserv_node_modules:/usr/src/app/node_modules     
+      - capture-serv_node_modules:/usr/src/app/node_modules     
     command: ["npx", "nodemon", "--inspect=0.0.0.0:9229", "app.js"]
 
 volumes:
-  captureserv_node_modules:
-  pageserv_node_modules:
+  capture-serv_node_modules:
+  page-serv_node_modules:
 

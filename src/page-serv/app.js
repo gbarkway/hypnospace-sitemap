@@ -3,11 +3,9 @@ const express = require("express");
 const winston = require("winston");
 const expressWinston = require("express-winston");
 
-const { makeCaptureService } = require("./captureService");
 const { makeDal } = require("./sqliteDal");
 
 const dal = makeDal();
-const service = makeCaptureService(dal);
 const app = express();
 
 if (process.env.NODE_ENV !== "test") {
@@ -27,7 +25,7 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
 
 app.get("/captures", async (req, res, next) => {
   try {
-    const dates = await service.getDates();
+    const dates = await dal.getDates();
     res.json(dates);
   } catch (err) {
     next(err);
@@ -69,12 +67,12 @@ app.get("/captures/:date/pages", async (req, res, next) => {
   }
 
   try {
-    if (!(await service.hasDate(date))) {
+    if (!(await dal.getDates()).includes(date)) {
       res.status(404).json("Invalid capture date");
       return;
     }
 
-    const pages = await service.getPages(date, opts);
+    const pages = await dal.getPages(date, opts);
     res.json(pages);
   } catch (err) {
     next(err);
@@ -90,12 +88,12 @@ app.get("/captures/:date/pages/:path", async (req, res, next) => {
   }
 
   try {
-    if (!(await service.hasDate(date))) {
+    if (!(await dal.getDates()).includes(date)) {
       res.status(404).json("Invalid capture date");
       return;
     }
 
-    const page = await service.getPage(req.params["date"], path);
+    const page = await dal.getPageByPath(req.params["date"], path);
     if (page) {
       res.status(200).json(page);
     } else {
@@ -118,9 +116,4 @@ const server = app.listen(port, () => {
   console.log(`Page service started on port ${port}`);
 });
 
-const close = async () => {
-  await new Promise((resolve) => server.close(resolve));
-  await dal.disconnect();
-};
-
-module.exports = { app, close, readyPromise: dal.readyPromise };
+module.exports = { app, server };
