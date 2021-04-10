@@ -121,7 +121,7 @@ export default function SearchResults({
           </tbody>
         </Table>
       </div>
-      <span className="text-muted">Click on page name to view page</span>
+      <span className="small text-muted">Click on page name to view page</span>
     </div>
   );
 }

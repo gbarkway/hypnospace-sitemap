@@ -78,7 +78,7 @@ export default function SearchFields({
             type="text"
             id="tagsField"
           />
-          <Form.Text className="small muted">Separate multiple tags with commas</Form.Text>
+          <Form.Text className="small text-muted">Separate multiple tags with commas</Form.Text>
         </Form.Group>
         <div className="d-flex justify-content-end">
           <Button variant="primary" type="submit" className="mr-1">
