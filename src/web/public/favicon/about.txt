@@ -1,6 +1,6 @@
-This favicon was generated using the following graphics from Twitter Twemoji:
+This favicon was generated from an icon in the Chicago95 project (https://github.com/grassmunk/Chicago95):
 
-- Graphics Title: 1f634.svg
-- Graphics Author: Copyright 2020 Twitter, Inc and other contributors (https://github.com/twitter/twemoji)
-- Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f634.svg
-- Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+- Graphics Title: gnome-session-hibernate.svg
+- Graphics Source: https://github.com/grassmunk/Chicago95/blob/master/Icons/Chicago95/apps/scalable/gnome-session-hibernate.svg
+- Graphics License: MIT(?) (see https://github.com/grassmunk/Chicago95/blob/master/README.md)
+
