@@ -68,7 +68,8 @@ export default function SearchResults({
     }
   }, [loading, onLoadingEnd, onLoadingStart]);
 
-  if (!searchRequest) return <span className="text-muted">Enter search terms and click "Search" to see results</span>
+  if (!searchRequest)
+    return <span className="text-muted">Enter search terms and click "Search" to see results</span>;
   return (
     <div>
       Search Results ({searchResults.length})
