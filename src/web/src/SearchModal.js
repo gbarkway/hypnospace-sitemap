@@ -1,5 +1,6 @@
-import { Modal, Button } from "react-bootstrap";
+import { Col, Button, Modal, Row } from "react-bootstrap";
 import { useState, useCallback } from "react";
+
 import SearchFields from "./SearchFields";
 import SearchResults from "./SearchResults";
 import searchIcon from "./win95-bootstrap/icons/search_file-1.png";
@@ -37,20 +38,25 @@ export default function SearchModal({
         </Button>
       </Modal.Header>
       <Modal.Body>
-        <SearchFields
-          onSearchClicked={onSearchClick}
-          searchFields={searchFields}
-          onSearchFieldsChange={onSearchFieldsChange}
-          disabled={disabled}
-        />
-        <hr></hr>
-        <SearchResults
-          date={date}
-          searchRequest={searchRequest}
-          onResultClick={onResultClick}
-          onLoadingStart={loadingStart}
-          onLoadingEnd={loadingEnd}
-        />
+        <Row>
+          <Col lg={5} xs={12}>
+            <SearchFields
+              onSearchClicked={onSearchClick}
+              searchFields={searchFields}
+              onSearchFieldsChange={onSearchFieldsChange}
+              disabled={disabled}
+            />
+          </Col>
+          <Col lg={7} xs={12}>
+            <SearchResults
+              date={date}
+              searchRequest={searchRequest}
+              onResultClick={onResultClick}
+              onLoadingStart={loadingStart}
+              onLoadingEnd={loadingEnd}
+            />
+          </Col>
+        </Row>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onCloseButtonClick}>Close</Button>

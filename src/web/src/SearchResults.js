@@ -68,23 +68,20 @@ export default function SearchResults({
     }
   }, [loading, onLoadingEnd, onLoadingStart]);
 
-  if (!searchRequest) return null;
+  if (!searchRequest) return <span className="text-muted">Enter search terms and click "Search" to see results</span>
   return (
     <div>
-      <h5>
-        Search Results ({searchResults.length})
-        <Spinner
-          size="sm"
-          animation="border"
-          role="status"
-          style={{
-            visibility: loading ? "visible" : "hidden",
-          }}
-        >
-          <span className="sr-only">Loading...</span>
-        </Spinner>
-      </h5>
-      <span className="text-muted">Click on page name to view page.</span>
+      Search Results ({searchResults.length})
+      <Spinner
+        size="sm"
+        animation="border"
+        role="status"
+        style={{
+          visibility: loading ? "visible" : "hidden",
+        }}
+      >
+        <span className="sr-only">Loading...</span>
+      </Spinner>
       <div className="search-results">
         <Table size="sm">
           <thead>
@@ -123,6 +120,7 @@ export default function SearchResults({
           </tbody>
         </Table>
       </div>
+      <span className="text-muted">Click on page name to view page</span>
     </div>
   );
 }
