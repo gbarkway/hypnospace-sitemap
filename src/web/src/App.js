@@ -7,7 +7,6 @@ import PageDetails from "./PageDetails";
 import SearchModal from "./SearchModal";
 import Sitemap from "./Sitemap";
 
-import githubLogo from "./GitHub-Mark-32px.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_small-1.png";
 import searchIcon from "./win95-bootstrap/icons/search_file-1.png";
 
@@ -105,15 +104,6 @@ function App() {
                     onClick={() => setShowHelpModal(true)}
                   >
                     <img src={helpIcon} alt=""></img>
-                  </Nav.Link>
-                  <Nav.Link
-                    className="mx-1 btn"
-                    target="_blank"
-                    eventKey="github"
-                    title="GitHub"
-                    href="https://github.com/gbarkway/hypnospace-sitemap"
-                  >
-                    <img src={githubLogo} width="16px" height="16px" alt=""></img>
                   </Nav.Link>
                 </Nav>
               </Navbar.Collapse>
