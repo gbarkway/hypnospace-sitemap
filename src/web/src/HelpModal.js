@@ -8,7 +8,7 @@ export default function HelpModal({ show, onCloseButtonClick }) {
   onCloseButtonClick = onCloseButtonClick || (() => {});
 
   return (
-    <Modal show={show} onHide={onCloseButtonClick} animation={false} centered>
+    <Modal show={show} onHide={onCloseButtonClick} animation={false}>
       <Modal.Header>
         <Modal.Title>
           <img className="m-1" src={helpIcon} alt="" width="24" height="24"></img>
