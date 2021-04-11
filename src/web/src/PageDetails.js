@@ -60,7 +60,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
           <Card.Header>
             <h5>Page Details - {page.name}</h5>
           </Card.Header>
-          <Card.Body style={{ overflowY: "scroll" }}>
+          <Card.Body className="scrollbox" style={{ overflowY: "scroll" }}>
             <div className="d-flex justify-content-between">
               <Card.Text>
                 <b>{page.name}</b>
