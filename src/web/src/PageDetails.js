@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Button, Spinner } from "react-bootstrap";
+import { Card, Button, ListGroup, Spinner } from "react-bootstrap";
 
 const defaultPage = {
   tags: [],
@@ -62,9 +62,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
           </Card.Header>
           <Card.Body style={{ overflowY: "scroll" }}>
             <div className="d-flex justify-content-between">
-              <Card.Text>
-                <b>{page.name}</b>
-              </Card.Text>
+              <b>{page.name}</b>
               <Spinner
                 size="sm"
                 animation="border"
@@ -76,26 +74,35 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
                 <span className="sr-only">Loading...</span>
               </Spinner>
             </div>
-            <Card.Subtitle className="text-muted">{page.path}</Card.Subtitle>
-            <Card.Text>
-              <b>Zone:</b> {page.zone || "<None>"}
-            </Card.Text>
-            <Card.Text>
-              <b>Citizen:</b>
-              <Button onClick={() => onCitizenNameClick(page.citizenName)} variant="link">
-                {page.citizenName || "<None>"}
-              </Button>
-            </Card.Text>
-            <Card.Text>
-              <b>Description:</b> {page.description || "<None>"}
-            </Card.Text>
-            <Card.Text>
-              {page.tags.map((t, i) => (
-                <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
-                  &gt;{t}
+            {/* If viewed on platform that doesn't display scrollbars, and card too short to display all info at once, 
+              cut-off listbox provides visual indication that users should scroll to see more */}
+            <ListGroup className="my-2">
+              <ListGroup.Item className="p-2">
+                <span className="text-muted">{page.path}</span>
+              </ListGroup.Item>
+              <ListGroup.Item className="p-2">
+                <b>Zone:</b> {page.zone || "<None>"}
+              </ListGroup.Item>
+              <ListGroup.Item className="p-2">
+                <b>Citizen:</b>
+                <Button onClick={() => onCitizenNameClick(page.citizenName)} variant="link">
+                  {page.citizenName || "<None>"}
                 </Button>
-              ))}
-            </Card.Text>
+              </ListGroup.Item>
+              <ListGroup.Item className="p-2">
+                <b>Description:</b> {page.description || "<None>"}
+              </ListGroup.Item>
+              <ListGroup.Item className="p-2">
+                <b>Tags: </b>
+                {page.tags.length
+                  ? page.tags.map((t, i) => (
+                      <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
+                        &gt;{t}
+                      </Button>
+                    ))
+                  : "<None>"}
+              </ListGroup.Item>
+            </ListGroup>
           </Card.Body>
         </Card>
       </div>
