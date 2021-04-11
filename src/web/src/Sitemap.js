@@ -61,17 +61,27 @@ const toCyElements = (capture) => {
 // onTap: (path: string, alreadySelected: bool, zoneName: string, isParent: bool)
 // onZoneMenuClick: (zone: {zone: string, path: string})
 // onPanZoom: ()
-export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClick, onPanZoom }) {
+// onSitemapReadyChanged: (ready: bool)
+export default function Sitemap({
+  date,
+  onTap,
+  selected,
+  focused,
+  onZoneMenuClick,
+  onPanZoom,
+  onSitemapReadyChanged,
+}) {
   onZoneMenuClick = onZoneMenuClick || (() => {});
   onTap = onTap || (() => {});
   onPanZoom = onPanZoom || (() => {});
+  onSitemapReadyChanged = onSitemapReadyChanged || (() => {});
 
   // cytoscape.js component integrated in a very non-React way
   // there is a react cytoscape package but I couldn't make it work
   const container = useRef();
   const cyRef = useRef();
 
-  const [cyElements, setCyElements] = useState([]);
+  const [cyElements, setCyElements] = useState(null);
   const [footerText, setFooterText] = useState("");
   const [zones, setZones] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,6 +144,10 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
   }, [focused]);
 
   useEffect(() => {
+    onSitemapReadyChanged(!loading);
+  }, [loading, onSitemapReadyChanged]);
+
+  useEffect(() => {
     setLoading(true);
     setError("");
     fetchCapture(date)
@@ -148,13 +162,17 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
 
         setError("Error loading sitemap");
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+      });
   }, [date]);
 
   useEffect(() => {
     if (cyRef.current) {
       cyRef.current.destroy();
     }
+
+    if (!cyElements) return;
 
     cyRef.current = cytoscape({
       container: container.current,
@@ -173,7 +191,6 @@ export default function Sitemap({ date, onTap, selected, focused, onZoneMenuClic
     });
 
     cyRef.current.on("tap", "node", function (evt) {
-      //TODO: cache collection the first time instead of recalculating all the time
       let node = evt.target;
       const isParent = node.isParent();
       if (isParent) {

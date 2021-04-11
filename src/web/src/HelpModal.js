@@ -1,10 +1,10 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 
 import calIcon from "./win95-bootstrap/icons/time_and_date-1.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_big-0.png";
 import searchIcon from "./win95-bootstrap/icons/search_file-2.png";
 
-export default function HelpModal({ show, onCloseButtonClick }) {
+export default function HelpModal({ show, loading, onCloseButtonClick }) {
   onCloseButtonClick = onCloseButtonClick || (() => {});
 
   return (
@@ -60,7 +60,20 @@ export default function HelpModal({ show, onCloseButtonClick }) {
             GitHub
           </a>
         </div>
-        <Button onClick={onCloseButtonClick}>OK</Button>
+        <div>
+          <Spinner
+            style={loading ? { visibility: "visible" } : { visibility: "hidden" }}
+            size="sm"
+            animation="border"
+            role="status"
+            className="mx-1"
+          >
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+          <Button disabled={loading} onClick={onCloseButtonClick}>
+            OK
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );

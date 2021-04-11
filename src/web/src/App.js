@@ -30,6 +30,7 @@ function App() {
   const [searchRequest, setSearchRequest] = useState(null);
   const [showHelpModal, setShowHelpModal] = useState(true);
   const [showSearchModal, setShowSearchModal] = useState(false);
+  const [sitemapReady, setSitemapReady] = useState(false);
 
   // see defaultSearchFields for possible props of arg
   const showPrefilledSearch = (fields) => {
@@ -52,9 +53,17 @@ function App() {
     setFocusedPath(null);
   }, []);
 
+  const onSitemapReadyChanged = useCallback((ready) => {
+    setSitemapReady(ready);
+  }, []);
+
   return (
     <div className="App">
-      <HelpModal show={showHelpModal} onCloseButtonClick={() => setShowHelpModal(false)} />
+      <HelpModal
+        show={showHelpModal}
+        loading={!sitemapReady}
+        onCloseButtonClick={() => setShowHelpModal(false)}
+      />
       <SearchModal
         show={showSearchModal}
         onCloseButtonClick={() => setShowSearchModal(false)}
@@ -130,6 +139,7 @@ function App() {
                   setFocusedPath(zone);
                 }}
                 onPanZoom={onPanZoom}
+                onSitemapReadyChanged={onSitemapReadyChanged}
               />
             </div>
           </Col>
