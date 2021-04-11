@@ -72,41 +72,36 @@ function App() {
       <Container fluid className="h-100">
         <Row>
           <Col>
-            <Navbar className="navbar-95" expand="sm" collapseOnSelect={true}>
-              <Navbar.Brand>
-                <h5>Hypnospace Map</h5>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-              <Navbar.Collapse className="justify-content-end">
-                <Nav>
-                  <DatePickerDropdown
-                    date={date}
-                    onDatePicked={(date) => {
-                      setPath(null);
-                      setDate(date);
-                    }}
-                  />
-                  {/* links have eventKey props or else Navbar.collapseOnSelect doesn't work */}
-                  <Nav.Link
-                    as="button"
-                    className="mx-1 btn"
-                    eventKey="search"
-                    title="Search"
-                    onClick={() => setShowSearchModal(true)}
-                  >
-                    <img src={searchIcon} alt="" height="16" width="16"></img>
-                  </Nav.Link>
-                  <Nav.Link
-                    className="mx-1 btn"
-                    as="button"
-                    eventKey="help"
-                    title="Help"
-                    onClick={() => setShowHelpModal(true)}
-                  >
-                    <img src={helpIcon} alt=""></img>
-                  </Nav.Link>
-                </Nav>
+            <Navbar className="navbar-95" expand="sm">
+              <Navbar.Collapse>
+                <Navbar.Brand>
+                  <h5>Hypnospace Map</h5>
+                </Navbar.Brand>
               </Navbar.Collapse>
+              {/* Below components not nested in a Nav b/c don't want the behaviour where items become vertical at Navbar's expand breakpoint*/}
+              <DatePickerDropdown
+                date={date}
+                onDatePicked={(date) => {
+                  setPath(null);
+                  setDate(date);
+                }}
+              />
+              <Nav.Link
+                as="button"
+                className="mx-1 btn"
+                title="Search"
+                onClick={() => setShowSearchModal(true)}
+              >
+                <img src={searchIcon} alt="" height="16" width="16"></img>
+              </Nav.Link>
+              <Nav.Link
+                className="mx-1 btn"
+                as="button"
+                title="Help"
+                onClick={() => setShowHelpModal(true)}
+              >
+                <img src={helpIcon} alt=""></img>
+              </Nav.Link>
             </Navbar>
           </Col>
         </Row>
