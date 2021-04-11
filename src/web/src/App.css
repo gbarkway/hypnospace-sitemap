@@ -48,17 +48,3 @@ button.win95-close {
   font-weight: bold;
   margin-bottom: 0;
 }
-
-/* https://codepen.io/evank/pen/wWbRNO */
-.scrollbox {
-  background:
-		/* Shadow covers */ linear-gradient(silver 30%, rgba(255, 255, 255, 0)),
-    linear-gradient(rgba(255, 255, 255, 0), silver 70%) 0 100%,
-    /* Shadows */ radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)),
-    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-
-  /* Opera doesn’t support this in the shorthand */
-  background-attachment: local, local, scroll, scroll;
-}
