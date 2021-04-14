@@ -42,9 +42,7 @@ function App() {
 
   const onNodeTap = useCallback((path, alreadySelected, zone, isParent) => {
     setPath(path);
-    if (isParent) {
-      setFocusedPath(zone);
-    } else if (alreadySelected) {
+    if (alreadySelected || isParent) {
       setFocusedPath(path);
     }
   }, []);
@@ -136,7 +134,7 @@ function App() {
                 focused={focusedPath}
                 onZoneMenuClick={({ zone, path }) => {
                   setPath(path);
-                  setFocusedPath(zone);
+                  setFocusedPath(path);
                 }}
                 onPanZoom={onPanZoom}
                 onSitemapReadyChanged={onSitemapReadyChanged}
