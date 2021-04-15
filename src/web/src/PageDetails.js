@@ -11,6 +11,12 @@ const defaultPage = {
   citizen: "",
 };
 
+function MutedNoneText() {
+  return (
+    <span className="text-muted">None</span>
+  )
+}
+
 //TODO: indicate if a page is linked to by hypnomail or by an ad
 export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
   onTagClick = onTagClick || (() => {});
@@ -78,10 +84,10 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
               cut-off listbox provides visual indication that users should scroll to see more */}
             <ListGroup className="my-2">
               <ListGroup.Item className="p-2">
-                <span className="text-muted">{page.path}</span>
+                {page.path}
               </ListGroup.Item>
               <ListGroup.Item className="p-2">
-                <b>Zone:</b> {page.zone || "<None>"}
+                <b>Zone:</b> {page.zone || <MutedNoneText />}
               </ListGroup.Item>
               <ListGroup.Item className="p-2">
                 <b>Citizen:</b>
@@ -90,7 +96,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
                 </Button>
               </ListGroup.Item>
               <ListGroup.Item className="p-2">
-                <b>Description:</b> {page.description || "<None>"}
+                <b>Description:</b> {page.description || <MutedNoneText />}
               </ListGroup.Item>
               <ListGroup.Item className="p-2">
                 <b>Tags: </b>
@@ -100,7 +106,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
                         &gt;{t}
                       </Button>
                     ))
-                  : "<None>"}
+                  : <MutedNoneText />}
               </ListGroup.Item>
             </ListGroup>
           </Card.Body>
