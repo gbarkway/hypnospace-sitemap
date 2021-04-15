@@ -5,6 +5,7 @@ import { Button, Card, Dropdown, DropdownButton, Nav, Navbar, Spinner } from "re
 
 import cytoscapeStyle from "./cytoscapeStyle";
 import worldIcon from "./win95-bootstrap/icons/connected_world-1.png";
+import infoIcon from "./win95-bootstrap/icons/msg_information-2.png";
 
 cytoscape.use(fcose);
 
@@ -86,6 +87,8 @@ export default function Sitemap({
   const [zones, setZones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showZoomWarning, setShowZoomWarning] = useState(false);
+  const [firstAnimationDone, setFirstAnimationDone] = useState(false);
 
   const selectNode = (node) => {
     if (!cyRef.current) return;
@@ -122,6 +125,9 @@ export default function Sitemap({
         duration: 1000,
         easing: "ease-out-quad",
         queue: false,
+        complete: () => {
+          setFirstAnimationDone(true);
+        },
       }
     );
   };
@@ -148,6 +154,8 @@ export default function Sitemap({
   }, [loading, onSitemapReadyChanged]);
 
   useEffect(() => {
+    setShowZoomWarning(false);
+    setFirstAnimationDone(false);
     setLoading(true);
     setError("");
     fetchCapture(date)
@@ -206,6 +214,7 @@ export default function Sitemap({
     });
 
     cyRef.current.on("viewport", function () {
+      setShowZoomWarning(cyRef.current.zoom() < 0.5);
       onPanZoom();
     });
 
@@ -231,7 +240,7 @@ export default function Sitemap({
               onClick={() => cyRef.current.fit()}
               disabled={loading}
             >
-              Zoom to Fit
+              Fit
             </Button>
           </Nav.Item>
           <Nav.Item>
@@ -239,7 +248,7 @@ export default function Sitemap({
               className="mx-1"
               variant="secondary"
               id="zone-dropdown-button"
-              title="Go to zone"
+              title="Go to"
               disabled={loading}
             >
               {zones.map((z, i) => (
@@ -262,6 +271,15 @@ export default function Sitemap({
           </Nav.Item>
           <Nav.Item style={error.length ? { display: "block" } : { display: "none" }}>
             <span className="text-danger">{error}</span>
+          </Nav.Item>
+          <Nav.Item
+            style={
+              // check firstAnimationDone or element flickers before first animation
+              showZoomWarning && firstAnimationDone ? { display: "block" } : { display: "none" }
+            }
+          >
+            <img className="mx-1" src={infoIcon} alt=""></img>
+            <i>Zoom to see text</i>
           </Nav.Item>
         </Nav>
       </Navbar>
