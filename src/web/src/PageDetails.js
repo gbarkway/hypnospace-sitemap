@@ -86,7 +86,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
               <ListGroup.Item className="p-2">
                 <b>Citizen:</b>
                 <Button onClick={() => onCitizenNameClick(page.citizenName)} variant="link">
-                  {page.citizenName || "<None>"}
+                  {page.citizenName || "???"}
                 </Button>
               </ListGroup.Item>
               <ListGroup.Item className="p-2">

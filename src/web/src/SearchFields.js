@@ -1,6 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 
-const NULL_PLACEHOLDER = "<None>";
+const NULL_PLACEHOLDER = "???";
 const defaultSearchFields = {
   pageNameQuery: "",
   citizenNameQuery: "",
@@ -54,7 +54,7 @@ export default function SearchFields({
           />
           <Button
             variant="link"
-            className="btn-sm"
+            className="btn-sm text-left"
             onClick={() =>
               onSearchFieldsChange({
                 ...searchFields,
