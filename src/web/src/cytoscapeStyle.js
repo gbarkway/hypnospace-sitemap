@@ -64,12 +64,12 @@ const cytoscapeStyle = [
     selector: "node:child",
     style: {
       "text-outline-color": "white",
-      "text-outline-width": 1.3,
+      "text-outline-width": 1.5,
       "text-valign": "center",
       "font-weight": "bold",
-      "font-size": 16,
+      "font-size": 24,
       // there are text rendering issues if this is too small
-      "min-zoomed-font-size": "10",
+      "min-zoomed-font-size": 10,
     },
   },
   {
@@ -89,6 +89,16 @@ const cytoscapeStyle = [
       "border-color": "white",
       "border-width": 5,
       content: "data(label)",
+    },
+  },
+  {
+    selector: "node:child.hover.highlighted",
+    style: {
+      "z-index": "22",
+      "text-background-color": "white",
+      "text-background-shape": "round-rectangle",
+      "text-background-opacity": 0.9,
+      "text-background-padding": "5px",
     },
   },
   {

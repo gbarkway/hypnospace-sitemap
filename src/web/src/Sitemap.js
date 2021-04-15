@@ -214,13 +214,18 @@ export default function Sitemap({
     });
 
     cyRef.current.on("viewport", function () {
-      setShowZoomWarning(cyRef.current.zoom() < 0.5);
       onPanZoom();
     });
 
     cyRef.current.on("mouseover", "node", function (e) {
-      var node = e.target;
+      const node = e.target;
+      node.addClass("hover");
       setFooterText(node.id());
+    });
+
+    cyRef.current.on("mouseout", "node", function (e) {
+      const node = e.target;
+      node.removeClass("hover");
     });
   }, [cyElements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
