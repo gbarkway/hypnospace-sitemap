@@ -37,7 +37,7 @@ const toCyElements = (capture) => {
     return {
       data: {
         id: page.path,
-        label: page.path.split("\\")[1],
+        label: page.path.split("\\")[1].split(".")[0],
         parent: page.zone,
         zone: page.zone,
       },
