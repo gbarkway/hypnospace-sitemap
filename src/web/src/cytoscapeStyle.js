@@ -9,37 +9,37 @@ const cytoscapeStyle = [
   {
     selector: 'node[parent="Hypnospace Central"]',
     style: {
-      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)"
+      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)",
     },
   },
   {
     selector: 'node[parent="The Cafe"]',
     style: {
-      "background-gradient-stop-colors": "rgb(207,172,76) rgb(122,56,61)"
+      "background-gradient-stop-colors": "rgb(207,172,76) rgb(122,56,61)",
     },
   },
   {
     selector: 'node[parent="Goodtime Valley"]',
     style: {
-      "background-gradient-stop-colors": "rgb(182,164,152) rgb(165,38,42)"
+      "background-gradient-stop-colors": "rgb(182,164,152) rgb(165,38,42)",
     },
   },
   {
     selector: 'node[parent="Teentopia"]',
     style: {
-      "background-gradient-stop-colors": "rgb(252,233,23) rgb(214,17,60) rgb(33,59,191)"
+      "background-gradient-stop-colors": "rgb(252,233,23) rgb(214,17,60) rgb(33,59,191)",
     },
   },
   {
     selector: 'node[parent="Coolpunk Paradise"],node[parent="The Venue"]',
     style: {
-      "background-gradient-stop-colors": "rgb(212,87,166) rgb(97,66,184)"
+      "background-gradient-stop-colors": "rgb(212,87,166) rgb(97,66,184)",
     },
   },
   {
     selector: 'node[parent="Starport Castle Dreamstation"]',
     style: {
-      "background-gradient-stop-colors": "rgb(45,196,58) rgb(107,118,124)"
+      "background-gradient-stop-colors": "rgb(45,196,58) rgb(107,118,124)",
     },
   },
   {
@@ -57,14 +57,14 @@ const cytoscapeStyle = [
   {
     selector: 'node[parent="FLIST DIRECTORY MASTER"]',
     style: {
-      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)"
+      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)",
     },
   },
   {
     selector: "node:child",
     style: {
-      "width": 70,
-      "height": 70,
+      width: 70,
+      height: 70,
       "text-outline-color": "white",
       "text-outline-width": 3,
       "text-valign": "center",
