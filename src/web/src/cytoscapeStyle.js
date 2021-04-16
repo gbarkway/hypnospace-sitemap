@@ -63,8 +63,10 @@ const cytoscapeStyle = [
   {
     selector: "node:child",
     style: {
+      "width": 70,
+      "height": 70,
       "text-outline-color": "white",
-      "text-outline-width": 1.5,
+      "text-outline-width": 3,
       "text-valign": "center",
       "font-weight": "bold",
       "font-size": 24,
@@ -83,8 +85,8 @@ const cytoscapeStyle = [
   {
     selector: "node:child.selected",
     style: {
-      width: "50",
-      height: "50",
+      width: "80",
+      height: "80",
       "z-index": "21",
       "border-color": "white",
       "border-width": 5,
