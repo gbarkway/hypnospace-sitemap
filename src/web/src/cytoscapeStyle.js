@@ -7,12 +7,6 @@ const cytoscapeStyle = [
     },
   },
   {
-    selector: 'node[parent="Hypnospace Central"]',
-    style: {
-      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)",
-    },
-  },
-  {
     selector: 'node[parent="The Cafe"]',
     style: {
       "background-gradient-stop-colors": "rgb(207,172,76) rgb(122,56,61)",
@@ -49,13 +43,8 @@ const cytoscapeStyle = [
     },
   },
   {
-    selector: 'node[parent="HSPD Enforcer Handbook"]',
-    style: {
-      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)",
-    },
-  },
-  {
-    selector: 'node[parent="FLIST DIRECTORY MASTER"]',
+    selector:
+      'node[parent="FLIST DIRECTORY MASTER"],node[parent="Hypnospace Central"],node[parent="HSPD Enforcer Handbook"],node[parent="Hypnospace Page"],node[parent="The Y2000 Mindcrash"]',
     style: {
       "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)",
     },
