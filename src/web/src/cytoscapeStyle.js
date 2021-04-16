@@ -9,55 +9,55 @@ const cytoscapeStyle = [
   {
     selector: 'node[parent="Hypnospace Central"]',
     style: {
-      "background-color": "orange",
+      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)"
     },
   },
   {
     selector: 'node[parent="The Cafe"]',
     style: {
-      "background-color": "red",
+      "background-gradient-stop-colors": "rgb(207,172,76) rgb(122,56,61)"
     },
   },
   {
     selector: 'node[parent="Goodtime Valley"]',
     style: {
-      "background-color": "green",
+      "background-gradient-stop-colors": "rgb(182,164,152) rgb(165,38,42)"
     },
   },
   {
     selector: 'node[parent="Teentopia"]',
     style: {
-      "background-color": "blue",
+      "background-gradient-stop-colors": "rgb(252,233,23) rgb(214,17,60) rgb(33,59,191)"
     },
   },
   {
     selector: 'node[parent="Coolpunk Paradise"],node[parent="The Venue"]',
     style: {
-      "background-color": "cyan",
+      "background-gradient-stop-colors": "rgb(212,87,166) rgb(97,66,184)"
     },
   },
   {
     selector: 'node[parent="Starport Castle Dreamstation"]',
     style: {
-      "background-color": "rgb(255,0,255)",
+      "background-gradient-stop-colors": "rgb(45,196,58) rgb(107,118,124)"
     },
   },
   {
     selector: 'node[parent="Open Eyed"]',
     style: {
-      "background-color": "purple",
+      "background-gradient-stop-colors": "rgb(199,171,45) rgb(77,146,171) rgb(146,4,212)",
     },
   },
   {
     selector: 'node[parent="HSPD Enforcer Handbook"]',
     style: {
-      "background-color": "gray",
+      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)",
     },
   },
   {
     selector: 'node[parent="FLIST DIRECTORY MASTER"]',
     style: {
-      "background-color": "black",
+      "background-gradient-stop-colors": "rgb(176,164,149) rgb(107,96,94)"
     },
   },
   {
@@ -72,6 +72,9 @@ const cytoscapeStyle = [
       "font-size": 24,
       // there are text rendering issues if this is too small
       "min-zoomed-font-size": 10,
+      "background-gradient-stop-positions": "0% 33% 66%",
+      "background-fill": "linear-gradient",
+      "background-gradient-direction": "to-bottom-right",
     },
   },
   {
@@ -89,7 +92,7 @@ const cytoscapeStyle = [
       height: "80",
       "z-index": "21",
       "border-color": "white",
-      "border-width": 5,
+      "border-width": 8,
       content: "data(label)",
     },
   },
