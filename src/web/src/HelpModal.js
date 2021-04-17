@@ -27,7 +27,7 @@ export default function HelpModal({ show, loading, onCloseButtonClick }) {
           <a target="_blank" rel="noreferrer" href="http://www.hypnospace.net/">
             Hypnospace Outlaw
           </a>
-          . Spoilers, of course!
+          . <span className="text-danger">Spoilers</span> of course!
         </p>
         <h5>Controls</h5>
         <ul>
