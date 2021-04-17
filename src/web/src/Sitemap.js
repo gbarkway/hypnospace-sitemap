@@ -183,10 +183,9 @@ export default function Sitemap({
         name: "fcose",
         animate: false,
         idealEdgeLength: () => 200,
-        nodeRepulsion: () => 50000, //prevent nodes from being too clustered
         randomize: true, // if randomize off, 20XX is arranged in a straight line
       },
-      minZoom: 0.1,
+      minZoom: 0.08,
       style: cytoscapeStyle,
     });
 

@@ -102,7 +102,7 @@ const cytoscapeStyle = [
       "background-opacity": 0.5,
       "border-color": "black",
       content: "data(label)",
-      "font-size": 72,
+      "font-size": 128,
       "font-weight": "bold",
     },
   },
@@ -111,6 +111,7 @@ const cytoscapeStyle = [
     style: {
       "border-color": "white",
       "border-width": 10,
+      "z-index": 30,
     },
   },
   {
