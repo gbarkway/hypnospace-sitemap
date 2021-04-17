@@ -183,6 +183,7 @@ export default function Sitemap({
         name: "fcose",
         animate: false,
         idealEdgeLength: () => 200,
+        nodeRepulsion: () => 20000,
         randomize: true, // if randomize off, 20XX is arranged in a straight line
       },
       minZoom: 0.08,
