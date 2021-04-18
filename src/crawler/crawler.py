@@ -51,7 +51,7 @@ def readPage(hspPath):
     descriptionAndTags = dom['data'][0][1][8]
     description = None
     tags = []
-    if len(descriptionAndTags) > 0:
+    if descriptionAndTags:
         tagStartIndex = descriptionAndTags.find('>')
         if tagStartIndex > -1:
             description = descriptionAndTags[:tagStartIndex].strip()
@@ -60,11 +60,11 @@ def readPage(hspPath):
             description = descriptionAndTags.strip()
             tags = []
 
-        if description == '':
+        if not description:
             description = None
 
     citizenName = dom['data'][0][1][2]
-    if not len(citizenName):
+    if not citizenName:
         citizenName = None
 
     return Page(dom['data'][0][1][1], myPath, list(links), description, tags,
