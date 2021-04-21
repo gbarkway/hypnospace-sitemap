@@ -38,6 +38,8 @@ Issues and pull requests welcome!
 
 ## Deployment
 
+There are some brief notes that might be useful to others in the deployment folder.
+
 ### Building docker images for production
 
 To build a docker image for every service and push them to a container registry:
@@ -45,11 +47,3 @@ To build a docker image for every service and push them to a container registry:
 1) Set the environment variables in **src/.env** (edit the file directly or set them in your shell)
 2) `docker-compose build --profile frontend`
 3) `docker-compose push`
-
-### DigitalOcean App Platform
-
-See **deploy/app.yaml** for an example app spec for deploying on DigitalOcean App Platform.
-
-### Kubernetes
-
-Even though it was huge overkill, I used to host this in a Kubernetes cluster for fun. Notes on that in the deploy folder sometime later.
