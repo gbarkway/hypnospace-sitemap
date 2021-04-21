@@ -38,7 +38,7 @@ Issues and pull requests welcome!
 
 ## Deployment
 
-There are some brief notes that might be useful to others in the deployment folder.
+There are some brief notes that might be useful to others in the deploy folder.
 
 ### Building docker images for production
 
