@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hs-web
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: hs-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hs-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hs-web
+  template:
+    metadata:
+      labels:
+        app: hs-web
+    spec:
+      containers:
+      - name: hs-web
+        image: YOUR_CONTAINER_IMAGE_HERE
+        ports:
+        - containerPort: 5000
+
