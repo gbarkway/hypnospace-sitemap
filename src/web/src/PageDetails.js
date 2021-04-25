@@ -21,6 +21,23 @@ function MutedNoneText() {
   return <span className="text-muted">None</span>;
 }
 
+function Tags({tags, onTagClick}) {
+  return (
+    <>
+    <b>Tags: </b>
+    {tags.length ? (
+      tags.map((t, i) => (
+        <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
+          &gt;{t}
+        </Button>
+      ))
+    ) : (
+      <MutedNoneText />
+    )}
+    </>
+  )
+}
+
 //TODO: indicate if a page is linked to by hypnomail or by an ad
 export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
   onTagClick = onTagClick || (() => {});
@@ -92,16 +109,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
                 <b>Description:</b> {page.description || <MutedNoneText />}
               </ListGroup.Item>
               <ListGroup.Item className="p-2">
-                <b>Tags: </b>
-                {page.tags.length ? (
-                  page.tags.map((t, i) => (
-                    <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
-                      &gt;{t}
-                    </Button>
-                  ))
-                ) : (
-                  <MutedNoneText />
-                )}
+                <Tags tags={page.tags} onTagClick={onTagClick}/>
               </ListGroup.Item>
               { page.linkedByAd || page.linkedByMail ? (
                               <ListGroup.Item className="p-2">
