@@ -2,7 +2,7 @@ import { Spinner as BootstrapSpinner } from "react-bootstrap";
 
 export default function Spinner ({visible}) {
     return (
-        <Spinner
+        <BootstrapSpinner
         size="sm"
         animation="border"
         role="status"
@@ -11,6 +11,6 @@ export default function Spinner ({visible}) {
         }}
       >
         <span className="sr-only">Loading...</span>
-      </Spinner>
+      </BootstrapSpinner>
     );
 }
