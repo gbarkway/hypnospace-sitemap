@@ -1,14 +1,14 @@
-FROM node:12.18-alpine AS build
+FROM node:15.14-alpine AS build
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json", "./"]
-RUN npm install --silent
+RUN npm install
 COPY ["src", "src/"]
 COPY ["public", "public/"]
 ARG DOT_ENV=".env.production"
 COPY ${DOT_ENV} ./.env
 RUN npm run build
 
-FROM node:12.18-alpine AS production
+FROM node:15.14-alpine AS production
 WORKDIR /usr/src/app
 RUN npm install -g serve
 EXPOSE 5000
