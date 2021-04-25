@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
 
 import Spinner from "./Spinner";
+import mailIcon from "./win95-bootstrap/icons/message_envelope_open-1.png"
+import adIcon from "./win95-bootstrap/icons/no2-1.png"
 
 const defaultPage = {
   tags: [],
@@ -11,6 +13,8 @@ const defaultPage = {
   name: "Welcome!",
   description: "",
   citizen: "",
+  linkedByAd: false,
+  linkedByMail: false,
 };
 
 function MutedNoneText() {
@@ -99,6 +103,12 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
                   <MutedNoneText />
                 )}
               </ListGroup.Item>
+              { page.linkedByAd || page.linkedByMail ? (
+                              <ListGroup.Item className="p-2">
+                              { page.linkedByAd ? <div><img src={adIcon} width="16" height="16" className="mx-1" />Linked by ad or popup</div> : null }
+                              { page.linkedByMail ? <div><img src={mailIcon} className="mx-1"></img>Linked by HypnoMail</div> : null }
+                          </ListGroup.Item>
+              ) : null}
             </ListGroup>
           </Card.Body>
         </Card>
