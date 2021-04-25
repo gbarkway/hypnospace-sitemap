@@ -42,7 +42,7 @@ describe("GET /captures/:date/pages", function () {
               "description",
               "citizenName",
               "linkedByAd",
-              "linkedByMail",
+              "linkedByMail"
             );
             done();
           });
@@ -89,7 +89,7 @@ describe("GET /captures/:date/pages", function () {
             "description",
             "citizenName",
             "linkedByAd",
-            "linkedByMail",
+            "linkedByMail"
           );
           res.body.should.include.deep.members([
             {
@@ -442,19 +442,19 @@ describe("GET /captures/:date/pages/:path_or_hap", function () {
       .request(app)
       .get("/captures/1999-11-05/pages/02_the cafe|~zzad-freecruise.hsp")
       .end((err, res) => {
-        res.body.linkedByAd.should.equal(true)
-        done()
-      })
-  })
+        res.body.linkedByAd.should.equal(true);
+        done();
+      });
+  });
   it("04_teentopia\\squisherzquest.hsp has linkedByMail=true", function (done) {
     chai
       .request(app)
       .get("/captures/1999-11-05/pages/04_teentopia|squisherzquest.hsp")
       .end((err, res) => {
-        res.body.linkedByMail.should.equal(true)
-        done()
-      })
-  })
+        res.body.linkedByMail.should.equal(true);
+        done();
+      });
+  });
 });
 
 after(async function () {
