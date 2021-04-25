@@ -50,13 +50,15 @@ with sqlite3.connect(outPath) as con:
     cur = con.cursor()
     cur.execute(
         '''CREATE TABLE "page" (
-        "path"	TEXT NOT NULL,
-        "zone"	TEXT,
-        "date"	TEXT NOT NULL,
-        "name"	TEXT,
-        "description"	TEXT,
-        "tags"	TEXT DEFAULT (json('[]')),
-        "citizen_name"	TEXT,
+        "path"              TEXT NOT NULL,
+        "zone"              TEXT,
+        "date"              TEXT NOT NULL,
+        "name"              TEXT,
+        "description"       TEXT,
+        "tags"              TEXT DEFAULT (json('[]')),
+        "citizen_name"      TEXT,
+        "linked_by_ad"      INTEGER NOT NULL DEFAULT 0 CHECK("linked_by_ad" = 0 OR "linked_by_ad" = 1),
+        "linked_by_mail"    INTEGER NOT NULL DEFAULT 0 CHECK("linked_by_mail" = 0 OR "linked_by_mail" = 1),
         PRIMARY KEY("path","date"))'''
     )
     cur.executemany(
