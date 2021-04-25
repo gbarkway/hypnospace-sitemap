@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
 
 import Spinner from "./Spinner";
-import mailIcon from "./win95-bootstrap/icons/message_envelope_open-1.png"
-import adIcon from "./win95-bootstrap/icons/no2-1.png"
+import mailIcon from "./win95-bootstrap/icons/message_envelope_open-1.png";
+import adIcon from "./win95-bootstrap/icons/no2-1.png";
 
 const defaultPage = {
   tags: [],
@@ -21,37 +21,46 @@ function MutedNoneText() {
   return <span className="text-muted">None</span>;
 }
 
-function Tags({tags, onTagClick}) {
+function Tags({ tags, onTagClick }) {
   return (
     <>
-    <b>Tags: </b>
-    {tags.length ? (
-      tags.map((t, i) => (
-        <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
-          &gt;{t}
-        </Button>
-      ))
-    ) : (
-      <MutedNoneText />
-    )}
+      <b>Tags: </b>
+      {tags.length ? (
+        tags.map((t, i) => (
+          <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
+            &gt;{t}
+          </Button>
+        ))
+      ) : (
+        <MutedNoneText />
+      )}
     </>
-  )
+  );
 }
 
-function SpecialLinksListGroupItem({linkedByAd, linkedByMail}) {
+function SpecialLinksListGroupItem({ linkedByAd, linkedByMail }) {
   if (!linkedByAd && !linkedByMail) {
     return null;
   }
 
   return (
     <ListGroup.Item className="p-2">
-    { linkedByAd ? <div><img src={adIcon} width="16" height="16" className="mx-1" alt=""/>Linked by ad or popup</div> : null }
-    { linkedByMail ? <div><img src={mailIcon} className="mx-1" alt=""></img>Linked by HypnoMail</div> : null }
-</ListGroup.Item>
-  )
+      {linkedByAd ? (
+        <div>
+          <img src={adIcon} width="16" height="16" className="mx-1" alt="" />
+          Linked by ad or popup
+        </div>
+      ) : null}
+      {linkedByMail ? (
+        <div>
+          <img src={mailIcon} className="mx-1" alt=""></img>Linked by HypnoMail
+        </div>
+      ) : null}
+    </ListGroup.Item>
+  );
 }
 
-function DefaultPageDetails({error}) {
+function DefaultPageDetails({ error }) {
   return (
     <div className="pageDetails h-100">
       <Card className="square h-100">
@@ -111,7 +120,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
   }, [date, path]);
 
   if (!page) {
-    return <DefaultPageDetails error={error}/>;
+    return <DefaultPageDetails error={error} />;
   }
 
   return (
@@ -142,9 +151,12 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
               <b>Description:</b> {page.description || <MutedNoneText />}
             </ListGroup.Item>
             <ListGroup.Item className="p-2">
-              <Tags tags={page.tags} onTagClick={onTagClick}/>
+              <Tags tags={page.tags} onTagClick={onTagClick} />
             </ListGroup.Item>
-            <SpecialLinksListGroupItem linkedByAd={page.linkedByAd} linkedByMail={page.linkedByMail} />
+            <SpecialLinksListGroupItem
+              linkedByAd={page.linkedByAd}
+              linkedByMail={page.linkedByMail}
+            />
           </ListGroup>
         </Card.Body>
       </Card>
