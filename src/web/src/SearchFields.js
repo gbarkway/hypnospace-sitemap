@@ -37,6 +37,7 @@ export default function SearchFields({
             }
             type="text"
             id="nameOrDescriptionField"
+            autoFocus
           />
         </Form.Group>
         <Form.Group>
