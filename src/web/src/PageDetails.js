@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
 
-import MutedNoneText from "./MutedNoneText"
-import PageDetailsPlaceholder from "./PageDetailsPlaceholder"
-import SpecialLinksListGroupItem from "./SpecialLinksListGroupItem"
+import MutedNoneText from "./MutedNoneText";
+import PageDetailsPlaceholder from "./PageDetailsPlaceholder";
+import SpecialLinksListGroupItem from "./SpecialLinksListGroupItem";
 import Spinner from "./Spinner";
 import Tags from "./Tags";
 
