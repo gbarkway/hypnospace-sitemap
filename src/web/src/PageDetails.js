@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
 
+import MutedNoneText from "./MutedNoneText"
 import Spinner from "./Spinner";
+import Tags from "./Tags";
 import mailIcon from "./win95-bootstrap/icons/message_envelope_open-1.png";
 import adIcon from "./win95-bootstrap/icons/no2-1.png";
 
@@ -16,32 +18,6 @@ const defaultPage = {
   linkedByAd: false,
   linkedByMail: false,
 };
-
-function MutedNoneText() {
-  return <span className="text-muted">None</span>;
-}
-
-function Tags({ tags, onTagClick }) {
-  if (!tags.length) {
-    return (
-      <>
-        <b>Tags: </b>
-        <MutedNoneText />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <b>Tags: </b>
-      {tags.map((t, i) => (
-        <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
-          &gt;{t}
-        </Button>
-      ))}
-    </>
-  );
-}
 
 function SpecialLinksListGroupItem({ linkedByAd, linkedByMail }) {
   if (!linkedByAd && !linkedByMail) {
@@ -65,7 +41,7 @@ function SpecialLinksListGroupItem({ linkedByAd, linkedByMail }) {
   );
 }
 
-function DefaultPageDetails({ error }) {
+function PageDetailsPlaceholder({ error }) {
   return (
     <div className="pageDetails h-100">
       <Card className="square h-100">
@@ -125,7 +101,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
   }, [date, path]);
 
   if (!page) {
-    return <DefaultPageDetails error={error} />;
+    return <PageDetailsPlaceholder error={error} />;
   }
 
   return (
