@@ -259,9 +259,10 @@ export default function Sitemap({
               ))}
             </DropdownButton>
           </Nav.Item>
-          <Nav.Item style={loading ? { display: "block" } : { display: "none" }}>
+          <Nav.Item>
             <div className="d-flex h-100 align-items-center">
-              <Spinner size="sm" animation="border" role="status">
+              <Spinner size="sm" animation="border" role="status"
+              style={loading ? { visibility: "visible" } : { visibility: "hidden" }}>
                 <span className="sr-only">Loading...</span>
               </Spinner>
             </div>
