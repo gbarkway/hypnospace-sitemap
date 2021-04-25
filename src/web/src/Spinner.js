@@ -9,6 +9,7 @@ export default function Spinner ({visible}) {
         style={{
           visibility: visible ? "visible" : "hidden",
         }}
+        className="mx-1"
       >
         <span className="sr-only">Loading...</span>
       </BootstrapSpinner>
