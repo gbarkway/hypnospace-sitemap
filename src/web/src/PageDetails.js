@@ -71,9 +71,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
                 size="sm"
                 animation="border"
                 role="status"
-                style={{
-                  display: loading ? "block" : "none",
-                }}
+                style={loading ? { visibility: "visible" } : { visibility: "hidden" }}
               >
                 <span className="sr-only">Loading...</span>
               </Spinner>
