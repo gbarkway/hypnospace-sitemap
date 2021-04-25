@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Spinner } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
+
+import Spinner from "./Spinner";
 
 const buildUrl = (date, { pageNameQuery, citizenNameQuery, tagsQuery }) => {
   const url = new URL(
@@ -73,16 +75,7 @@ export default function SearchResults({
   return (
     <div>
       Search Results ({searchResults.length})
-      <Spinner
-        size="sm"
-        animation="border"
-        role="status"
-        style={{
-          visibility: loading ? "visible" : "hidden",
-        }}
-      >
-        <span className="sr-only">Loading...</span>
-      </Spinner>
+      <Spinner visible={loading} />
       <div className="search-results">
         <Table size="sm">
           <thead>

@@ -1,8 +1,9 @@
 import cytoscape from "cytoscape";
 import fcose from "cytoscape-fcose";
 import { useEffect, useRef, useState } from "react";
-import { Button, Card, Dropdown, DropdownButton, Nav, Navbar, Spinner } from "react-bootstrap";
+import { Button, Card, Dropdown, DropdownButton, Nav, Navbar } from "react-bootstrap";
 
+import Spinner from "./Spinner";
 import cytoscapeStyle from "./cytoscapeStyle";
 import worldIcon from "./win95-bootstrap/icons/connected_world-1.png";
 
@@ -259,11 +260,9 @@ export default function Sitemap({
               ))}
             </DropdownButton>
           </Nav.Item>
-          <Nav.Item style={loading ? { display: "block" } : { display: "none" }}>
+          <Nav.Item>
             <div className="d-flex h-100 align-items-center">
-              <Spinner size="sm" animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
+              <Spinner visible={loading} />
             </div>
           </Nav.Item>
           <Nav.Item style={error.length ? { display: "block" } : { display: "none" }}>

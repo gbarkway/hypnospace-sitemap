@@ -1,5 +1,6 @@
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 
+import Spinner from "./Spinner";
 import calIcon from "./win95-bootstrap/icons/time_and_date-1.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_big-0.png";
 import searchIcon from "./win95-bootstrap/icons/search_file-2.png";
@@ -61,15 +62,7 @@ export default function HelpModal({ show, loading, onCloseButtonClick }) {
           </a>
         </div>
         <div>
-          <Spinner
-            style={loading ? { visibility: "visible" } : { visibility: "hidden" }}
-            size="sm"
-            animation="border"
-            role="status"
-            className="mx-1"
-          >
-            <span className="sr-only">Loading...</span>
-          </Spinner>
+          <Spinner visible={loading} />
           <Button disabled={loading} onClick={onCloseButtonClick}>
             OK
           </Button>

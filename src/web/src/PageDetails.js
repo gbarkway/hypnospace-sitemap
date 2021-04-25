@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Card, Button, ListGroup, Spinner } from "react-bootstrap";
+import { Card, Button, ListGroup } from "react-bootstrap";
+
+import Spinner from "./Spinner";
 
 const defaultPage = {
   tags: [],
@@ -67,16 +69,7 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
           <Card.Body style={{ overflowY: "scroll" }}>
             <div className="d-flex justify-content-between">
               <b>{page.name}</b>
-              <Spinner
-                size="sm"
-                animation="border"
-                role="status"
-                style={{
-                  display: loading ? "block" : "none",
-                }}
-              >
-                <span className="sr-only">Loading...</span>
-              </Spinner>
+              <Spinner visible={loading} />
             </div>
             {/* If viewed on platform that doesn't display scrollbars, and card too short to display all info at once, 
               cut-off listbox provides visual indication that users should scroll to see more */}
