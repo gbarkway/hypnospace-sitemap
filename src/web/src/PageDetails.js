@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
 
 import MutedNoneText from "./MutedNoneText"
+import PageDetailsPlaceholder from "./PageDetailsPlaceholder"
+import SpecialLinksListGroupItem from "./SpecialLinksListGroupItem"
 import Spinner from "./Spinner";
 import Tags from "./Tags";
-import mailIcon from "./win95-bootstrap/icons/message_envelope_open-1.png";
-import adIcon from "./win95-bootstrap/icons/no2-1.png";
 
 const defaultPage = {
   tags: [],
@@ -19,46 +19,6 @@ const defaultPage = {
   linkedByMail: false,
 };
 
-function SpecialLinksListGroupItem({ linkedByAd, linkedByMail }) {
-  if (!linkedByAd && !linkedByMail) {
-    return null;
-  }
-
-  return (
-    <ListGroup.Item className="p-2">
-      {linkedByAd ? (
-        <div>
-          <img src={adIcon} width="16" height="16" className="mx-1" alt="" />
-          Linked by ad or popup
-        </div>
-      ) : null}
-      {linkedByMail ? (
-        <div>
-          <img src={mailIcon} className="mx-1" alt=""></img>Linked by HypnoMail
-        </div>
-      ) : null}
-    </ListGroup.Item>
-  );
-}
-
-function PageDetailsPlaceholder({ error }) {
-  return (
-    <div className="pageDetails h-100">
-      <Card className="square h-100">
-        <Card.Header>
-          <h5>Page Details</h5>
-        </Card.Header>
-        <Card.Body>
-          <Card.Text>
-            {error.length ? error : "No page selected. Click a zone to get started."}
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </div>
-  );
-}
-
-//TODO: indicate if a page is linked to by hypnomail or by an ad
 export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
   onTagClick = onTagClick || (() => {});
   onCitizenNameClick = onCitizenNameClick || (() => {});
