@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
 
+import MutedNoneText from "./MutedNoneText";
+import PageDetailsPlaceholder from "./PageDetailsPlaceholder";
+import SpecialLinksListGroupItem from "./SpecialLinksListGroupItem";
 import Spinner from "./Spinner";
+import Tags from "./Tags";
 
 const defaultPage = {
   tags: [],
@@ -11,13 +15,10 @@ const defaultPage = {
   name: "Welcome!",
   description: "",
   citizen: "",
+  linkedByAd: false,
+  linkedByMail: false,
 };
 
-function MutedNoneText() {
-  return <span className="text-muted">None</span>;
-}
-
-//TODO: indicate if a page is linked to by hypnomail or by an ad
 export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
   onTagClick = onTagClick || (() => {});
   onCitizenNameClick = onCitizenNameClick || (() => {});
@@ -59,65 +60,47 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
       .finally(() => setLoading(false));
   }, [date, path]);
 
-  if (page) {
-    return (
-      <div className="pageDetails h-100">
-        <Card className="square h-100">
-          <Card.Header>
-            <h5>Page Details - {page.name}</h5>
-          </Card.Header>
-          <Card.Body style={{ overflowY: "scroll" }}>
-            <div className="d-flex justify-content-between">
-              <b>{page.name}</b>
-              <Spinner visible={loading} />
-            </div>
-            {/* If viewed on platform that doesn't display scrollbars, and card too short to display all info at once, 
-              cut-off listbox provides visual indication that users should scroll to see more */}
-            <ListGroup className="my-2">
-              <ListGroup.Item className="p-2">{page.path}</ListGroup.Item>
-              <ListGroup.Item className="p-2">
-                <b>Zone:</b> {page.zone || <MutedNoneText />}
-              </ListGroup.Item>
-              <ListGroup.Item className="p-2">
-                <b>Citizen:</b>
-                <Button onClick={() => onCitizenNameClick(page.citizenName)} variant="link">
-                  {page.citizenName || "???"}
-                </Button>
-              </ListGroup.Item>
-              <ListGroup.Item className="p-2">
-                <b>Description:</b> {page.description || <MutedNoneText />}
-              </ListGroup.Item>
-              <ListGroup.Item className="p-2">
-                <b>Tags: </b>
-                {page.tags.length ? (
-                  page.tags.map((t, i) => (
-                    <Button onClick={() => onTagClick(t)} variant="link" key={`tag-${i}`}>
-                      &gt;{t}
-                    </Button>
-                  ))
-                ) : (
-                  <MutedNoneText />
-                )}
-              </ListGroup.Item>
-            </ListGroup>
-          </Card.Body>
-        </Card>
-      </div>
-    );
-  } else {
-    return (
-      <div className="pageDetails h-100">
-        <Card className="square h-100">
-          <Card.Header>
-            <h5>Page Details</h5>
-          </Card.Header>
-          <Card.Body>
-            <Card.Text>
-              {error.length ? error : "No page selected. Click a zone to get started."}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </div>
-    );
+  if (!page) {
+    return <PageDetailsPlaceholder error={error} />;
   }
+
+  return (
+    <div className="pageDetails h-100">
+      <Card className="square h-100">
+        <Card.Header>
+          <h5>Page Details - {page.name}</h5>
+        </Card.Header>
+        <Card.Body style={{ overflowY: "scroll" }}>
+          <div className="d-flex justify-content-between">
+            <b>{page.name}</b>
+            <Spinner visible={loading} />
+          </div>
+          {/* If viewed on platform that doesn't display scrollbars, and card too short to display all info at once, 
+            cut-off listbox provides visual indication that users should scroll to see more */}
+          <ListGroup className="my-2">
+            <ListGroup.Item className="p-2">{page.path}</ListGroup.Item>
+            <ListGroup.Item className="p-2">
+              <b>Zone:</b> {page.zone || <MutedNoneText />}
+            </ListGroup.Item>
+            <ListGroup.Item className="p-2">
+              <b>Citizen:</b>
+              <Button onClick={() => onCitizenNameClick(page.citizenName)} variant="link">
+                {page.citizenName || "???"}
+              </Button>
+            </ListGroup.Item>
+            <ListGroup.Item className="p-2">
+              <b>Description:</b> {page.description || <MutedNoneText />}
+            </ListGroup.Item>
+            <ListGroup.Item className="p-2">
+              <Tags tags={page.tags} onTagClick={onTagClick} />
+            </ListGroup.Item>
+            <SpecialLinksListGroupItem
+              linkedByAd={page.linkedByAd}
+              linkedByMail={page.linkedByMail}
+            />
+          </ListGroup>
+        </Card.Body>
+      </Card>
+    </div>
+  );
 }

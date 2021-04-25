@@ -40,7 +40,9 @@ describe("GET /captures/:date/pages", function () {
               "date",
               "name",
               "description",
-              "citizenName"
+              "citizenName",
+              "linkedByAd",
+              "linkedByMail"
             );
             done();
           });
@@ -85,7 +87,9 @@ describe("GET /captures/:date/pages", function () {
             "date",
             "name",
             "description",
-            "citizenName"
+            "citizenName",
+            "linkedByAd",
+            "linkedByMail"
           );
           res.body.should.include.deep.members([
             {
@@ -96,6 +100,8 @@ describe("GET /captures/:date/pages", function () {
               name: "TV Spot Survey",
               description: null,
               citizenName: "Merchantsoft",
+              linkedByAd: false,
+              linkedByMail: false,
             },
           ]);
           res.body
@@ -372,6 +378,8 @@ describe("GET /captures/:date/pages/:path_or_hap", function () {
     description:
       "Gary's Control Room - 2.6.99 - Welcome aboard visitor, and do keep your hands off the computers unless you know what you're doing!",
     citizenName: "FirstCaptainGary",
+    linkedByAd: false,
+    linkedByMail: false,
   };
   it("returns expected page for valid path", function (done) {
     chai
@@ -426,6 +434,24 @@ describe("GET /captures/:date/pages/:path_or_hap", function () {
       .end((err, res) => {
         res.status.should.equal(404);
         res.body.should.equal("Invalid capture date");
+        done();
+      });
+  });
+  it("02_the cafe\\~zzad-freecruise.hsp has linkedByAd=true", function (done) {
+    chai
+      .request(app)
+      .get("/captures/1999-11-05/pages/02_the cafe|~zzad-freecruise.hsp")
+      .end((err, res) => {
+        res.body.linkedByAd.should.equal(true);
+        done();
+      });
+  });
+  it("04_teentopia\\squisherzquest.hsp has linkedByMail=true", function (done) {
+    chai
+      .request(app)
+      .get("/captures/1999-11-05/pages/04_teentopia|squisherzquest.hsp")
+      .end((err, res) => {
+        res.body.linkedByMail.should.equal(true);
         done();
       });
   });

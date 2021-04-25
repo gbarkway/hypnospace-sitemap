@@ -10,6 +10,8 @@ const toApiPage = (dbPage) => {
     description: dbPage.description,
     tags: JSON.parse(dbPage.tags),
     citizenName: dbPage.citizen_name,
+    linkedByAd: Boolean(dbPage.linked_by_ad),
+    linkedByMail: Boolean(dbPage.linked_by_mail),
   };
 };
 
@@ -87,7 +89,7 @@ const makeDal = (path = "./page-serv.db") => {
         params.push(s, s, s);
       }
 
-      const query = `SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name 
+      const query = `SELECT DISTINCT page.path, page.zone, page.date, page.name, page.description, page.tags, page.citizen_name, page.linked_by_ad, page.linked_by_mail
         FROM page 
         LEFT JOIN json_each(page.tags) as tag
         ${expressions.length ? " WHERE " + expressions.join(" AND ") : ""}`;

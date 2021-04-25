@@ -5,9 +5,9 @@ import crawler
 import json
 
 
-def pageRowTuples(captures):
+def pageRowTuples(hypnospace):
     rowTuples = []
-    for capture in captures:
+    for capture in hypnospace.captures:
         zoneNames = {
             page.zone: page.name
             for page in capture.pages if page.isZoneHome
@@ -21,7 +21,9 @@ def pageRowTuples(captures):
                 page.name,
                 page.description,
                 json.dumps(page.tags),
-                page.citizenName
+                page.citizenName,
+                page.path in hypnospace.adLinks,
+                page.path in hypnospace.mailLinks
             )
             for page in capture.pages
         ]
@@ -50,18 +52,20 @@ with sqlite3.connect(outPath) as con:
     cur = con.cursor()
     cur.execute(
         '''CREATE TABLE "page" (
-        "path"	TEXT NOT NULL,
-        "zone"	TEXT,
-        "date"	TEXT NOT NULL,
-        "name"	TEXT,
-        "description"	TEXT,
-        "tags"	TEXT DEFAULT (json('[]')),
-        "citizen_name"	TEXT,
+        "path"              TEXT NOT NULL,
+        "zone"              TEXT,
+        "date"              TEXT NOT NULL,
+        "name"              TEXT,
+        "description"       TEXT,
+        "tags"              TEXT DEFAULT (json('[]')),
+        "citizen_name"      TEXT,
+        "linked_by_ad"      INTEGER NOT NULL DEFAULT 0 CHECK("linked_by_ad" = 0 OR "linked_by_ad" = 1),
+        "linked_by_mail"    INTEGER NOT NULL DEFAULT 0 CHECK("linked_by_mail" = 0 OR "linked_by_mail" = 1),
         PRIMARY KEY("path","date"))'''
     )
     cur.executemany(
-        'INSERT INTO page VALUES (?,?,?,?,?,json(?),?)',
-        pageRowTuples(hypnospace.captures)
+        'INSERT INTO page VALUES (?,?,?,?,?,json(?),?,?,?)',
+        pageRowTuples(hypnospace)
     )
     con.commit()
 
