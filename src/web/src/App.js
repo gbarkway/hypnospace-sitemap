@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
 
 import DatePickerDropdown from "./DatePickerDropdown";
@@ -26,7 +26,10 @@ function App() {
   const [path, setPath] = useState(null);
   // path of focused (ie zoomed-in-on) node, if any
   const [focusedPath, setFocusedPath] = useState(null);
-  const [searchFields, setSearchFields] = useState({ ...defaultSearchFields });
+  const [searchFields, dispatchSearchFields] = useReducer(
+    (fields, newFields) => ({ ...fields, ...newFields }),
+    defaultSearchFields,
+  )
   const [searchRequest, setSearchRequest] = useState(null);
   const [showHelpModal, setShowHelpModal] = useState(true);
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -34,11 +37,15 @@ function App() {
 
   // see defaultSearchFields for possible props of arg
   const showPrefilledSearch = (fields) => {
-    const newFields = { ...defaultSearchFields, ...fields };
-    setSearchFields(newFields);
+    const newFields = {...defaultSearchFields, ...fields};
+    dispatchSearchFields(newFields);
     setSearchRequest(newFields);
     setShowSearchModal(true);
   };
+
+  const onSearchClearClick = useCallback(() => {
+    dispatchSearchFields(defaultSearchFields)
+  }, [])
 
   const onNodeTap = useCallback((path, alreadySelected, zone, isParent) => {
     setPath(path);
@@ -72,9 +79,10 @@ function App() {
           setShowSearchModal(false);
         }}
         searchFields={searchFields}
-        onSearchFieldsChange={setSearchFields}
+        onSearchFieldsChange={dispatchSearchFields}
         searchRequest={searchRequest}
         onSearchClick={setSearchRequest}
+        onClearButtonClick={onSearchClearClick}
       />
       <Container fluid className="h-100">
         <Row>

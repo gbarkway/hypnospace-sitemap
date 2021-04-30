@@ -1,21 +1,16 @@
 import { Button, Form } from "react-bootstrap";
 
 const NULL_PLACEHOLDER = "???";
-const defaultSearchFields = {
-  pageNameQuery: "",
-  citizenNameQuery: "",
-  tagsQuery: "",
-};
-
 export default function SearchFields({
   onSearchClicked,
   searchFields,
   onSearchFieldsChange,
   disabled,
+  onClearButtonClick,
 }) {
   onSearchClicked = onSearchClicked || (() => {});
   onSearchFieldsChange = onSearchFieldsChange || (() => {});
-  searchFields = searchFields || { ...defaultSearchFields };
+  onClearButtonClick = onClearButtonClick || (() => {});
 
   return (
     <Form
@@ -31,7 +26,6 @@ export default function SearchFields({
             value={searchFields?.pageNameQuery ?? ""}
             onChange={(e) =>
               onSearchFieldsChange({
-                ...searchFields,
                 pageNameQuery: e.target.value,
               })
             }
@@ -45,7 +39,6 @@ export default function SearchFields({
             value={searchFields.citizenNameQuery ?? NULL_PLACEHOLDER}
             onChange={(e) =>
               onSearchFieldsChange({
-                ...searchFields,
                 citizenNameQuery: e.target.value === NULL_PLACEHOLDER ? null : e.target.value,
               })
             }
@@ -57,7 +50,6 @@ export default function SearchFields({
             className="btn-sm text-left"
             onClick={() =>
               onSearchFieldsChange({
-                ...searchFields,
                 citizenNameQuery: null,
               })
             }
@@ -71,7 +63,6 @@ export default function SearchFields({
             value={searchFields.tagsQuery}
             onChange={(e) =>
               onSearchFieldsChange({
-                ...searchFields,
                 tagsQuery: e.target.value,
               })
             }
@@ -84,7 +75,7 @@ export default function SearchFields({
           <Button variant="primary" type="submit" className="mr-1">
             Search
           </Button>
-          <Button onClick={() => onSearchFieldsChange({ ...defaultSearchFields })}>Clear</Button>
+          <Button onClick={onClearButtonClick}>Clear</Button>
         </div>
       </fieldset>
     </Form>
