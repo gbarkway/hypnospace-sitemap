@@ -4,5 +4,8 @@ import SearchPane from "../SearchPane";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
-  ReactDOM.render(<SearchPane />, div);
+  ReactDOM.render(
+    <SearchPane searchFields={{ pageNameQuery: "", citizenNameQuery: "", tagsQuery: "" }} />,
+    div
+  );
 });
