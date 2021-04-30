@@ -14,12 +14,14 @@ export default function SearchModal({
   onSearchClick,
   show,
   onCloseButtonClick,
+  onClearButtonClick,
 }) {
   onResultClick = onResultClick || (() => {});
   onSearchFieldsChange = onSearchFieldsChange || (() => {});
   onSearchClick = onSearchClick || (() => {});
   show = show || false;
   onCloseButtonClick = onCloseButtonClick || (() => {});
+  onClearButtonClick = onClearButtonClick || (() => {});
 
   const [disabled, setDisabled] = useState(false);
   const loadingStart = useCallback(() => setDisabled(true), []);
@@ -45,6 +47,7 @@ export default function SearchModal({
               searchFields={searchFields}
               onSearchFieldsChange={onSearchFieldsChange}
               disabled={disabled}
+              onClearButtonClick={onClearButtonClick}
             />
           </Col>
           <Col lg={7} xs={12}>
