@@ -28,8 +28,8 @@ function App() {
   const [focusedPath, setFocusedPath] = useState(null);
   const [searchFields, dispatchSearchFields] = useReducer(
     (fields, newFields) => ({ ...fields, ...newFields }),
-    defaultSearchFields,
-  )
+    defaultSearchFields
+  );
   const [searchRequest, setSearchRequest] = useState(null);
   const [showHelpModal, setShowHelpModal] = useState(true);
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -37,15 +37,15 @@ function App() {
 
   // see defaultSearchFields for possible props of arg
   const showPrefilledSearch = (fields) => {
-    const newFields = {...defaultSearchFields, ...fields};
+    const newFields = { ...defaultSearchFields, ...fields };
     dispatchSearchFields(newFields);
     setSearchRequest(newFields);
     setShowSearchModal(true);
   };
 
   const onSearchClearClick = useCallback(() => {
-    dispatchSearchFields(defaultSearchFields)
-  }, [])
+    dispatchSearchFields(defaultSearchFields);
+  }, []);
 
   const onNodeTap = useCallback((path, alreadySelected, zone, isParent) => {
     setPath(path);

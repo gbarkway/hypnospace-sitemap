@@ -14,7 +14,7 @@ export default function SearchModal({
   onSearchClick,
   show,
   onCloseButtonClick,
-  onClearButtonClick
+  onClearButtonClick,
 }) {
   onResultClick = onResultClick || (() => {});
   onSearchFieldsChange = onSearchFieldsChange || (() => {});
