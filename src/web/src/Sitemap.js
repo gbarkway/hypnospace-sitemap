@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { Button, Card, Dropdown, DropdownButton, Nav, Navbar } from "react-bootstrap";
+import { Button, Card, Nav, Navbar } from "react-bootstrap";
 
 import Spinner from "./Spinner";
 import worldIcon from "./win95-bootstrap/icons/connected_world-1.png";
 import { useCyto, useSitemapData } from "./sitemapHooks";
+import ZoneDropdown from "./ZoneDropdown";
 
 // Callbacks
 // onTap: (path: string, alreadySelected: bool, zoneName: string, isParent: bool)
@@ -51,23 +52,7 @@ export default function Sitemap({
             </Button>
           </Nav.Item>
           <Nav.Item>
-            <DropdownButton
-              className="mx-1"
-              variant="secondary"
-              id="zone-dropdown-button"
-              title="Go to zone"
-              disabled={loading}
-            >
-              {zones.map((z, i) => (
-                <Dropdown.Item
-                  key={`zoneDropDown${i}`}
-                  as="button"
-                  onClick={() => onZoneMenuClick(z)}
-                >
-                  {z.zone}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
+            <ZoneDropdown zones={zones} onClick={onZoneMenuClick} disabled={loading} />
           </Nav.Item>
           <Nav.Item>
             <div className="d-flex h-100 align-items-center">
