@@ -36,6 +36,8 @@ Run `docker-compose down` after finishing.
 
 ### Non-docker
 
+This project is tested with **node 14.x** and **npm 6.x** (other versions may work).
+
 In this directory
 
 ```

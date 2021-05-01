@@ -36,6 +36,8 @@ This runs with the following features to aid debugging:
 
 ### Non-docker
 
+This project is tested with **node 14.x** and **npm 6.x** (other versions may work).
+
 In this directory:
 
 ```shell
