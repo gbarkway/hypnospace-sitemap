@@ -19,10 +19,7 @@ const defaultPage = {
   linkedByMail: false,
 };
 
-export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
-  onTagClick = onTagClick || (() => {});
-  onCitizenNameClick = onCitizenNameClick || (() => {});
-
+function usePageDetails(date, path) {
   const [page, setPage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -59,6 +56,15 @@ export default function PageDetails({ date, path, onTagClick, onCitizenNameClick
       })
       .finally(() => setLoading(false));
   }, [date, path]);
+
+  return { page, loading, error };
+}
+
+export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
+  onTagClick = onTagClick || (() => {});
+  onCitizenNameClick = onCitizenNameClick || (() => {});
+
+  const { page, loading, error } = usePageDetails(date, path);
 
   if (!page) {
     return <PageDetailsPlaceholder error={error} />;
