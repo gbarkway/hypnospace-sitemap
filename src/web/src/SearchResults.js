@@ -52,7 +52,7 @@ function useSearchResults(searchRequest, date) {
       .finally(() => setLoading(false));
   }, [searchRequest, date]);
 
-  return { searchResults, loading, error }
+  return { searchResults, loading, error };
 }
 
 export default function SearchResults({
@@ -66,7 +66,7 @@ export default function SearchResults({
   onLoadingStart = onLoadingStart || (() => {});
   onLoadingEnd = onLoadingEnd || (() => {});
 
-  const { searchResults, loading, error } = useSearchResults(searchRequest, date) 
+  const { searchResults, loading, error } = useSearchResults(searchRequest, date);
 
   useEffect(() => {
     if (loading) {
