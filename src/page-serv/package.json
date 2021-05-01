@@ -11,14 +11,14 @@
     "test": "NODE_ENV=test mocha",
     "start": "node app.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Greg Barkway",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
     "cors": "^2.8.5",
     "escape-string-regexp": "^4.0.0",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
-    "promise-retry": "^2.0.1",
     "sqlite3": "^5.0.2",
     "winston": "^3.3.3"
   },

@@ -11,8 +11,9 @@
     "test": "mocha",
     "start": "node app.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Greg Barkway",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
