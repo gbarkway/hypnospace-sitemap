@@ -115,12 +115,10 @@ export default function Sitemap({
   const { cyElements, zones, loading, error } = useSitemapData(date);
 
   const selectNode = (node) => {
-    if (!cyRef.current) return;
-    if (!node.data("zone")) return;
-
+    const cy = node.cy();
     const zone = node.data("zone");
-    const allNodes = cyRef.current.elements();
-    const zoneNodes = cyRef.current.elements(`node[zone="${zone}"]`);
+    const allNodes = cy.elements();
+    const zoneNodes = cy.elements(`node[zone="${zone}"]`);
     const zoneNeighborhoodNodes = zoneNodes.closedNeighborhood();
     const zoneNeighborhoodParentNodes = zoneNeighborhoodNodes.parent();
     const myZone = node.parent();
@@ -137,9 +135,7 @@ export default function Sitemap({
   };
 
   const focusNode = (node) => {
-    if (!cyRef.current) return;
-
-    cyRef.current.animate(
+    node.cy().animate(
       {
         fit: {
           eles: node.closedNeighborhood().not("#hub").filter("node"),
