@@ -22,17 +22,7 @@ const buildUrl = (date, { pageNameQuery, citizenNameQuery, tagsQuery }) => {
   return url.href;
 };
 
-export default function SearchResults({
-  date,
-  searchRequest,
-  onResultClick,
-  onLoadingStart,
-  onLoadingEnd,
-}) {
-  onResultClick = onResultClick || (() => {});
-  onLoadingStart = onLoadingStart || (() => {});
-  onLoadingEnd = onLoadingEnd || (() => {});
-
+function useSearchResults(searchRequest, date) {
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -62,6 +52,22 @@ export default function SearchResults({
       .finally(() => setLoading(false));
   }, [searchRequest, date]);
 
+  return { searchResults, loading, error }
+}
+
+export default function SearchResults({
+  date,
+  searchRequest,
+  onResultClick,
+  onLoadingStart,
+  onLoadingEnd,
+}) {
+  onResultClick = onResultClick || (() => {});
+  onLoadingStart = onLoadingStart || (() => {});
+  onLoadingEnd = onLoadingEnd || (() => {});
+
+  const { searchResults, loading, error } = useSearchResults(searchRequest, date) 
+
   useEffect(() => {
     if (loading) {
       onLoadingStart();
@@ -70,8 +76,10 @@ export default function SearchResults({
     }
   }, [loading, onLoadingEnd, onLoadingStart]);
 
-  if (!searchRequest)
+  if (!searchRequest) {
     return <span className="text-muted">Enter search terms and click "Search" to see results</span>;
+  }
+
   return (
     <div>
       Search Results ({searchResults.length})
