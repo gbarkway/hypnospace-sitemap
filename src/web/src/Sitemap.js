@@ -55,6 +55,35 @@ const toCyElements = (capture) => {
   return [...zoneNodes, ...pageNodes, ...edges];
 };
 
+function useSitemapData(date) {
+  const [cyElements, setCyElements] = useState(null);
+  const [zones, setZones] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setLoading(true);
+    setError("");
+    fetchCapture(date)
+      .then((capture) => {
+        setCyElements(toCyElements(capture));
+        setZones(toZoneList(capture));
+      })
+      .catch((err) => {
+        if (process.env.NODE_ENV === "development") {
+          console.error(err);
+        }
+
+        setError("Error loading sitemap");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [date]);
+
+  return { cyElements, zones, loading, error }
+}
+
 //TODO: make zones visually distinct
 //TODO: non-selected zones say "Tap me to see more" or something
 
@@ -82,11 +111,8 @@ export default function Sitemap({
   const container = useRef();
   const cyRef = useRef();
 
-  const [cyElements, setCyElements] = useState(null);
   const [footerText, setFooterText] = useState("");
-  const [zones, setZones] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { cyElements, zones, loading, error } = useSitemapData(date);
 
   const selectNode = (node) => {
     if (!cyRef.current) return;
@@ -147,26 +173,6 @@ export default function Sitemap({
   useEffect(() => {
     onSitemapReadyChanged(!loading);
   }, [loading, onSitemapReadyChanged]);
-
-  useEffect(() => {
-    setLoading(true);
-    setError("");
-    fetchCapture(date)
-      .then((capture) => {
-        setCyElements(toCyElements(capture));
-        setZones(toZoneList(capture));
-      })
-      .catch((err) => {
-        if (process.env.NODE_ENV === "development") {
-          console.error(err);
-        }
-
-        setError("Error loading sitemap");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [date]);
 
   useEffect(() => {
     if (cyRef.current) {
