@@ -122,7 +122,7 @@ function useSitemapData(date) {
 function useCyto(cyElements, selected, focused, onTap, onPanZoom) {
   // cytoscape.js component integrated in a very non-React way
   // there is a react cytoscape package but I couldn't make it work
-  const container = useRef();
+  const containerRef = useRef();
   const cyRef = useRef();
   const [footerText, setFooterText] = useState("");
 
@@ -152,7 +152,7 @@ function useCyto(cyElements, selected, focused, onTap, onPanZoom) {
     if (!cyElements) return;
 
     cyRef.current = cytoscape({
-      container: container.current,
+      container: containerRef.current,
       elements: cyElements,
       autounselectify: true,
       autoungrabify: true,
@@ -197,7 +197,7 @@ function useCyto(cyElements, selected, focused, onTap, onPanZoom) {
       node.removeClass("hover");
     });
   }, [cyElements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
-  return { container, cyRef, footerText }
+  return { containerRef, cyRef, footerText }
 }
 
 //TODO: make zones visually distinct
@@ -223,7 +223,7 @@ export default function Sitemap({
   onSitemapReadyChanged = onSitemapReadyChanged || (() => {});
 
   const { cyElements, zones, loading, error } = useSitemapData(date);
-  const { container, cyRef, footerText } = useCyto(cyElements, selected, focused, onTap, onPanZoom)
+  const { containerRef, cyRef, footerText } = useCyto(cyElements, selected, focused, onTap, onPanZoom)
   
   useEffect(() => {
     onSitemapReadyChanged(!loading);
@@ -279,7 +279,7 @@ export default function Sitemap({
       </Navbar>
       <Card.Body style={{ padding: 0 }} className="h-100">
         <div
-          ref={container}
+          ref={containerRef}
           style={{
             visibility: loading ? "hidden" : "visible",
             height: "100%",
