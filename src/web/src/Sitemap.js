@@ -124,7 +124,7 @@ function useCyto(cyElements, selected, focused, onTap, onPanZoom) {
   // there is a react cytoscape package but I couldn't make it work
   const containerRef = useRef();
   const cyRef = useRef();
-  const [footerText, setFooterText] = useState("");
+  const [hovered, setHovered] = useState("");
 
   useEffect(() => {
     if (!cyRef.current) return;
@@ -189,7 +189,7 @@ function useCyto(cyElements, selected, focused, onTap, onPanZoom) {
     cyRef.current.on("mouseover", "node", function (e) {
       const node = e.target;
       node.addClass("hover");
-      setFooterText(node.id());
+      setHovered(node.id());
     });
 
     cyRef.current.on("mouseout", "node", function (e) {
@@ -197,7 +197,8 @@ function useCyto(cyElements, selected, focused, onTap, onPanZoom) {
       node.removeClass("hover");
     });
   }, [cyElements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
-  return { containerRef, cyRef, footerText }
+
+  return { containerRef, cyRef, hovered }
 }
 
 //TODO: make zones visually distinct
@@ -223,7 +224,7 @@ export default function Sitemap({
   onSitemapReadyChanged = onSitemapReadyChanged || (() => {});
 
   const { cyElements, zones, loading, error } = useSitemapData(date);
-  const { containerRef, cyRef, footerText } = useCyto(cyElements, selected, focused, onTap, onPanZoom)
+  const { containerRef, cyRef, hovered } = useCyto(cyElements, selected, focused, onTap, onPanZoom)
   
   useEffect(() => {
     onSitemapReadyChanged(!loading);
@@ -287,7 +288,7 @@ export default function Sitemap({
         ></div>
       </Card.Body>
       <Card.Footer>
-        <i>{footerText}</i>
+        <i>{hovered}</i>
       </Card.Footer>
     </Card>
   );
