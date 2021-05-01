@@ -119,35 +119,12 @@ function useSitemapData(date) {
   return { cyElements, zones, loading, error }
 }
 
-//TODO: make zones visually distinct
-//TODO: non-selected zones say "Tap me to see more" or something
-
-// Callbacks
-// onTap: (path: string, alreadySelected: bool, zoneName: string, isParent: bool)
-// onZoneMenuClick: (zone: {zone: string, path: string})
-// onPanZoom: ()
-// onSitemapReadyChanged: (ready: bool)
-export default function Sitemap({
-  date,
-  onTap,
-  selected,
-  focused,
-  onZoneMenuClick,
-  onPanZoom,
-  onSitemapReadyChanged,
-}) {
-  onZoneMenuClick = onZoneMenuClick || (() => {});
-  onTap = onTap || (() => {});
-  onPanZoom = onPanZoom || (() => {});
-  onSitemapReadyChanged = onSitemapReadyChanged || (() => {});
-
+function useCyto(cyElements, selected, focused, onTap, onPanZoom) {
   // cytoscape.js component integrated in a very non-React way
   // there is a react cytoscape package but I couldn't make it work
   const container = useRef();
   const cyRef = useRef();
-
   const [footerText, setFooterText] = useState("");
-  const { cyElements, zones, loading, error } = useSitemapData(date);
 
   useEffect(() => {
     if (!cyRef.current) return;
@@ -166,9 +143,6 @@ export default function Sitemap({
     focusNode(node);
   }, [focused]);
 
-  useEffect(() => {
-    onSitemapReadyChanged(!loading);
-  }, [loading, onSitemapReadyChanged]);
 
   useEffect(() => {
     if (cyRef.current) {
@@ -223,6 +197,37 @@ export default function Sitemap({
       node.removeClass("hover");
     });
   }, [cyElements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
+  return { container, cyRef, footerText }
+}
+
+//TODO: make zones visually distinct
+//TODO: non-selected zones say "Tap me to see more" or something
+
+// Callbacks
+// onTap: (path: string, alreadySelected: bool, zoneName: string, isParent: bool)
+// onZoneMenuClick: (zone: {zone: string, path: string})
+// onPanZoom: ()
+// onSitemapReadyChanged: (ready: bool)
+export default function Sitemap({
+  date,
+  onTap,
+  selected,
+  focused,
+  onZoneMenuClick,
+  onPanZoom,
+  onSitemapReadyChanged,
+}) {
+  onZoneMenuClick = onZoneMenuClick || (() => {});
+  onTap = onTap || (() => {});
+  onPanZoom = onPanZoom || (() => {});
+  onSitemapReadyChanged = onSitemapReadyChanged || (() => {});
+
+  const { cyElements, zones, loading, error } = useSitemapData(date);
+  const { container, cyRef, footerText } = useCyto(cyElements, selected, focused, onTap, onPanZoom)
+  
+  useEffect(() => {
+    onSitemapReadyChanged(!loading);
+  }, [loading, onSitemapReadyChanged]); 
 
   return (
     <Card className="square h-100">
