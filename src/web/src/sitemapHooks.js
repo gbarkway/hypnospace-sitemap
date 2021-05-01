@@ -34,7 +34,7 @@ const useSitemapData = (date) => {
   }, [date]);
 
   return { cyElements, zones, loading, error };
-}
+};
 
 const useCyto = (cyElements, selected, focused, onTap, onPanZoom) => {
   // cytoscape.js component integrated in a very non-React way
@@ -115,7 +115,7 @@ const useCyto = (cyElements, selected, focused, onTap, onPanZoom) => {
   }, [cyElements, onTap, onPanZoom]); //TODO: changing onTap causes sitemap to reload, that's probably not necessary
 
   return { containerRef, cyRef, hovered };
-}
+};
 
 const fetchCapture = async (date) => {
   const res = await fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`);
