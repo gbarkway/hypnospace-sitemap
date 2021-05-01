@@ -2,6 +2,10 @@
   "name": "capture-serv",
   "version": "1.0.0",
   "description": "Capture service for hypnospace map",
+  "engines": {
+    "node": "~14.16",
+    "npm": "~6.14"
+  },
   "main": "app.js",
   "scripts": {
     "test": "mocha",

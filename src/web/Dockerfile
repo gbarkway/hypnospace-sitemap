@@ -1,7 +1,7 @@
-FROM node:15.14-alpine AS build
+FROM node:14.16-alpine AS build
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json", "./"]
-RUN npm install
+RUN npm install --silent
 COPY ["src", "src/"]
 COPY ["public", "public/"]
 ARG DOT_ENV=".env.production"
