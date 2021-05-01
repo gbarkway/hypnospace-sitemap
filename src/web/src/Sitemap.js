@@ -55,6 +55,41 @@ const toCyElements = (capture) => {
   return [...zoneNodes, ...pageNodes, ...edges];
 };
 
+const selectNode = (node) => {
+  const cy = node.cy();
+  const zone = node.data("zone");
+  const allNodes = cy.elements();
+  const zoneNodes = cy.elements(`node[zone="${zone}"]`);
+  const zoneNeighborhoodNodes = zoneNodes.closedNeighborhood();
+  const zoneNeighborhoodParentNodes = zoneNeighborhoodNodes.parent();
+  const myZone = node.parent();
+
+  allNodes.not("node:parent").addClass("hidden");
+  zoneNeighborhoodNodes.removeClass("hidden");
+  zoneNeighborhoodParentNodes.removeClass("hidden");
+
+  allNodes.removeClass("highlighted transparent selected");
+  allNodes.difference(node.closedNeighborhood()).addClass("transparent");
+  node.neighborhood().addClass("highlighted");
+  node.addClass("selected");
+  myZone.addClass("highlighted");
+};
+
+const focusNode = (node) => {
+  node.cy().animate(
+    {
+      fit: {
+        eles: node.closedNeighborhood().not("#hub").filter("node"),
+      },
+    },
+    {
+      duration: 1000,
+      easing: "ease-out-quad",
+      queue: false,
+    }
+  );
+};
+
 function useSitemapData(date) {
   const [cyElements, setCyElements] = useState(null);
   const [zones, setZones] = useState([]);
@@ -113,41 +148,6 @@ export default function Sitemap({
 
   const [footerText, setFooterText] = useState("");
   const { cyElements, zones, loading, error } = useSitemapData(date);
-
-  const selectNode = (node) => {
-    const cy = node.cy();
-    const zone = node.data("zone");
-    const allNodes = cy.elements();
-    const zoneNodes = cy.elements(`node[zone="${zone}"]`);
-    const zoneNeighborhoodNodes = zoneNodes.closedNeighborhood();
-    const zoneNeighborhoodParentNodes = zoneNeighborhoodNodes.parent();
-    const myZone = node.parent();
-
-    allNodes.not("node:parent").addClass("hidden");
-    zoneNeighborhoodNodes.removeClass("hidden");
-    zoneNeighborhoodParentNodes.removeClass("hidden");
-
-    allNodes.removeClass("highlighted transparent selected");
-    allNodes.difference(node.closedNeighborhood()).addClass("transparent");
-    node.neighborhood().addClass("highlighted");
-    node.addClass("selected");
-    myZone.addClass("highlighted");
-  };
-
-  const focusNode = (node) => {
-    node.cy().animate(
-      {
-        fit: {
-          eles: node.closedNeighborhood().not("#hub").filter("node"),
-        },
-      },
-      {
-        duration: 1000,
-        easing: "ease-out-quad",
-        queue: false,
-      }
-    );
-  };
 
   useEffect(() => {
     if (!cyRef.current) return;
