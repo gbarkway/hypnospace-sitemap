@@ -85,7 +85,7 @@ export default function SearchResults({
       Search Results ({searchResults.length})
       <Spinner visible={loading} />
       <div className="search-results">
-        <Table size="sm">
+        <Table size="sm" className="my-0">
           <thead>
             <tr>
               <th>Name</th>
