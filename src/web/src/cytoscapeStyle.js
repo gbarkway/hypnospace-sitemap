@@ -37,7 +37,7 @@ const cytoscapeStyle = [
     },
   },
   {
-    selector: 'node[parent="Open Eyed"]',
+    selector: 'node[parent="Open Eyed"],node[parent="The Stadium"]',
     style: {
       "background-gradient-stop-colors": "rgb(199,171,45) rgb(77,146,171) rgb(146,4,212)",
     },
