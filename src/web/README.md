@@ -8,7 +8,7 @@ Although this project can be run from a container using the Dockerfile or docker
 
 ```shell
 # start backend services
-docker-compose -f ../docker-compose.yml -d
+docker-compose -f ../docker-compose.yml up -d
 npm install
 npm start
 ```
