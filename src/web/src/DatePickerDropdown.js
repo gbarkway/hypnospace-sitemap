@@ -39,7 +39,7 @@ export default function DatePickerDropdown({ date, onDatePicked }) {
 
   return (
     <Dropdown as={NavItem} className="d-flex flex-column justify-content-center mx-1">
-      <Dropdown.Toggle as={NavLink} id="datepicker-toggle">
+      <Dropdown.Toggle id="datepicker-toggle">
         <img src={calIcon} alt=""></img>
         {date}
       </Dropdown.Toggle>
