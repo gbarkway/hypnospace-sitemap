@@ -4,7 +4,6 @@ import re
 from collections import namedtuple
 from configparser import ConfigParser
 from pathlib import Path
-import networkx as nx
 
 Page = namedtuple('Page', [
     'name', 'path', 'linksTo', 'description', 'tags', 'citizenName', 'zone',
@@ -137,59 +136,9 @@ def readCapture(capturePath, noprune=[]):
         for link in toRemove:
             page.linksTo.remove(link)
 
-    # remove unreachable pages. some pages appear in data files but aren't
-    # reachable in-game. a page is reachable if
-    # a) has a tag
-    # b) is a zone.hsp
-    # c) is in noprune
-    # d) there is a path to the page from one of a), b) or c)
-
-    # a), b), and c)
-    reachablePaths = [
-        page.path for page in pages if len(page.tags)
-        or page.path.endswith(r'\zone.hsp') or page.path in noprune
-    ]
-
-    # d)
-    # depth-first graph traversal to find path between current page and
-    # a known reachable page
-    G = pages2Graph(pages)
-    for page in pages:
-        if page.path in reachablePaths:
-            continue
-
-        stack = list(G.predecessors(page.path))
-        visited = set(stack)  # avoid cycles
-        hasReachablePre = False
-
-        while (len(stack) and not hasReachablePre):
-            path = stack.pop()
-            hasReachablePre = path in reachablePaths
-            if not hasReachablePre:
-                for pre in [
-                        pre for pre in G.predecessors(path)
-                        if pre not in visited
-                ]:
-                    visited.add(pre)
-                    stack.append(pre)
-
-        if hasReachablePre:
-            reachablePaths.append(page.path)
-
-    pages = [page for page in pages if page.path in reachablePaths]
     config = ConfigParser()
     config.read(capturePath / 'capture.ini')
     return Capture(iniDate2Iso(config['data']['date']), pages)
-
-
-def pages2Graph(pages):
-    """networkx DiGraph"""
-
-    G = nx.DiGraph()
-    G.add_nodes_from([page.path for page in pages])
-    edges = [(page.path, link) for page in pages for link in page.linksTo]
-    G.add_edges_from(edges)
-    return G
 
 
 def readLinksFromFile(filePath):
