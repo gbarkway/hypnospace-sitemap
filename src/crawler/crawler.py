@@ -110,7 +110,7 @@ def iniDate2Iso(iniDate):
             pass
 
 
-def readCapture(capturePath, noprune=[]):
+def readCapture(capturePath):
     """Read capture folder (e.g. 'hs') and return Capture
 
     Keyword arguments:
@@ -163,7 +163,7 @@ def readHypnospace(dataPath):
         p for p in dataPath.iterdir() if (p / 'capture.ini').exists()
     ]
     captures = [
-        readCapture(p, noprune=(mailLinks + adLinks)) for p in captureFolders
+        readCapture(p) for p in captureFolders
     ]
 
     return Hypnospace(captures, mailLinks, adLinks)
