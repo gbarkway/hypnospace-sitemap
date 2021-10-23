@@ -25,30 +25,7 @@ class TestCrawler(unittest.TestCase):
         self.assertNotIn(r'00_test\dead_link.hsp', page.linksTo,
                          'dead link should be removed')
 
-        # unreachable pages removed/reachable page kept
-        pagePaths = [page.path for page in capture.pages]
-
-        self.assertIn(r'00_test\~reachable_by_tag.hsp', pagePaths,
-                      'page with tag should not be pruned')
-        self.assertIn(r'00_test\~reachable_2nd_hand_by_tag.hsp', pagePaths,
-                      'page linked to by tagged page should not be pruned')
-        self.assertIn(r'00_test\reachable_by_zone.hsp', pagePaths,
-                      'page linked to by zone homepage should not be pruned')
-        self.assertIn(
-            r'00_test\~reachable_2nd_hand_by_zone.hsp', pagePaths,
-            ('page linked to page linked to by zone homepage should not be ',
-             'pruned'))
-        self.assertNotIn(r'00_test\~unreachable.hsp', pagePaths,
-                         'unreachable page should be pruned')
-        self.assertNotIn(
-            r'00_test\~unreachable_2.hsp', pagePaths,
-            'untagged page linked to by unreachable page should be pruned')
-
-        capture = crawler.readCapture('./test_data/hs',
-                                      [r'00_test\~unreachable.hsp'])
-        pagePaths = [page.path for page in capture.pages]
-        self.assertIn(r'00_test\~unreachable.hsp', pagePaths,
-                      'page in noprune should not be pruned')
+        self.assertEqual(len(capture.pages), 14)
 
     def test_readZone(self):
         pages = crawler.readZone('test_data/hs/00_test')

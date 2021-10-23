@@ -11,7 +11,6 @@ The scripts in this folder generate Hypnospace Outlaw page metadata.
 ## Requirements
 
 - Python (tested with v3.8.5)
-- [NetworkX](https://networkx.org/) python library (tested with v2.5)
 - A Hypnospace Outlaw installation
 
 ## Usage

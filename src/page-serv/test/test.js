@@ -141,7 +141,7 @@ describe("GET /captures/:date/pages", function () {
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
-          res.body.should.have.lengthOf(2);
+          res.body.should.have.lengthOf(16);
           res.body
             .filter((p) => p.citizenName != "DarkTwilightTiff")
             .length.should.equal(0);
@@ -168,7 +168,7 @@ describe("GET /captures/:date/pages", function () {
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.should.be.a("Array");
-          res.body.should.have.lengthOf(2);
+          res.body.should.have.lengthOf(16);
           res.body
             .filter((p) => p.citizenName != "DarkTwilightTiff")
             .length.should.equal(0);
