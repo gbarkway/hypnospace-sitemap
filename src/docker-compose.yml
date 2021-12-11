@@ -35,4 +35,4 @@ services:
       - page-serv
       - capture-serv 
     ports:
-      - 5000:5000
+      - 5000:3000
