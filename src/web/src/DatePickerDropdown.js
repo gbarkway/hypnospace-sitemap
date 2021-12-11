@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dropdown, NavItem, NavLink } from "react-bootstrap";
+import { Dropdown, NavItem } from "react-bootstrap";
 
 import calIcon from "./win95-bootstrap/icons/time_and_date-1.png";
 
