@@ -18,7 +18,8 @@ export default function SpecialLinksListGroupItem({ linkedByAd, linkedByMail }) 
       ) : null}
       {linkedByMail ? (
         <div>
-          <img src={mailIcon} className="mx-1" alt=""></img>Linked by HypnoMail
+          <img src={mailIcon} className="mx-1" alt="" />
+          Linked by HypnoMail
         </div>
       ) : null}
     </ListGroup.Item>
