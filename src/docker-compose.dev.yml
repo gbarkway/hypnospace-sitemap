@@ -27,7 +27,20 @@ services:
       - capture-serv_node_modules:/usr/src/app/node_modules     
     command: ["npx", "nodemon", "--inspect=0.0.0.0:9229", "app.js"]
 
+  web:
+    build:
+      target: development
+      args:
+        - DOT_ENV=.env.development
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./web:/usr/src/app
+      - web_node_modules:/usr/src/app/node_modules
+    command: ["npm", "start"]
+
 volumes:
   capture-serv_node_modules:
   page-serv_node_modules:
+  web_node_modules:
 
