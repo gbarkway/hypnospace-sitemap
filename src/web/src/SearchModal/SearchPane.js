@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap";
 import SearchFields from "./SearchFields";
 import SearchResults from "./SearchResults";
-import searchIcon from "./win95-bootstrap/icons/search_file-2.png";
+import searchIcon from "../win95-bootstrap/icons/search_file-2.png";
 
 //searchFields: the text inputs
 //searchRequest: query sent to web service
