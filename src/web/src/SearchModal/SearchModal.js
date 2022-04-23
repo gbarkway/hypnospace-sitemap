@@ -3,7 +3,7 @@ import { useState, useCallback } from "react";
 
 import SearchFields from "./SearchFields";
 import SearchResults from "./SearchResults";
-import searchIcon from "./win95-bootstrap/icons/search_file-1.png";
+import searchIcon from "../win95-bootstrap/icons/search_file-1.png";
 
 export default function SearchModal({
   date,

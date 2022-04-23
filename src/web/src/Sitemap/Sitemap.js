@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { Button, Card, Nav, Navbar } from "react-bootstrap";
 
-import Spinner from "./Spinner";
-import worldIcon from "./win95-bootstrap/icons/connected_world-1.png";
-import { useCyto, useSitemapData } from "./sitemapHooks";
+import Spinner from "../Spinner";
+import worldIcon from "../win95-bootstrap/icons/connected_world-1.png";
+import useCyto from "./useCyto";
+import useSitemapData from "./useSitemapData";
 import ZoneDropdown from "./ZoneDropdown";
 
 // Callbacks

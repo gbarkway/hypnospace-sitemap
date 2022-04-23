@@ -3,9 +3,9 @@ import { Col, Container, Row } from "react-bootstrap";
 
 import AppNavbar from "./AppNavbar";
 import HelpModal from "./HelpModal";
-import PageDetails from "./PageDetails";
-import SearchModal from "./SearchModal";
-import Sitemap from "./Sitemap";
+import PageDetails from "./PageDetails/PageDetails";
+import SearchModal from "./SearchModal/SearchModal";
+import Sitemap from "./Sitemap/Sitemap";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";

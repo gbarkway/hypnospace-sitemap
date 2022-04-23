@@ -1,7 +1,7 @@
 import { ListGroup } from "react-bootstrap";
 
-import mailIcon from "./win95-bootstrap/icons/message_envelope_open-0.png";
-import adIcon from "./win95-bootstrap/icons/accessibility_two_windows.png";
+import mailIcon from "../win95-bootstrap/icons/message_envelope_open-0.png";
+import adIcon from "../win95-bootstrap/icons/accessibility_two_windows.png";
 
 export default function SpecialLinksListGroupItem({ linkedByAd, linkedByMail }) {
   if (!linkedByAd && !linkedByMail) {
