@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SearchPane from "../SearchPane";
+import SearchPane from "../SearchModal/SearchPane";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");

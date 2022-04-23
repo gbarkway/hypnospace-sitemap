@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SearchModal from "../SearchModal";
+import SearchModal from "../SearchModal/SearchModal";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
