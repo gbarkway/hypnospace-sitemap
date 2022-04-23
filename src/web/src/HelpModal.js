@@ -5,9 +5,7 @@ import calIcon from "./win95-bootstrap/icons/time_and_date-1.png";
 import helpIcon from "./win95-bootstrap/icons/help_book_big-0.png";
 import searchIcon from "./win95-bootstrap/icons/search_file-2.png";
 
-export default function HelpModal({ show, loading, onCloseButtonClick }) {
-  onCloseButtonClick = onCloseButtonClick || (() => {});
-
+export default function HelpModal({ show, loading, onCloseButtonClick = (f) => f }) {
   return (
     <Modal show={show} onHide={onCloseButtonClick} animation={false}>
       <Modal.Header>

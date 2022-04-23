@@ -7,14 +7,10 @@ import useSearchResults from "./useSearchResults";
 export default function SearchResults({
   date,
   searchRequest,
-  onResultClick,
-  onLoadingStart,
-  onLoadingEnd,
+  onResultClick = (f) => f,
+  onLoadingStart = (f) => f,
+  onLoadingEnd = (f) => f,
 }) {
-  onResultClick = onResultClick || (() => {});
-  onLoadingStart = onLoadingStart || (() => {});
-  onLoadingEnd = onLoadingEnd || (() => {});
-
   const { searchResults, loading, error } = useSearchResults(searchRequest, date);
 
   useEffect(() => {

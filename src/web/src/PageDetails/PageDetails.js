@@ -7,10 +7,12 @@ import Spinner from "../Spinner";
 import Tags from "./Tags";
 import usePageDetails from "./usePageDetails";
 
-export default function PageDetails({ date, path, onTagClick, onCitizenNameClick }) {
-  onTagClick = onTagClick || (() => {});
-  onCitizenNameClick = onCitizenNameClick || (() => {});
-
+export default function PageDetails({
+  date,
+  path,
+  onTagClick = (f) => f,
+  onCitizenNameClick = (f) => f,
+}) {
   const { page, loading, error } = usePageDetails(date, path);
 
   if (!page) {

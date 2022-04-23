@@ -2,16 +2,12 @@ import { Button, Form } from "react-bootstrap";
 
 const NULL_PLACEHOLDER = "???";
 export default function SearchFields({
-  onSearchClicked,
+  onSearchClicked = (f) => f,
   searchFields,
-  onSearchFieldsChange,
+  onSearchFieldsChange = (f) => f,
   disabled,
-  onClearButtonClick,
+  onClearButtonClick = (f) => f,
 }) {
-  onSearchClicked = onSearchClicked || (() => {});
-  onSearchFieldsChange = onSearchFieldsChange || (() => {});
-  onClearButtonClick = onClearButtonClick || (() => {});
-
   return (
     <Form
       onSubmit={(e) => {

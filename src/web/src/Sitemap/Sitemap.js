@@ -14,18 +14,13 @@ import ZoneDropdown from "./ZoneDropdown";
 // onSitemapReadyChanged: (ready: bool)
 export default function Sitemap({
   date,
-  onTap,
+  onTap = (f) => f,
   selected,
   focused,
-  onZoneMenuClick,
-  onPanZoom,
-  onSitemapReadyChanged,
+  onZoneMenuClick = (f) => f,
+  onPanZoom = (f) => f,
+  onSitemapReadyChanged = (f) => f,
 }) {
-  onZoneMenuClick = onZoneMenuClick || (() => {});
-  onTap = onTap || (() => {});
-  onPanZoom = onPanZoom || (() => {});
-  onSitemapReadyChanged = onSitemapReadyChanged || (() => {});
-
   const { cyElements, zones, loading, error } = useSitemapData(date);
   const { containerRef, cyRef, hovered } = useCyto(cyElements, selected, focused, onTap, onPanZoom);
 

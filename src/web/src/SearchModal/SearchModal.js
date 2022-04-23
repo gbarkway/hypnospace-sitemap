@@ -7,22 +7,15 @@ import searchIcon from "../win95-bootstrap/icons/search_file-1.png";
 
 export default function SearchModal({
   date,
-  onResultClick,
+  onResultClick = (f) => f,
   searchFields,
-  onSearchFieldsChange,
+  onSearchFieldsChange = (f) => f,
   searchRequest,
-  onSearchClick,
-  show,
-  onCloseButtonClick,
-  onClearButtonClick,
+  onSearchClick = (f) => f,
+  show = false,
+  onCloseButtonClick = (f) => f,
+  onClearButtonClick = (f) => f,
 }) {
-  onResultClick = onResultClick || (() => {});
-  onSearchFieldsChange = onSearchFieldsChange || (() => {});
-  onSearchClick = onSearchClick || (() => {});
-  show = show || false;
-  onCloseButtonClick = onCloseButtonClick || (() => {});
-  onClearButtonClick = onClearButtonClick || (() => {});
-
   const [disabled, setDisabled] = useState(false);
   const loadingStart = useCallback(() => setDisabled(true), []);
   const loadingEnd = useCallback(() => setDisabled(false), []);

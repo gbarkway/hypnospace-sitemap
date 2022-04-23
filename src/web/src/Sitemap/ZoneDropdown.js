@@ -6,10 +6,7 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 //    path: "string" // path to node e.g. "01_hypnospace central\\zone.hsp"
 //  }
 // ]
-export default function ZoneDropdown({ zones, onClick, disabled = false }) {
-  zones = zones || [];
-  onClick = onClick || (() => {});
-
+export default function ZoneDropdown({ zones = [], onClick = (f) => f, disabled = false }) {
   return (
     <DropdownButton
       className="mx-1"
