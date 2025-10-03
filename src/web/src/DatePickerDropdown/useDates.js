@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 function useDates() {
   const [dates, setDates] = useState([]);
   useEffect(() => {
-    if (!process.env.REACT_APP_CAPTURE_SERV_URL && process.env.NODE_ENV === "development") {
-      console.error("Env variable REACT_APP_CAPTURE_SERV_URL is unset");
+    if (!import.meta.env.VITE_CAPTURE_SERV_URL && import.meta.env.MODE === "development") {
+      console.error("Env variable VITE_CAPTURE_SERV_URL is unset");
     }
 
-    fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures`)
+    fetch(`${import.meta.env.VITE_CAPTURE_SERV_URL}/captures`)
       .then((res) => {
         if (res.status === 200) {
           return res.json();
