@@ -5,17 +5,14 @@
   "license": "MIT",
   "author": "Greg Barkway",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.3",
-    "@testing-library/user-event": "^12.6.0",
     "@vitejs/plugin-react": "^5.0.4",
     "@vitejs/plugin-react-swc": "^4.1.0",
     "bootstrap": "^4.6.0",
     "cytoscape": "^3.18.1",
     "cytoscape-fcose": "^2.0.0",
-    "react": "^17.0.1",
+    "react": "^18.3.1",
     "react-bootstrap": "^1.4.3",
-    "react-dom": "^17.0.1",
+    "react-dom": "^18.3.1",
     "vite": "^7.1.9",
     "vite-plugin-svgr": "^4.5.0",
     "vite-tsconfig-paths": "^5.1.4"
@@ -44,7 +41,11 @@
     ]
   },
   "devDependencies": {
+    "@vitest/browser": "^3.2.4",
     "prettier": "^2.2.1",
-    "vite-plugin-node-polyfills": "^0.24.0"
+    "vite-plugin-node-polyfills": "^0.24.0",
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.1",
+    "webdriverio": "^9.20.0"
   }
 }
