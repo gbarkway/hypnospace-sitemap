@@ -43,7 +43,6 @@
   "devDependencies": {
     "@vitest/browser": "^3.2.4",
     "prettier": "^2.2.1",
-    "vite-plugin-node-polyfills": "^0.24.0",
     "vitest": "^3.2.4",
     "vitest-browser-react": "^1.0.1",
     "webdriverio": "^9.20.0"
