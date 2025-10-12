@@ -117,8 +117,8 @@ const server = app.listen(port, () => {
 });
 
 // Make the process exit faster on polite kill signals (Ctrl-C, docker container stop):
-process.once('SIGTERM', () => {
-  server.close()
-})
+process.once("SIGTERM", () => {
+  server.close();
+});
 
 module.exports = { app, server };
