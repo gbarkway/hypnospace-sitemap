@@ -5,13 +5,13 @@ RUN npm install --silent
 ARG DOT_ENV=".env.production"
 COPY ${DOT_ENV} ./.env
 
-FROM development as build
+FROM development AS build
 COPY ["index.html", "index.html"]
 COPY ["src", "src/"]
 COPY ["public", "public/"]
 RUN npm run build
 
-FROM mcr.microsoft.com/playwright:v1.56.0-noble as test
+FROM mcr.microsoft.com/playwright:v1.56.0-noble AS test
 WORKDIR /usr/src/app
 COPY --from=build ["/usr/src/app", "/usr/src/app"]
 RUN npx playwright install chromium --with-deps
