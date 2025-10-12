@@ -7,6 +7,9 @@ export default defineConfig({
     jsxInject: `import React from 'react'`,
   },
   base: '/',
+  optimizeDeps: { 
+    include: ['cytoscape', 'cytoscape-fcose'], 
+  },
   plugins: [
     react(),
   ],

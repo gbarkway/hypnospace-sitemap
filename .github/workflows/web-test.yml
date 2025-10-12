@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Build test container
-      run: docker build --build-arg DOT_ENV=".env.development" --target build -t web-test ./src/web
+      run: docker build --build-arg DOT_ENV=".env.development" --target test -t web-test ./src/web
 
     - name: Run tests in container
       run: docker run --env CI=true web-test npm test
