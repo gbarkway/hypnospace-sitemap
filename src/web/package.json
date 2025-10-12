@@ -20,6 +20,7 @@
   "scripts": {
     "start": "vite",
     "test": "vitest",
+    "test:gui": "vitest --browser.headless=false",
     "build": "vite build",
     "serve": "vite preview"
   },
