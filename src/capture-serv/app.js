@@ -44,4 +44,9 @@ const server = app.listen(port, () => {
   console.log(`Express started on port ${port}`);
 });
 
+// Make the process exit faster on polite kill signals (Ctrl-C, docker container stop):
+process.once("SIGTERM", () => {
+  server.close();
+});
+
 module.exports = { app, server };
