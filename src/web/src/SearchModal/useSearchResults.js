@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const buildUrl = (date, { pageNameQuery, citizenNameQuery, tagsQuery }) => {
   const url = new URL(
-    `${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages`,
+    `${import.meta.env.VITE_PAGE_SERV_URL}/captures/${date}/pages`,
     window.location.origin
   );
   if (pageNameQuery && pageNameQuery.length) {
@@ -40,7 +40,7 @@ function useSearchResults(searchRequest, date) {
       })
       .then(setSearchResults)
       .catch((err) => {
-        if (process.env.NODE_ENV === "development") {
+        if (import.meta.env.MODE === "development") {
           console.error(err);
         }
         setError("Error loading search results");

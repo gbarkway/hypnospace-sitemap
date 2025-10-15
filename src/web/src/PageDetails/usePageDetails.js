@@ -21,11 +21,11 @@ function usePageDetails(date, path) {
     if (!path) return;
 
     setLoading(true);
-    if (!process.env.REACT_APP_PAGE_SERV_URL && process.env.NODE_ENV === "development") {
-      console.error("Env variable REACT_APP_PAGE_SERV_URL is unset");
+    if (!import.meta.env.VITE_PAGE_SERV_URL && import.meta.env.MODE === "development") {
+      console.error("Env variable VITE_PAGE_SERV_URL is unset");
     }
     fetch(
-      `${process.env.REACT_APP_PAGE_SERV_URL}/captures/${date}/pages/${encodeURIComponent(path)}`
+      `${import.meta.env.VITE_PAGE_SERV_URL}/captures/${date}/pages/${encodeURIComponent(path)}`
     )
       .then((res) => {
         if (res.status === 200) {
@@ -40,7 +40,7 @@ function usePageDetails(date, path) {
       })
       .then(setPage)
       .catch((err) => {
-        if (process.env.NODE_ENV === "development") {
+        if (import.meta.env.MODE === "development") {
           console.error(err);
         }
 

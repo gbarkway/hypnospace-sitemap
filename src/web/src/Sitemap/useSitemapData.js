@@ -15,7 +15,7 @@ const useSitemapData = (date) => {
         setZones(toZoneList(capture));
       })
       .catch((err) => {
-        if (process.env.NODE_ENV === "development") {
+        if (import.meta.env.MODE === "development") {
           console.error(err);
         }
 
@@ -30,7 +30,7 @@ const useSitemapData = (date) => {
 };
 
 const fetchCapture = async (date) => {
-  const res = await fetch(`${process.env.REACT_APP_CAPTURE_SERV_URL}/captures/${date}`);
+  const res = await fetch(`${import.meta.env.VITE_CAPTURE_SERV_URL}/captures/${date}`);
   if (res.status !== 200) {
     throw new Error(
       `Error fetching sitemap. Url: ${res.url}, status code: ${res.status}, status text: ${res.statusText}`

@@ -1,11 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import SearchFields from "../SearchModal/SearchFields";
+import { it } from 'vitest';
+import { render } from "vitest-browser-react";
 
 it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(
+  const searchFields = render(
     <SearchFields searchFields={{ pageNameQuery: "", citizenNameQuery: "", tagsQuery: "" }} />,
-    div
   );
 });
